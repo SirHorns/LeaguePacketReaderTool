@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text.Json.Nodes;
 using System.Windows.Forms;
 
 namespace LPRT
@@ -36,33 +35,21 @@ namespace LPRT
             AutoCompleteStringCollection data = new AutoCompleteStringCollection
             {
                 "All",
-                "Alaska",
-                "Arizona",
-                "Arkansas",
-                "California",
-                "Colorado",
-                "Connecticut",
-                "Delaware",
-                "Florida",
-                "Georgia"
+                "Game",
+                "Chat"
             };
 
             List<string> usStates = new List<string>
             {
                 "All",
-                "Alaska",
-                "Arizona",
-                "Arkansas",
-                "California",
-                "Colorado",
-                "Connecticut",
-                "Delaware",
-                "Florida",
-                "Georgia"
+                "Game",
+                "Chat"
             };
 
-            comboBox1.DataSource = usStates;
-            comboBox1.AutoCompleteCustomSource= data;  
+            //comboBox1.DataSource = usStates;
+            //comboBox1.AutoCompleteCustomSource= data;
+
+            PopulateDataGridView();
         }
 
         private void buttonLoad_Click(object sender, EventArgs e)
@@ -78,17 +65,40 @@ namespace LPRT
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     //Get the path of specified file
-                    filePath = openFileDialog.FileName;
-                    
-                    List<JsonNode>  p =_parser.LoadMatchPackets(filePath);
-
-                    foreach (JsonNode node in p)
-                    {
-                        PacketNames.Add(node["Packet"]["$type"].ToString());
-                        listBox1.Items.Add(node["Packet"]["$type"].ToString());
-                    }
+                    //filePath = openFileDialog.FileName; 
+                    _parser.LoadMatchPackets(openFileDialog.FileName);
                 }
             }
+
+            List<string> list = _parser.GetPacketTypes();
+            comboBox1.DataSource = list;
+            AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
+            foreach (string s in list)
+            {
+                autoComplete.Add(s);
+            }
+            comboBox1.AutoCompleteCustomSource = autoComplete;
+
+            foreach (var item in _parser.GetPacketTimeLine())
+            {
+                listBox1.Items.Add(item);
+            }
+            
+        }
+
+        private void PopulateDataGridView()
+        {
+
+            string[] row0 = { "11/22/1968", "29", "Revolution 9", 
+                "Beatles", "The Beatles [White Album]" };
+            string[] row1 = { "1960", "6", "Fools Rush In", 
+                "Frank Sinatra", "Nice 'N' Easy" };
+
+            dataGridView1.Rows.Add(row0);
+            dataGridView1.Rows.Add(row1);
+
+            
+
         }
     }
 }
