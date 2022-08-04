@@ -10,17 +10,17 @@ namespace LPRT
 {
     public class Parser
     {
-        private Dictionary<int, JObject> _rawData;
+        private ViewModal _viewModal;
         private List<string> _packetNames;
         private string _path = "";
 
-        public Parser()
+        public Parser(ViewModal viewModal)
         {
+            _viewModal = viewModal;
         }
-        public void LoadMatchPackets(string path)
+        public Dictionary<int, JObject> LoadMatchPackets(string path)
         {
-            _rawData = null;
-            _rawData = new Dictionary<int, JObject>();
+            Dictionary<int, JObject> rawPacketData = new Dictionary<int, JObject>();
             _path = path;
             int pos = 0;
             
@@ -35,13 +35,15 @@ namespace LPRT
                     if (reader.TokenType == JsonToken.StartObject)
                     {
                         var t = serializer.Deserialize(reader);
-                        _rawData.Add(pos, (JObject)t);
+                        rawPacketData.Add(pos, (JObject)t);
                         //Add custom logic here - perhaps a yield return?
                     }
 
                     pos += 1;
                 }
             }
+
+            return rawPacketData;
         }
         
         public string LoadMatchPackets1(string path)
@@ -55,26 +57,19 @@ namespace LPRT
 
             return document.First["RawID"].Value<string>();
         }
-
         
         public List<string> GetPacketTypes()
         {
             _packetNames = new List<string>();
-            string type;
-            string name;
-            string[] split;
-            
-            
+            string packetName;
+
             foreach (JObject raw in _rawData.Values)
             {
-                type = raw["Packet"]["$type"].ToString();
+                packetName = GetPacketName(raw["Packet"]["$type"].ToString());
 
-                split = type.Split('.');
-                name = split[split.Length - 1].Split(',')[0];
-                
-                if (!_packetNames.Contains(name))
+                if (!_packetNames.Contains(packetName))
                 {
-                   _packetNames.Add(name); 
+                   _packetNames.Add(packetName); 
                 }
             }
             
@@ -83,19 +78,67 @@ namespace LPRT
             return _packetNames;
         }
 
+        private string GetPacketName(string packetType)
+        {
+            string packetName;
+            string[] split;
+            
+            split = packetType.Split('.');
+            packetName = split[split.Length - 1].Split(',')[0];
+            
+            return packetName;
+        }
+
+        private List<String> newTimeLine;
         public List<string> GetPacketTimeLine()
         {
-            int pos = 0;
-            List<String> newTimeLine = new List<string>();
+            newTimeLine = new List<string>();
+            
             foreach (JObject rd in _rawData.Values)
             {
-                newTimeLine.Add(pos + " " + rd["Packet"]["$type"]);
-                pos += 1;
+                newTimeLine.Add(GetPacketName(rd["Packet"]["$type"].ToString()));
             }
 
             return newTimeLine;
         }
 
+        public List<string[]> GetPacketInfo(int pos)
+        {
+            List<string[]> data = new List<string[]>();
+            string[] row;
+            
+            if (pos < 0)
+            {
+                row = new string[2];
+                row[0] = "POS";
+                row[1] = pos.ToString();
+                
+                return data;
+            }
+            
+            JObject packet = _rawData[pos + 1]["Packet"] as JObject;
+            
+            
+            if (packet == null)
+            {
+                row = new string[2];
+                row[0] = "BAD";
+                row[1] = "WOLF";
+                
+                return data;
+            }
+
+            int rowPos = 0;
+            foreach (KeyValuePair<string, JToken> pair in packet)
+            {
+                row = new string[2];
+                row[0] = pair.Key;
+                row[1] = pair.Value.ToString();
+                data.Add(row);
+            }
+            
+            return data;
+        }
         public void Parsed(string path)
         {
             using (FileStream fs = File.OpenRead(path))

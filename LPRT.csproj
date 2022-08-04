@@ -76,18 +76,18 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Form1.cs">
-            <SubType>Form</SubType>
-        </Compile>
-        <Compile Include="Form1.Designer.cs">
-            <DependentUpon>Form1.cs</DependentUpon>
-        </Compile>
         <Compile Include="Manager.cs" />
-        <Compile Include="Parser.cs" />
+        <Compile Include="MVVP\Modal\Modal.cs" />
+        <Compile Include="MVVP\ViewModal\ViewModal.cs" />
+        <Compile Include="MVVP\View\View.cs" />
+        <Compile Include="MVVP\View\View.Designer.cs">
+          <DependentUpon>View.cs</DependentUpon>
+        </Compile>
         <Compile Include="Program.cs" />
+        <Compile Include="Properties\Annotations.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <EmbeddedResource Include="Form1.resx">
-          <DependentUpon>Form1.cs</DependentUpon>
+        <EmbeddedResource Include="MVVP\View\View.resx">
+          <DependentUpon>View.cs</DependentUpon>
         </EmbeddedResource>
         <EmbeddedResource Include="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
@@ -111,6 +111,9 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="App.config" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="MVVP" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
