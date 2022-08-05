@@ -29,7 +29,7 @@ namespace LPRT.MVVP.ViewModal
             dataGridView.Rows.Clear();
             foreach (var item in _modal.GetPacketTimeLine())
             {
-                dataGridView.Rows.Add(pos, item);
+                dataGridView.Rows.Add(item);
                 pos += 1;
             }
         }
@@ -66,20 +66,20 @@ namespace LPRT.MVVP.ViewModal
             if (filter.Equals("All Packets"))
             {
                 dataGridView.Rows.Clear();
-                foreach (string item in _modal.GetPacketTimeLine())
+                foreach (var item in _modal.GetPacketTimeLine())
                 {
-                        dataGridView.Rows.Add(pos, item);
+                        dataGridView.Rows.Add(item);
                         pos += 1; 
                 }
             }
             else if (_modal.PacketTypes.Contains(filter))
             {
                 dataGridView.Rows.Clear();
-                foreach (string item in _modal.GetPacketTimeLine())
+                foreach (var item in _modal.GetPacketTimeLine())
                 {
                     if (item.Equals(filter))
                     {
-                        dataGridView.Rows.Add(pos, item);
+                        dataGridView.Rows.Add(item);
                     }
                     pos += 1;  
                 }  

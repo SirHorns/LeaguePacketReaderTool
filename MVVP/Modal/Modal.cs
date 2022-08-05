@@ -88,17 +88,26 @@ namespace LPRT.MVVP.Modal
             return packetName;
         }
 
-        private List<String> newTimeLine;
-        public List<string> GetPacketTimeLine()
+        public List<string[]> GetPacketTimeLine()
         {
-            newTimeLine = new List<string>();
-            
+            List<string[]> timeLine = new List<string[]>();
+
+            int index = 0;
             foreach (JObject rd in _rawData.Values)
             {
-                newTimeLine.Add(GetPacketName(rd["Packet"]["$type"].ToString()));
+                timeLine.Add(new string []
+                {
+                    rd["Time"].ToString(),
+                    index.ToString(),
+                    rd["RawID"].ToString(),
+                    GetPacketName(rd["Packet"]["$type"].ToString()),
+                    rd["ChannelID"].ToString(),
+                    rd["RawChannel"].ToString()
+                });
+                index =+ 1;
             }
 
-            return newTimeLine;
+            return timeLine;
         }
 
         public List<string[]> GetPacketInfo(int pos)

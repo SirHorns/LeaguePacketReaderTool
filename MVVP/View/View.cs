@@ -15,8 +15,6 @@ namespace LPRT.MVVP.View
         
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
         private void MenuItem_Click_Load(object sender, EventArgs e)
@@ -34,8 +32,9 @@ namespace LPRT.MVVP.View
                 }
             }
             
-            _viewModal.UpdatePacketTimeLine(packetTimeline);
             _viewModal.UpdateTimeLineFilter(comboBox1);
+            _viewModal.UpdatePacketTimeLine(packetTimeline);
+            
         }
         
         private void DataGridView_Focus_TimeLine(object sender, DataGridViewCellEventArgs e)
@@ -57,7 +56,7 @@ namespace LPRT.MVVP.View
         {
             if (index >= 0)
             {
-              _viewModal.GetPacketInfo(dataGridViewPacketContent, richTextBox1,Int32.Parse(packetTimeline.Rows[index].Cells[0].Value.ToString()));  
+              _viewModal.GetPacketInfo(dataGridViewPacketContent, richTextBox1,Int32.Parse(packetTimeline.Rows[index].Cells[1].Value.ToString()));  
             }
         }
     }
