@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Forms;
 using LPRT.Annotations;
 using Newtonsoft.Json.Linq;
 
@@ -21,7 +23,7 @@ namespace LPRT
         private Parser _parser;
         private Dictionary<int, JObject> _rawPacketData;
         private List<string> _packetNames;
-        
+
         public Dictionary<int, JObject> PacketRawPacketData
         {
             get
@@ -54,10 +56,46 @@ namespace LPRT
             _parser = new Parser(this);
         }
 
-        //VIEW TO VIEWMODAL
+
         public void LoadPacketFile(string path)
         {
             _rawPacketData = _parser.LoadMatchPackets(path);
+        }
+
+        public void UpdatePacketTimeLine(DataGridView dataGridView)
+        {
+            int pos = 0;
+            dataGridView.Rows.Clear();
+            foreach (var item in _parser.GetPacketTimeLine())
+            {
+                dataGridView.Rows.Add(pos, item);
+                pos += 1;
+            }
+        }
+
+        public void UpdateTimeLineFilter(ComboBox comboBox)
+        {
+            List<string> list = _parser.GetPacketTypes();
+            comboBox.DataSource = list;
+            AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
+            foreach (string s in list)
+            {
+                autoComplete.Add(s);
+            }
+            comboBox.AutoCompleteCustomSource = autoComplete;
+        }
+
+        public void GetPacketInfo(DataGridView dataGridView, int index)
+        {
+            //List<string> rows = new List<string>();
+            
+            dataGridView.Rows.Clear();
+
+            int pos = 0;
+            foreach (var row in _parser.GetPacketInfo(index))
+            {
+                dataGridView.Rows.Add(row);
+            }
         }
         
         //VIEWMODAL TO VIEW

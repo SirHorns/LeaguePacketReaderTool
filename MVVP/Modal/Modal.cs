@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace LPRT
 {
-    public class Parser
+    public class Parser: INotifyPropertyChanged
     {
         private ViewModal _viewModal;
-        private List<string> _packetNames;
-        private string _path = "";
+        private List<string> _packetTypes;
+        private Dictionary<int, JObject> _rawData;
+        private string _filePath = "";
 
         public Parser(ViewModal viewModal)
         {
@@ -20,8 +23,9 @@ namespace LPRT
         }
         public Dictionary<int, JObject> LoadMatchPackets(string path)
         {
-            Dictionary<int, JObject> rawPacketData = new Dictionary<int, JObject>();
-            _path = path;
+            _filePath = path;
+            _rawData = null;
+            _rawData = new Dictionary<int, JObject>();
             int pos = 0;
             
             using (StreamReader sr = new StreamReader(path))
@@ -35,47 +39,33 @@ namespace LPRT
                     if (reader.TokenType == JsonToken.StartObject)
                     {
                         var t = serializer.Deserialize(reader);
-                        rawPacketData.Add(pos, (JObject)t);
-                        //Add custom logic here - perhaps a yield return?
+                        _rawData.Add(pos, (JObject)t);
                     }
-
                     pos += 1;
                 }
             }
 
-            return rawPacketData;
+            return _rawData;
         }
-        
-        public string LoadMatchPackets1(string path)
-        {
-            JArray document;
 
-            using (StreamReader sr = new StreamReader(path))
-            {
-                document = (JArray)JsonConvert.DeserializeObject(sr.ReadToEnd());
-            }
-
-            return document.First["RawID"].Value<string>();
-        }
-        
         public List<string> GetPacketTypes()
         {
-            _packetNames = new List<string>();
-            string packetName;
+            _packetTypes = new List<string>();
+            string type;
 
-            foreach (JObject raw in _rawData.Values)
+            foreach (JObject rd in _rawData.Values)
             {
-                packetName = GetPacketName(raw["Packet"]["$type"].ToString());
+                type = GetPacketName(rd["Packet"]["$type"].ToString());
 
-                if (!_packetNames.Contains(packetName))
+                if (!_packetTypes.Contains(type))
                 {
-                   _packetNames.Add(packetName); 
+                   _packetTypes.Add(type); 
                 }
             }
             
-            _packetNames.Sort();
+            _packetTypes.Sort();
             
-            return _packetNames;
+            return _packetTypes;
         }
 
         private string GetPacketName(string packetType)
@@ -145,6 +135,33 @@ namespace LPRT
             using (StreamReader streamReader = new StreamReader(fs, Encoding.UTF8, true, 4096))
             {
             }
+        }
+
+        public Dictionary<int, JObject> RawData
+        {
+            get { return _rawData; }
+			
+            set { 
+                if (_rawData != value) { 
+                    _rawData = value;
+                    OnPropertyChanged("RawData");
+                } 
+            } 
+        }
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
+        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
         }
     }
 }

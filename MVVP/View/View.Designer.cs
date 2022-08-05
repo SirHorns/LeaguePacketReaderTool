@@ -35,7 +35,7 @@ namespace LPRT
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.tabContoler = new System.Windows.Forms.TabControl();
             this.tabInfo = new System.Windows.Forms.TabPage();
-            this.dgPacketContent = new System.Windows.Forms.DataGridView();
+            this.dataGridViewPacketContent = new System.Windows.Forms.DataGridView();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPlayers = new System.Windows.Forms.TabPage();
@@ -52,7 +52,7 @@ namespace LPRT
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabContoler.SuspendLayout();
             this.tabInfo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgPacketContent)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPacketContent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.groupBoxTimeLine.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -82,7 +82,7 @@ namespace LPRT
             // 
             // tabInfo
             // 
-            this.tabInfo.Controls.Add(this.dgPacketContent);
+            this.tabInfo.Controls.Add(this.dataGridViewPacketContent);
             this.tabInfo.Location = new System.Drawing.Point(4, 22);
             this.tabInfo.Name = "tabInfo";
             this.tabInfo.Padding = new System.Windows.Forms.Padding(3);
@@ -91,21 +91,21 @@ namespace LPRT
             this.tabInfo.Text = "Info";
             this.tabInfo.UseVisualStyleBackColor = true;
             // 
-            // dgPacketContent
+            // dataGridViewPacketContent
             // 
-            this.dgPacketContent.AllowUserToAddRows = false;
-            this.dgPacketContent.AllowUserToDeleteRows = false;
-            this.dgPacketContent.AllowUserToResizeColumns = false;
-            this.dgPacketContent.AllowUserToResizeRows = false;
-            this.dgPacketContent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgPacketContent.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { this.Key, this.Data });
-            this.dgPacketContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgPacketContent.Location = new System.Drawing.Point(3, 3);
-            this.dgPacketContent.Name = "dgPacketContent";
-            this.dgPacketContent.ReadOnly = true;
-            this.dgPacketContent.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dgPacketContent.Size = new System.Drawing.Size(861, 581);
-            this.dgPacketContent.TabIndex = 0;
+            this.dataGridViewPacketContent.AllowUserToAddRows = false;
+            this.dataGridViewPacketContent.AllowUserToDeleteRows = false;
+            this.dataGridViewPacketContent.AllowUserToResizeColumns = false;
+            this.dataGridViewPacketContent.AllowUserToResizeRows = false;
+            this.dataGridViewPacketContent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPacketContent.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { this.Key, this.Data });
+            this.dataGridViewPacketContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewPacketContent.Location = new System.Drawing.Point(3, 3);
+            this.dataGridViewPacketContent.Name = "dataGridViewPacketContent";
+            this.dataGridViewPacketContent.ReadOnly = true;
+            this.dataGridViewPacketContent.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dataGridViewPacketContent.Size = new System.Drawing.Size(861, 581);
+            this.dataGridViewPacketContent.TabIndex = 0;
             // 
             // Key
             // 
@@ -155,7 +155,7 @@ namespace LPRT
             this.dataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView2.Size = new System.Drawing.Size(337, 561);
             this.dataGridView2.TabIndex = 6;
-            this.dataGridView2.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellEnter);
+            this.dataGridView2.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_Focus_TimeLine);
             // 
             // Column1
             // 
@@ -242,7 +242,7 @@ namespace LPRT
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.loadToolStripMenuItem.Text = "Load";
-            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.MenuItem_Click_Load);
             // 
             // Form1
             // 
@@ -257,7 +257,7 @@ namespace LPRT
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabContoler.ResumeLayout(false);
             this.tabInfo.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgPacketContent)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPacketContent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.groupBoxTimeLine.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -280,7 +280,7 @@ namespace LPRT
 
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
-        private System.Windows.Forms.DataGridView dgPacketContent;
+        private System.Windows.Forms.DataGridView dataGridViewPacketContent;
 
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
 
