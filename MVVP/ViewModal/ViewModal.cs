@@ -1,72 +1,33 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-using LPRT.Annotations;
 using Newtonsoft.Json.Linq;
 
-namespace LPRT
+namespace LPRT.MVVP.ViewModal
 {
-    
-    public class ViewModal: INotifyPropertyChanged
+    public class ViewModal
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private Form1 _view;
-        private Parser _parser;
+        private View.View _view;
+        private Modal.Modal _modal;
         private Dictionary<int, JObject> _rawPacketData;
         private List<string> _packetNames;
-
-        public Dictionary<int, JObject> PacketRawPacketData
-        {
-            get
-            {
-                return _rawPacketData;
-            }
-            set
-            {
-                _rawPacketData = value;
-                OnPropertyChanged("_rawPacketData");
-            }
-        }
         
-        public List<string> PacketNames
-        {
-            get
-            {
-                return _packetNames;
-            }
-            set
-            {
-                _packetNames = value;
-                OnPropertyChanged("PacketNames");
-            }
-        }
-
-        public ViewModal(Form1 view)
+        public ViewModal(View.View view)
         {
             _view = view;
-            _parser = new Parser(this);
+            _modal = new Modal.Modal(this);
         }
-
-
+        
+        //View Request Functions
         public void LoadPacketFile(string path)
         {
-            _rawPacketData = _parser.LoadMatchPackets(path);
+            _rawPacketData = _modal.LoadMatchPackets(path);
         }
 
         public void UpdatePacketTimeLine(DataGridView dataGridView)
         {
             int pos = 0;
             dataGridView.Rows.Clear();
-            foreach (var item in _parser.GetPacketTimeLine())
+            foreach (var item in _modal.GetPacketTimeLine())
             {
                 dataGridView.Rows.Add(pos, item);
                 pos += 1;
@@ -75,7 +36,8 @@ namespace LPRT
 
         public void UpdateTimeLineFilter(ComboBox comboBox)
         {
-            List<string> list = _parser.GetPacketTypes();
+            List<string> list = _modal.GetPacketTypes();
+            list.Insert(0, "All Packets");
             comboBox.DataSource = list;
             AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
             foreach (string s in list)
@@ -85,21 +47,43 @@ namespace LPRT
             comboBox.AutoCompleteCustomSource = autoComplete;
         }
 
-        public void GetPacketInfo(DataGridView dataGridView, int index)
+        public void GetPacketInfo(DataGridView dataGridView, RichTextBox richTextBox, int index)
         {
-            //List<string> rows = new List<string>();
-            
             dataGridView.Rows.Clear();
 
             int pos = 0;
-            foreach (var row in _parser.GetPacketInfo(index))
+            foreach (var row in _modal.GetPacketInfo(index))
             {
                 dataGridView.Rows.Add(row);
             }
+
+            richTextBox.Text = _modal.GetRawPacketInfo(index);
         }
-        
-        //VIEWMODAL TO VIEW
-        //MODAL TO VIEWMODAL
-        //VIEWMODAL TO MODAL
+
+        public void FilterTimeLine(DataGridView dataGridView, string filter)
+        {
+            int pos = 0;
+            if (filter.Equals("All Packets"))
+            {
+                dataGridView.Rows.Clear();
+                foreach (string item in _modal.GetPacketTimeLine())
+                {
+                        dataGridView.Rows.Add(pos, item);
+                        pos += 1; 
+                }
+            }
+            else if (_modal.PacketTypes.Contains(filter))
+            {
+                dataGridView.Rows.Clear();
+                foreach (string item in _modal.GetPacketTimeLine())
+                {
+                    if (item.Equals(filter))
+                    {
+                        dataGridView.Rows.Add(pos, item);
+                    }
+                    pos += 1;  
+                }  
+            }
+        }
     }
 }

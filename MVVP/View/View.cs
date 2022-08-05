@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace LPRT
+namespace LPRT.MVVP.View
 {
-    public partial class Form1 : Form
+    public partial class View : Form
     {
-        private ViewModal _viewModal;
-        private List<string> _packetNames;
-        
-        public Form1()
+        private ViewModal.ViewModal _viewModal;
+        public View()
         {
             InitializeComponent();
-            _viewModal = new ViewModal(this);
+            _viewModal = new ViewModal.ViewModal(this);
         }
         
         private void Form1_Load(object sender, EventArgs e)
@@ -36,18 +34,31 @@ namespace LPRT
                 }
             }
             
-            _viewModal.UpdatePacketTimeLine(dataGridView2);
+            _viewModal.UpdatePacketTimeLine(packetTimeline);
             _viewModal.UpdateTimeLineFilter(comboBox1);
         }
         
         private void DataGridView_Focus_TimeLine(object sender, DataGridViewCellEventArgs e)
         {
-            _viewModal.GetPacketInfo(dataGridViewPacketContent, e.RowIndex);
+            LoadPacketInfo(e.RowIndex);
         }
 
-        private void comboBox1_Validated(object sender, EventArgs e)
+        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
         {
-            
+            _viewModal.FilterTimeLine( packetTimeline, comboBox1.Text);
+        }
+
+        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            LoadPacketInfo(e.RowIndex);
+        }
+
+        private void LoadPacketInfo(int index)
+        {
+            if (index >= 0)
+            {
+              _viewModal.GetPacketInfo(dataGridViewPacketContent, richTextBox1,Int32.Parse(packetTimeline.Rows[index].Cells[0].Value.ToString()));  
+            }
         }
     }
 }

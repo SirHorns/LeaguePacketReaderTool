@@ -76,7 +76,6 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Manager.cs" />
         <Compile Include="MVVP\Modal\Modal.cs" />
         <Compile Include="MVVP\ViewModal\ViewModal.cs" />
         <Compile Include="MVVP\View\View.cs" />
@@ -114,6 +113,7 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="MVVP" />
+      <Folder Include="Ressources" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace LPRT
+namespace LPRT.MVVP.Modal
 {
-    public class Parser: INotifyPropertyChanged
+    public class Modal
     {
-        private ViewModal _viewModal;
+        private ViewModal.ViewModal _viewModal;
         private List<string> _packetTypes;
         private Dictionary<int, JObject> _rawData;
         private string _filePath = "";
 
-        public Parser(ViewModal viewModal)
+        public Modal(ViewModal.ViewModal viewModal)
         {
             _viewModal = viewModal;
         }
@@ -25,9 +23,20 @@ namespace LPRT
         {
             _filePath = path;
             _rawData = null;
-            _rawData = new Dictionary<int, JObject>();
-            int pos = 0;
             
+            
+            Thread hThread = new Thread(() => { _rawData = ThreadLoad(path); });
+
+            hThread.Start();
+            hThread.Join();
+            
+            return _rawData;
+        }
+        
+        private Dictionary<int, JObject> ThreadLoad(string path)
+        {
+            Dictionary<int, JObject> result = new Dictionary<int, JObject>();
+            int pos = 0;
             using (StreamReader sr = new StreamReader(path))
             using (JsonTextReader reader = new JsonTextReader(sr))
             {
@@ -39,13 +48,13 @@ namespace LPRT
                     if (reader.TokenType == JsonToken.StartObject)
                     {
                         var t = serializer.Deserialize(reader);
-                        _rawData.Add(pos, (JObject)t);
+                        result.Add(pos, (JObject)t);
                     }
                     pos += 1;
                 }
             }
 
-            return _rawData;
+            return result;
         }
 
         public List<string> GetPacketTypes()
@@ -129,6 +138,12 @@ namespace LPRT
             
             return data;
         }
+
+        public string GetRawPacketInfo(int index)
+        {
+            JObject packet = _rawData[index + 1]["Packet"] as JObject;
+            return packet.ToString();
+        }
         public void Parsed(string path)
         {
             using (FileStream fs = File.OpenRead(path))
@@ -137,31 +152,10 @@ namespace LPRT
             }
         }
 
-        public Dictionary<int, JObject> RawData
+        public List<string> PacketTypes
         {
-            get { return _rawData; }
-			
-            set { 
-                if (_rawData != value) { 
-                    _rawData = value;
-                    OnPropertyChanged("RawData");
-                } 
-            } 
-        }
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
+            get => _packetTypes;
+            set => _packetTypes = value;
         }
     }
 }
