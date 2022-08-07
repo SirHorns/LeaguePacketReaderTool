@@ -1,23 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using LPRT.Interfaces;
 
 namespace LPRT.MVVP.View
 {
     public partial class View : Form
     {
-        private ViewModal.ViewModal _viewModal;
+        // Declare a variable to store the index of a row being edited.
+        // A value of -1 indicates that there is no row currently in edit.
+        private int rowInEdit = -1;
+
+        // Declare a variable to indicate the commit scope.
+        // Set this value to false to use cell-level commit scope.
+        private bool rowScopeCommit = true;
+        
+        //Reference to the ViewModal;
+        private readonly IViewFunctions _viewModal;
+        
         public View()
         {
             InitializeComponent();
             _viewModal = new ViewModal.ViewModal(this);
         }
-        
-        private void Form1_Load(object sender, EventArgs e)
+
+        public DataGridView PacketTimeline
         {
+            get => packetTimeline;
         }
 
-        private void MenuItem_Click_Load(object sender, EventArgs e)
+        public ComboBox PacketTimelineFilter
+        {
+            get => packetTimelineFilter;
+        }
+
+        public RichTextBox PacketInfoText
+        {
+            get => packetInfoText;
+        }
+
+        public DataGridView PacketInfoTable
+        {
+            get => packetInfoTable;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            packetTimeline.RowCount = 24;
+            // Connect the virtual-mode events to event handlers.
+            //packetTimeline.CellValueNeeded += packetTimeline_CellValueNeeded;
+            //packetTimeline.CellValuePushed += packetTimeline_CellValuePushed;
+            //packetTimeline.NewRowNeeded += packetTimeline_NewRowNeeded;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void MenuBar_ClickLoad(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -29,35 +68,70 @@ namespace LPRT.MVVP.View
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     _viewModal.LoadPacketFile(openFileDialog.FileName);
+                    
                 }
             }
-            
-            _viewModal.UpdateTimeLineFilter(comboBox1);
-            _viewModal.UpdatePacketTimeLine(packetTimeline);
-            
+            _viewModal.LoadPacketTimeLineFilters();
+            _viewModal.LoadPacketTimeLine();
         }
         
-        private void DataGridView_Focus_TimeLine(object sender, DataGridViewCellEventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        private void PacketTimeLine_CellFocus(object sender, DataGridViewCellEventArgs e)
         {
-            LoadPacketInfo(e.RowIndex);
+            LoadPacketInfo(e.RowIndex); 
         }
-
-        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        private void PacketTimeLine_CellCLick(object sender, DataGridViewCellEventArgs e)
         {
-            _viewModal.FilterTimeLine( packetTimeline, comboBox1.Text);
+            LoadPacketInfo(e.RowIndex); 
         }
-
-        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        private void PacketTimeLineFilter_ValueChanged(object sender, EventArgs e)
         {
-            LoadPacketInfo(e.RowIndex);
+            _viewModal.FilterPacketTimeLine(packetTimelineFilter.Text);
         }
-
-        private void LoadPacketInfo(int index)
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        private void LoadPacketInfo(int rowIndex)
         {
-            if (index >= 0)
+            if (rowIndex < 0)
             {
-              _viewModal.GetPacketInfo(dataGridViewPacketContent, richTextBox1,Int32.Parse(packetTimeline.Rows[index].Cells[1].Value.ToString()));  
+                return;
             }
+            
+            var value = packetTimeline.Rows[rowIndex].Cells[1].Value;
+
+            if (value == null)
+            {
+                return;
+            }
+ 
+            _viewModal.LoadPacketInfo(Int32.Parse(value.ToString()));
         }
+
+        private bool newRowNeeded;
+        private void packetTimeline_NewRowNeeded(object sender, DataGridViewRowEventArgs e)
+        {
+        }
+        private void packetTimeline_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+        }
+
+        private void packetTimeline_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
+        {
+           
+        }
+
+        
     }
 }

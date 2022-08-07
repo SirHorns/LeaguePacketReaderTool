@@ -3,37 +3,69 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using LPRT.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace LPRT.MVVP.Modal
 {
-    public class Modal
+    public class MatchPacketModal
     {
-        private ViewModal.ViewModal _viewModal;
+        private IModalFunctions _viewModal;
         private List<string> _packetTypes;
-        private Dictionary<int, JObject> _rawData;
         private string _filePath = "";
+        private Dictionary<int, JObject> _rawData;
+        private List<PacketTimeLineEntry> _packetTimeLineEntries;
 
-        public Modal(ViewModal.ViewModal viewModal)
+        public MatchPacketModal(IModalFunctions viewModal)
         {
             _viewModal = viewModal;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<string> PacketTypes
+        {
+            get => _packetTypes;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public Dictionary<int, JObject> RawData
+        {
+            get => _rawData;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string FilePath
+        {
+            get => _filePath;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<PacketTimeLineEntry> PacketTimeLineEntries
+        {
+            get => _packetTimeLineEntries;
+        }
+        
         public Dictionary<int, JObject> LoadMatchPackets(string path)
         {
             _filePath = path;
             _rawData = null;
-            
-            
-            Thread hThread = new Thread(() => { _rawData = ThreadLoad(path); });
 
-            hThread.Start();
-            hThread.Join();
+            //Thread hThread = new Thread(() => { _rawData = ThreadLoad(path); });
+            //hThread.Start();
+            //hThread.Join();
+
+            _rawData = ThreadLoad(path).Result;
             
             return _rawData;
         }
         
-        private Dictionary<int, JObject> ThreadLoad(string path)
+        private async Task<Dictionary<int, JObject>> ThreadLoad(string path)
         {
             Dictionary<int, JObject> result = new Dictionary<int, JObject>();
             int pos = 0;
@@ -48,7 +80,7 @@ namespace LPRT.MVVP.Modal
                     if (reader.TokenType == JsonToken.StartObject)
                     {
                         var t = serializer.Deserialize(reader);
-                        result.Add(pos, (JObject)t);
+                        //result.Add(pos, (JObject)t);
                     }
                     pos += 1;
                 }
@@ -56,7 +88,19 @@ namespace LPRT.MVVP.Modal
 
             return result;
         }
+        
+        JsonSerializer serializer = new JsonSerializer();
+        private async Task<JToken> ParseJsonToken( JsonReader reader)
+        {
+            //await Task.Delay(new Random().Next(1000, 5000));
+            var token = serializer.Deserialize<JToken>(reader);
+            return token;
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<string> GetPacketTypes()
         {
             _packetTypes = new List<string>();
@@ -77,6 +121,11 @@ namespace LPRT.MVVP.Modal
             return _packetTypes;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="packetType"></param>
+        /// <returns></returns>
         private string GetPacketName(string packetType)
         {
             string packetName;
@@ -88,44 +137,39 @@ namespace LPRT.MVVP.Modal
             return packetName;
         }
 
-        public List<string[]> GetPacketTimeLine()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<PacketTimeLineEntry> GetPacketTimeLine()
         {
-            List<string[]> timeLine = new List<string[]>();
-
+            _packetTimeLineEntries = null;
+            _packetTimeLineEntries = new List<PacketTimeLineEntry>();
+            
             int index = 0;
             foreach (JObject rd in _rawData.Values)
             {
-                timeLine.Add(new string []
-                {
+                _packetTimeLineEntries.Add(new PacketTimeLineEntry(
                     rd["Time"].ToString(),
                     index.ToString(),
-                    rd["RawID"].ToString(),
-                    GetPacketName(rd["Packet"]["$type"].ToString()),
-                    rd["ChannelID"].ToString(),
-                    rd["RawChannel"].ToString()
-                });
-                index =+ 1;
+                    GetPacketName(rd["Packet"]["$type"].ToString())));
+                index++ ;
             }
 
-            return timeLine;
+            return _packetTimeLineEntries;
         }
 
-        public List<string[]> GetPacketInfo(int pos)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public List<string[]> GetPacketInfo(int index)
         {
             List<string[]> data = new List<string[]>();
             string[] row;
             
-            if (pos < 0)
-            {
-                row = new string[2];
-                row[0] = "POS";
-                row[1] = pos.ToString();
-                
-                return data;
-            }
-            
-            JObject packet = _rawData[pos + 1]["Packet"] as JObject;
-            
+            var packet = _rawData[index + 1]["Packet"] as JObject;
             
             if (packet == null)
             {
@@ -135,8 +179,7 @@ namespace LPRT.MVVP.Modal
                 
                 return data;
             }
-
-            int rowPos = 0;
+            
             foreach (KeyValuePair<string, JToken> pair in packet)
             {
                 row = new string[2];
@@ -147,24 +190,23 @@ namespace LPRT.MVVP.Modal
             
             return data;
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public string GetRawPacketInfo(int index)
         {
-            JObject packet = _rawData[index + 1]["Packet"] as JObject;
-            return packet.ToString();
-        }
-        public void Parsed(string path)
-        {
-            using (FileStream fs = File.OpenRead(path))
-            using (StreamReader streamReader = new StreamReader(fs, Encoding.UTF8, true, 4096))
-            {
-            }
+            var packet = _rawData[index + 1]["Packet"] as JObject;
+            return packet == null ? "{\"BADW0LF\": \"\"}" : packet.ToString();
         }
 
-        public List<string> PacketTypes
+        public void GetPacketByType()
         {
-            get => _packetTypes;
-            set => _packetTypes = value;
+            
         }
+        
+        
     }
 }
