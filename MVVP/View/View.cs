@@ -46,7 +46,7 @@ namespace LPRT.MVVP.View
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            packetTimeline.RowCount = 24;
+            //packetTimeline.RowCount = 24;
             // Connect the virtual-mode events to event handlers.
             //packetTimeline.CellValueNeeded += packetTimeline_CellValueNeeded;
             //packetTimeline.CellValuePushed += packetTimeline_CellValuePushed;
@@ -118,20 +118,5 @@ namespace LPRT.MVVP.View
  
             _viewModal.LoadPacketInfo(Int32.Parse(value.ToString()));
         }
-
-        private bool newRowNeeded;
-        private void packetTimeline_NewRowNeeded(object sender, DataGridViewRowEventArgs e)
-        {
-        }
-        private void packetTimeline_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
-        {
-        }
-
-        private void packetTimeline_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
-        {
-           
-        }
-
-        
     }
 }

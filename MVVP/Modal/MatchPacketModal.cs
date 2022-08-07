@@ -80,21 +80,13 @@ namespace LPRT.MVVP.Modal
                     if (reader.TokenType == JsonToken.StartObject)
                     {
                         var t = serializer.Deserialize(reader);
-                        //result.Add(pos, (JObject)t);
+                        result.Add(pos, (JObject)t);
                     }
                     pos += 1;
                 }
             }
 
             return result;
-        }
-        
-        JsonSerializer serializer = new JsonSerializer();
-        private async Task<JToken> ParseJsonToken( JsonReader reader)
-        {
-            //await Task.Delay(new Random().Next(1000, 5000));
-            var token = serializer.Deserialize<JToken>(reader);
-            return token;
         }
 
         /// <summary>
