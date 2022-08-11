@@ -7,15 +7,15 @@
         /// Tells the Modal to load the json file from the path to parse and store match packet information.
         /// </summary>
         /// <param name="path">Directory path to JSON to load.</param>
-        void LoadPacketFile(string path);
+        void Notify_FileSelected(string path);
         /// <summary>
         /// 
         /// </summary>
-        void LoadPacketTimeLine();
+        void PublishPacketTimeLine();
         /// <summary>
         /// 
         /// </summary>
-        void LoadPacketTimeLineFilters();
+        void PublishPacketFilters();
         /// <summary>
         /// 
         /// </summary>

@@ -78,8 +78,9 @@
     <ItemGroup>
         <Compile Include="Interfaces\IModalFunctions.cs" />
         <Compile Include="Interfaces\IViewFunctions.cs" />
-        <Compile Include="MVVP\Modal\MatchPacketModal.cs" />
+        <Compile Include="MVVP\Modal\Modal.cs" />
         <Compile Include="MVVP\Modal\PacketTimeLineEntry.cs" />
+        <Compile Include="MVVP\ViewModal\Cache.cs" />
         <Compile Include="MVVP\ViewModal\ViewModal.cs" />
         <Compile Include="MVVP\View\View.cs" />
         <Compile Include="MVVP\View\View.Designer.cs">

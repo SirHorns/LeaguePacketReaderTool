@@ -216,6 +216,7 @@
             this.packetTimeline.TabIndex = 6;
             this.packetTimeline.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PacketTimeLine_CellCLick);
             this.packetTimeline.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.PacketTimeLine_CellFocus);
+            this.packetTimeline.NewRowNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.packetTimeline_NewRowNeeded);
             // 
             // Column3
             // 

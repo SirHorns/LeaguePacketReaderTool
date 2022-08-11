@@ -7,52 +7,30 @@ namespace LPRT.MVVP.View
 {
     public partial class View : Form
     {
-        // Declare a variable to store the index of a row being edited.
-        // A value of -1 indicates that there is no row currently in edit.
-        private int rowInEdit = -1;
-
-        // Declare a variable to indicate the commit scope.
-        // Set this value to false to use cell-level commit scope.
-        private bool rowScopeCommit = true;
-        
-        //Reference to the ViewModal;
+        /// <summary>
+        /// Reference to the ViewModal
+        /// </summary>
         private readonly IViewFunctions _viewModal;
         
         public View()
         {
-            InitializeComponent();
             _viewModal = new ViewModal.ViewModal(this);
+            InitializeComponent();
         }
-
-        public DataGridView PacketTimeline
-        {
-            get => packetTimeline;
-        }
-
-        public ComboBox PacketTimelineFilter
-        {
-            get => packetTimelineFilter;
-        }
-
-        public RichTextBox PacketInfoText
-        {
-            get => packetInfoText;
-        }
-
-        public DataGridView PacketInfoTable
-        {
-            get => packetInfoTable;
-        }
-
+        
         private void Form1_Load(object sender, EventArgs e)
         {
-            //packetTimeline.RowCount = 24;
-            // Connect the virtual-mode events to event handlers.
-            //packetTimeline.CellValueNeeded += packetTimeline_CellValueNeeded;
-            //packetTimeline.CellValuePushed += packetTimeline_CellValuePushed;
-            //packetTimeline.NewRowNeeded += packetTimeline_NewRowNeeded;
+            PacketTimeline.RowCount = 26;
         }
 
+        public DataGridView PacketTimeline => packetTimeline;
+
+        public ComboBox PacketTimelineFilter => packetTimelineFilter;
+
+        public RichTextBox PacketInfoText => packetInfoText;
+
+        public DataGridView PacketInfoTable => packetInfoTable;
+        
         /// <summary>
         /// 
         /// </summary>
@@ -67,12 +45,13 @@ namespace LPRT.MVVP.View
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    _viewModal.LoadPacketFile(openFileDialog.FileName);
-                    
+                    _viewModal.Notify_FileSelected(openFileDialog.FileName);
                 }
             }
-            _viewModal.LoadPacketTimeLineFilters();
-            _viewModal.LoadPacketTimeLine();
+
+            //_viewModal.LoadPacketTimeLineFilters();
+            //_viewModal.LoadPacketTimeLine();
+
         }
         
         /// <summary>
@@ -80,7 +59,7 @@ namespace LPRT.MVVP.View
         /// </summary>
         private void PacketTimeLine_CellFocus(object sender, DataGridViewCellEventArgs e)
         {
-            LoadPacketInfo(e.RowIndex); 
+            //LoadPacketInfo(e.RowIndex); 
         }
         
         /// <summary>
@@ -88,14 +67,14 @@ namespace LPRT.MVVP.View
         /// </summary>
         private void PacketTimeLine_CellCLick(object sender, DataGridViewCellEventArgs e)
         {
-            LoadPacketInfo(e.RowIndex); 
+            //LoadPacketInfo(e.RowIndex); 
         }
         /// <summary>
         /// 
         /// </summary>
         private void PacketTimeLineFilter_ValueChanged(object sender, EventArgs e)
         {
-            _viewModal.FilterPacketTimeLine(packetTimelineFilter.Text);
+            //_viewModal.FilterPacketTimeLine(packetTimelineFilter.Text);
         }
         
         /// <summary>
@@ -117,6 +96,11 @@ namespace LPRT.MVVP.View
             }
  
             _viewModal.LoadPacketInfo(Int32.Parse(value.ToString()));
+        }
+
+        private void packetTimeline_NewRowNeeded(object sender, DataGridViewRowEventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

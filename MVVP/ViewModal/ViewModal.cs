@@ -1,44 +1,82 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using LPRT.Interfaces;
+using LPRT.MVVP.Modal;
 using Newtonsoft.Json.Linq;
 
 namespace LPRT.MVVP.ViewModal
 {
-    public class ViewModal : IViewFunctions, IModalFunctions
+    public class ViewModal : IViewFunctions, IModalFunctions, INotifyPropertyChanged
     {
         private View.View _view;
-        private Modal.MatchPacketModal _matchPacketModal;
+        private Modal.Modal _modal;
         private Dictionary<int, JObject> _rawPacketData;
         private List<string> _packetNames;
         
         public ViewModal(View.View view)
         {
-            _view = view;
-            _matchPacketModal = new Modal.MatchPacketModal(this);
+            View = view;
+            Modal = new Modal.Modal(this);
+            Modal.PropertyChanged += Modal_PropertyChanged;
+            PropertyChanged += View_PropertyChanged;
         }
         
+        private void Modal_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "PacketTypes":
+                    PublishPacketFilters();
+                    break;
+                case "PacketTimelineEntries":
+                    PublishPacketTimeLine();
+                    break;
+            }
+        }
         
+        private void View_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "FilePath")
+            {
+                //LoadPacketFilters();
+                //LoadPacketTimeLine();
+            }
+        }
+
+        private View.View View
+        {
+            get => _view;
+            set => _view = value;
+        }
+        private Modal.Modal Modal
+        {
+            get => _modal;
+            set => _modal = value;
+        }
+
         /// <summary>
         /// Called by View.
         /// Tells the Modal to load the json file from the path to parse and store match packet information.
         /// </summary>
         /// <param name="path">Directory path to JSON to load.</param>
-        public void LoadPacketFile(string path)
+        public void Notify_FileSelected(string path)
         {
-            _rawPacketData = _matchPacketModal.LoadMatchPackets(path);
-            _matchPacketModal.GetPacketTimeLine();
+            _modal.FilePath = path;
+            //_modal.GetPacketTimeLine();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public void LoadPacketTimeLine()
+        public void PublishPacketTimeLine()
         {
             DataGridView timeLine = _view.PacketTimeline;
             timeLine.Rows.Clear();
             
-            foreach (var entry in _matchPacketModal.PacketTimeLineEntries)
+            foreach (var entry in _modal.PacketTimelineEntries)
             {
                 timeLine.Rows.Add(entry.Time, entry.Position, entry.Type);
             }
@@ -47,11 +85,12 @@ namespace LPRT.MVVP.ViewModal
         /// <summary>
         /// 
         /// </summary>
-        public void LoadPacketTimeLineFilters()
+        public void PublishPacketFilters()
         {
             ComboBox timeLineFilter = _view.PacketTimelineFilter;
             
-            List<string> packetTypes = _matchPacketModal.GetPacketTypes();
+            List<string> packetTypes = _modal.PacketTypes;
+            if (packetTypes == null) packetTypes = new List<string>();
             packetTypes.Insert(0, "All Packets");
             timeLineFilter.DataSource = packetTypes;
             
@@ -71,7 +110,7 @@ namespace LPRT.MVVP.ViewModal
         {
             DataGridView timeLine = _view.PacketTimeline;
             
-            if (_matchPacketModal.PacketTypes.Contains(filter) | filter.Equals("All Packets"))
+            if (_modal.PacketTypes.Contains(filter) | filter.Equals("All Packets"))
             {
                 timeLine.Rows.Clear();
             }
@@ -82,14 +121,14 @@ namespace LPRT.MVVP.ViewModal
             
             if (filter.Equals("All Packets"))
             {
-                foreach (var entry in _matchPacketModal.GetPacketTimeLine())
+                foreach (var entry in _modal.PacketTimelineEntries)
                 {
                     timeLine.Rows.Add(entry.Time, entry.Position, entry.Type); 
                 }
             }
             else
             {
-                foreach (var entry in _matchPacketModal.GetPacketTimeLine())
+                foreach (var entry in _modal.PacketTimelineEntries)
                 {
                     string type = entry.Type;
                     if (type.Equals(filter))
@@ -110,12 +149,33 @@ namespace LPRT.MVVP.ViewModal
             
             table.Rows.Clear();
             
-            foreach (var row in _matchPacketModal.GetPacketInfo(index))
+            foreach (var row in _modal.GetPacketInfo(index))
             {
                 table.Rows.Add(row);
             }
 
-            rawText.Text = _matchPacketModal.GetRawPacketInfo(index);
+            rawText.Text = _modal.GetRawPacketInfo(index);
+        }
+
+        public void TimeLineUpdated(bool update)
+        {
+            if (!update) return;
+            
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
         }
     }
 }
