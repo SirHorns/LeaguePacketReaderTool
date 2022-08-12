@@ -13,16 +13,18 @@ namespace LPRT.MVVP.Modal
 {
     public class Modal : INotifyPropertyChanged
     {
-        private IModalFunctions _viewModal;
+        private IModalCommands _viewModal;
         
         private string _filePath = "";
-        private JArray _rawDataArray;
+        private string _packetFilter = "";
+        private JArray _rawData;
         private List<string> _packetTypes;
-        private List<PacketTimeLineEntry> _packetTimelineEntries;
+        private List<PacketTimeLineEntry> _packetTimeline;
+        private List<PacketTimeLineEntry> _filteredPacketTimeline;
         
         private readonly JsonSerializer _serializer;
 
-        public Modal(IModalFunctions viewModal)
+        public Modal(IModalCommands viewModal)
         {
             _viewModal = viewModal;
             _serializer = new JsonSerializer();
@@ -30,19 +32,22 @@ namespace LPRT.MVVP.Modal
             PropertyChanged += InternalPropertyChanged;
         }
 
-        private JArray RawDataArray
+        /// <summary>
+        /// JArray object of the contents of the provided Match JSON file.
+        /// </summary>
+        private JArray RawData
         {
-            get => _rawDataArray;
+            get => _rawData;
             set
             {
                 if(value == null) {return;}
-                _rawDataArray = value;
-                OnPropertyChanged(nameof(this.RawDataArray));
+                _rawData = value;
+                OnPropertyChanged(nameof(this.RawData));
             }
         }
 
         /// <summary>
-        /// 
+        /// String list containing the name of all Packet-types present within the match fiile.
         /// </summary>
         public List<string> PacketTypes
         {
@@ -57,7 +62,6 @@ namespace LPRT.MVVP.Modal
 
         /// <summary>
         /// Directory path to json file given by the UI.
-        /// Triggers OnPropertyChanged.
         /// </summary>
         public string FilePath
         {
@@ -68,23 +72,46 @@ namespace LPRT.MVVP.Modal
                 OnPropertyChanged(nameof(this.FilePath));
             }
         }
-
         /// <summary>
-        /// 
+        /// Filter used to creat Filtered Timeline.
         /// </summary>
-        public List<PacketTimeLineEntry> PacketTimelineEntries
+        public string PacketFilter
         {
-            get => _packetTimelineEntries;
-            private set
+            get => _packetFilter;
+            set
             {
-                _packetTimelineEntries = value;
-                OnPropertyChanged(nameof(this.PacketTimelineEntries));
+                _packetFilter = value;
+                OnPropertyChanged(nameof(this.PacketFilter));
             }
         }
 
         /// <summary>
-        /// Loads the match file based on the file path.
-        /// Called when _filePath is changed.
+        /// PacketTimelineEntry list containing the full timeline information within the RawData.
+        /// </summary>
+        public List<PacketTimeLineEntry> PacketTimeline
+        {
+            get => _packetTimeline;
+            private set
+            {
+                _packetTimeline = value;
+                OnPropertyChanged(nameof(this.PacketTimeline));
+            }
+        }
+        /// <summary>
+        /// PacketTimelineEntry list containing a filtered list of packets from the PacketTimeline.
+        /// </summary>
+        public List<PacketTimeLineEntry> FilteredPacketTimeline
+        {
+            get => _filteredPacketTimeline;
+            set
+            {
+                _filteredPacketTimeline = value;
+                OnPropertyChanged(nameof(this.FilteredPacketTimeline));
+            }
+        }
+
+        /// <summary>
+        /// Loads the match file based on the file path into RawData
         /// </summary>
         private async void LoadMatchFile()
         {
@@ -93,7 +120,7 @@ namespace LPRT.MVVP.Modal
             {
                 try
                 {
-                    RawDataArray = await Task.Run((() => _serializer.Deserialize<JArray>(reader)));
+                    RawData = await Task.Run((() => _serializer.Deserialize<JArray>(reader)));
                 }
                 catch (Exception e)
                 {
@@ -104,7 +131,7 @@ namespace LPRT.MVVP.Modal
         }
 
         /// <summary>
-        /// Parses through _rawDataArray pulling packet type names from the given match file.
+        /// Parses through _RawData pulling packet type names from the given match file.
         /// Triggers OnPropertyChanged.
         /// </summary>
         private void GetPacketTypes()
@@ -112,7 +139,7 @@ namespace LPRT.MVVP.Modal
             List<string> packetTypes = new List<string>();
             string type; 
 
-            foreach (var jToken in RawDataArray.Children())
+            foreach (var jToken in RawData.Children())
             {
                 type = GetPacketName(jToken["Packet"]["$type"].ToString());
 
@@ -121,7 +148,7 @@ namespace LPRT.MVVP.Modal
                     packetTypes.Add(type); 
                 }
             }
-            
+            packetTypes.Sort();
             PacketTypes = packetTypes;
         }
 
@@ -139,36 +166,59 @@ namespace LPRT.MVVP.Modal
         }
 
         /// <summary>
-        /// 
+        /// Creates the Timeline of packets for the given match data.
         /// </summary>
-        /// <returns></returns>
         private void GetPacketTimeLine()
         {
-            List<PacketTimeLineEntry> timeLineList = new List<PacketTimeLineEntry>();
+            List<PacketTimeLineEntry> newTimeline = new List<PacketTimeLineEntry>();
             
             int index = 0;
-            foreach (var jToken in RawDataArray.Children())
+            foreach (var jToken in RawData.Children())
             {
-                timeLineList.Add(new PacketTimeLineEntry(
+                newTimeline.Add(new PacketTimeLineEntry(
                     jToken["Time"].ToString(),
                     index.ToString(),
                     GetPacketName(jToken["Packet"]["$type"].ToString())));
                 index++;
             }
-            PacketTimelineEntries = timeLineList;
+            PacketTimeline = newTimeline;
+        }
+        /// <summary>
+        /// Creates a filtered Timeline of packets for the given match data.
+        /// </summary>
+        private void GetFilteredPacketTimeLine()
+        {
+            List<PacketTimeLineEntry> newTimeline = new List<PacketTimeLineEntry>();
+            
+            int index = 0;
+            foreach (var jToken in RawData.Children())
+            {
+                string type = GetPacketName(jToken["Packet"]["$type"].ToString());
+
+                if (type.Equals(PacketFilter))
+                {
+                    newTimeline.Add(new PacketTimeLineEntry(
+                        jToken["Time"].ToString(),
+                        index.ToString(),
+                        type));
+                }
+                
+                index++;
+            }
+            FilteredPacketTimeline = newTimeline;
         }
 
         /// <summary>
-        /// 
+        /// Returns the packet info within RawData based on packet position.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">Position of the packet within the timeline.</param>
+        /// <returns>List of String arrays containing the contents of a packet instance.</returns>
         public List<string[]> GetPacketInfo(int index)
         {
             List<string[]> data = new List<string[]>();
             string[] row;
             
-            var packet = RawDataArray[index + 1]["Packet"] as JObject;
+            var packet = RawData[index]["Packet"] as JObject;
             
             if (packet == null)
             {
@@ -191,13 +241,13 @@ namespace LPRT.MVVP.Modal
         }
         
         /// <summary>
-        /// 
+        /// Returns the packet raw JSON info within RawData based on packet position.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">Position of the packet within the timeline.</param>
+        /// <returns>Returns the raw JSON string of a packet</returns>
         public string GetRawPacketInfo(int index)
         {
-            var packet = _rawDataArray[index + 1]["Packet"] as JObject;
+            var packet = _rawData[index]["Packet"] as JObject;
             return packet == null ? "{\"BADW0LF\": \"\"}" : packet.ToString();
         }
 
@@ -223,11 +273,18 @@ namespace LPRT.MVVP.Modal
                 case "FilePath":
                     LoadMatchFile();
                     break;
-                case "RawDataArray":
+                case "PacketFilter":
+                    GetFilteredPacketTimeLine();
+                    break;
+                case "RawData":
                     GetPacketTypes();
                     GetPacketTimeLine();
                     break;
                 case "PacketTypes":
+                    break;
+                case "PacketTimeLine":
+                    break;
+                case "FilteredPacketTimeLine":
                     break;
             }
         }

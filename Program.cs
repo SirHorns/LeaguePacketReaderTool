@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using View = LPRT.MVVP.View.View;
+using LPRT.MVVP.View;
 
 namespace LPRT
 {
@@ -14,7 +14,7 @@ namespace LPRT
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new View());
+            Application.Run(new FormMain());
         }
     }
 }

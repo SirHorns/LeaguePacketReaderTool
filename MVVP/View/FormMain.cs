@@ -5,14 +5,14 @@ using LPRT.Interfaces;
 
 namespace LPRT.MVVP.View
 {
-    public partial class View : Form
+    public partial class FormMain : Form
     {
         /// <summary>
         /// Reference to the ViewModal
         /// </summary>
-        private readonly IViewFunctions _viewModal;
+        private readonly IViewCommands _viewModal;
         
-        public View()
+        public FormMain()
         {
             _viewModal = new ViewModal.ViewModal(this);
             InitializeComponent();
@@ -20,9 +20,9 @@ namespace LPRT.MVVP.View
         
         private void Form1_Load(object sender, EventArgs e)
         {
-            PacketTimeline.RowCount = 26;
         }
 
+        #region TimeLine
         public DataGridView PacketTimeline => packetTimeline;
 
         public ComboBox PacketTimelineFilter => packetTimelineFilter;
@@ -32,7 +32,7 @@ namespace LPRT.MVVP.View
         public DataGridView PacketInfoTable => packetInfoTable;
         
         /// <summary>
-        /// 
+        /// Menu Bar Load Button Functions
         /// </summary>
         private void MenuBar_ClickLoad(object sender, EventArgs e)
         {
@@ -48,10 +48,6 @@ namespace LPRT.MVVP.View
                     _viewModal.Notify_FileSelected(openFileDialog.FileName);
                 }
             }
-
-            //_viewModal.LoadPacketTimeLineFilters();
-            //_viewModal.LoadPacketTimeLine();
-
         }
         
         /// <summary>
@@ -59,7 +55,7 @@ namespace LPRT.MVVP.View
         /// </summary>
         private void PacketTimeLine_CellFocus(object sender, DataGridViewCellEventArgs e)
         {
-            //LoadPacketInfo(e.RowIndex); 
+            Request_PacketInfo(e.RowIndex);
         }
         
         /// <summary>
@@ -67,40 +63,43 @@ namespace LPRT.MVVP.View
         /// </summary>
         private void PacketTimeLine_CellCLick(object sender, DataGridViewCellEventArgs e)
         {
-            //LoadPacketInfo(e.RowIndex); 
+            Request_PacketInfo(e.RowIndex); 
         }
         /// <summary>
         /// 
         /// </summary>
         private void PacketTimeLineFilter_ValueChanged(object sender, EventArgs e)
         {
-            //_viewModal.FilterPacketTimeLine(packetTimelineFilter.Text);
+            _viewModal.Notify_FilterSelected(packetTimelineFilter.Text);
         }
         
         /// <summary>
-        /// 
+        /// Notifies the ViewModal that packet info is needed.
         /// </summary>
-        /// <param name="index"></param>
-        private void LoadPacketInfo(int rowIndex)
+        /// <param name="index">Position of the packet</param>
+        private void Request_PacketInfo(int index)
         {
-            if (rowIndex < 0)
+            if (index < 0 | index > packetTimeline.Rows.Count)
             {
                 return;
             }
             
-            var value = packetTimeline.Rows[rowIndex].Cells[1].Value;
+            var value = packetTimeline.Rows[index].Cells[1].Value;
 
             if (value == null)
             {
                 return;
             }
  
-            _viewModal.LoadPacketInfo(Int32.Parse(value.ToString()));
+            _viewModal.Notify_TimelineEntrySelected(Int32.Parse(value.ToString()));
         }
+        
+        #endregion
 
-        private void packetTimeline_NewRowNeeded(object sender, DataGridViewRowEventArgs e)
-        {
-            throw new System.NotImplementedException();
-        }
+        #region PlayerInfo
+
+        
+
+        #endregion
     }
 }

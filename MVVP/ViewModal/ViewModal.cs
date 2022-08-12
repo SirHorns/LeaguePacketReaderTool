@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using LPRT.Interfaces;
 using LPRT.MVVP.Modal;
@@ -9,35 +10,63 @@ using Newtonsoft.Json.Linq;
 
 namespace LPRT.MVVP.ViewModal
 {
-    public class ViewModal : IViewFunctions, IModalFunctions, INotifyPropertyChanged
+    public class ViewModal : IViewCommands, IModalCommands, INotifyPropertyChanged
     {
-        private View.View _view;
+        private View.FormMain _formMain;
         private Modal.Modal _modal;
-        private Dictionary<int, JObject> _rawPacketData;
-        private List<string> _packetNames;
         
-        public ViewModal(View.View view)
+        private List<string> _packetTypes;
+        private string _packetFilter;
+        
+        
+        public ViewModal(View.FormMain formMain)
         {
-            View = view;
+            FormMain = formMain;
             Modal = new Modal.Modal(this);
-            Modal.PropertyChanged += Modal_PropertyChanged;
-            PropertyChanged += View_PropertyChanged;
+            
+            Modal.PropertyChanged += PropertyChanged_Modal;
+            PropertyChanged += PropertyChanged_View;
         }
         
-        private void Modal_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private View.FormMain FormMain
+        {
+            get => _formMain;
+            set => _formMain = value;
+        }
+        private Modal.Modal Modal
+        {
+            get => _modal;
+            set => _modal = value;
+        }
+
+        public string PacketFilter
+        {
+            get => _packetFilter;
+            set => _packetFilter = value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void PropertyChanged_Modal(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
                 case "PacketTypes":
-                    PublishPacketFilters();
+                    Publish_PacketFilters();
                     break;
-                case "PacketTimelineEntries":
-                    PublishPacketTimeLine();
+                case "PacketTimeline":
+                    Publish_PacketTimeLine();
+                    break;
+                case "FilteredPacketTimeline":
+                    Publish_FilteredPacketTimeLine();
                     break;
             }
         }
-        
-        private void View_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        private void PropertyChanged_View(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "FilePath")
             {
@@ -46,48 +75,31 @@ namespace LPRT.MVVP.ViewModal
             }
         }
 
-        private View.View View
-        {
-            get => _view;
-            set => _view = value;
-        }
-        private Modal.Modal Modal
-        {
-            get => _modal;
-            set => _modal = value;
-        }
-
         /// <summary>
-        /// Called by View.
-        /// Tells the Modal to load the json file from the path to parse and store match packet information.
+        /// Tells the Modal that the a file directory path has been selected from the UI.
         /// </summary>
         /// <param name="path">Directory path to JSON to load.</param>
         public void Notify_FileSelected(string path)
         {
             _modal.FilePath = path;
+        }
+        /// <summary>
+        /// Notifies the ViewModal that a filter has been selected.
+        /// </summary>
+        /// <param name="filter">Packet Type selected to filter the Packet Timeline</param>
+        public void Notify_FilterSelected(string filter)
+        {
+            PacketFilter = filter;
+            _modal.PacketFilter = filter;
             //_modal.GetPacketTimeLine();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public void PublishPacketTimeLine()
+        public void Publish_PacketFilters()
         {
-            DataGridView timeLine = _view.PacketTimeline;
-            timeLine.Rows.Clear();
-            
-            foreach (var entry in _modal.PacketTimelineEntries)
-            {
-                timeLine.Rows.Add(entry.Time, entry.Position, entry.Type);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void PublishPacketFilters()
-        {
-            ComboBox timeLineFilter = _view.PacketTimelineFilter;
+            ComboBox timeLineFilter = _formMain.PacketTimelineFilter;
             
             List<string> packetTypes = _modal.PacketTypes;
             if (packetTypes == null) packetTypes = new List<string>();
@@ -105,47 +117,50 @@ namespace LPRT.MVVP.ViewModal
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="filter"></param>
-        public void FilterPacketTimeLine(string filter)
+        public void Publish_PacketTimeLine()
         {
-            DataGridView timeLine = _view.PacketTimeline;
+            DataGridView timeLine = _formMain.PacketTimeline;
+            timeLine.Rows.Clear();
             
-            if (_modal.PacketTypes.Contains(filter) | filter.Equals("All Packets"))
+            foreach (var entry in _modal.PacketTimeline)
             {
-                timeLine.Rows.Clear();
+                timeLine.Rows.Add(entry.Time, entry.Position, entry.Type);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Publish_FilteredPacketTimeLine()
+        {
+            DataGridView timeLine = _formMain.PacketTimeline;
+            
+            timeLine.Rows.Clear();
+            
+            if (PacketFilter.Equals("All Packets"))
+            {
+                foreach (var entry in _modal.PacketTimeline)
+                {
+                    timeLine.Rows.Add(entry.Time, entry.Position, entry.Type);
+                } 
             }
             else
             {
-                return;
-            }
-            
-            if (filter.Equals("All Packets"))
-            {
-                foreach (var entry in _modal.PacketTimelineEntries)
+                foreach (var entry in _modal.FilteredPacketTimeline)
                 {
-                    timeLine.Rows.Add(entry.Time, entry.Position, entry.Type); 
-                }
-            }
-            else
-            {
-                foreach (var entry in _modal.PacketTimelineEntries)
-                {
-                    string type = entry.Type;
-                    if (type.Equals(filter))
-                    {
-                        timeLine.Rows.Add(entry.Time, entry.Position, type);
-                    }
+                    timeLine.Rows.Add(entry.Time, entry.Position, entry.Type);
                 } 
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="index"></param>
-        public void LoadPacketInfo(int index)
+        public void Notify_TimelineEntrySelected(int index)
         {
-            DataGridView table = _view.PacketInfoTable;
-            RichTextBox rawText = _view.PacketInfoText;
+            DataGridView table = _formMain.PacketInfoTable;
+            RichTextBox rawText = _formMain.PacketInfoText;
             
             table.Rows.Clear();
             
@@ -156,13 +171,7 @@ namespace LPRT.MVVP.ViewModal
 
             rawText.Text = _modal.GetRawPacketInfo(index);
         }
-
-        public void TimeLineUpdated(bool update)
-        {
-            if (!update) return;
-            
-        }
-
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

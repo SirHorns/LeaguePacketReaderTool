@@ -1,6 +1,6 @@
 ﻿namespace LPRT.MVVP.View
 {
-    partial class View
+    partial class FormMain
     {
         /// <summary>
         /// Required designer variable.
@@ -36,14 +36,11 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(View));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.packetTimelineFilter = new System.Windows.Forms.ComboBox();
-            this.tabContoler = new System.Windows.Forms.TabControl();
-            this.tabInfo = new System.Windows.Forms.TabPage();
             this.packetInfoTable = new System.Windows.Forms.DataGridView();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.packetInfoText = new System.Windows.Forms.RichTextBox();
             this.packetTimeline = new System.Windows.Forms.DataGridView();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,10 +53,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabContoler.SuspendLayout();
-            this.tabInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.packetInfoTable)).BeginInit();
-            this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.packetTimeline)).BeginInit();
             this.groupBoxTimeLine.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -77,27 +71,6 @@
             this.packetTimelineFilter.Size = new System.Drawing.Size(337, 21);
             this.packetTimelineFilter.TabIndex = 2;
             this.packetTimelineFilter.SelectedValueChanged += new System.EventHandler(this.PacketTimeLineFilter_ValueChanged);
-            // 
-            // tabContoler
-            // 
-            this.tabContoler.Controls.Add(this.tabInfo);
-            this.tabContoler.Controls.Add(this.tabPage3);
-            this.tabContoler.Location = new System.Drawing.Point(614, 6);
-            this.tabContoler.Name = "tabContoler";
-            this.tabContoler.SelectedIndex = 0;
-            this.tabContoler.Size = new System.Drawing.Size(448, 613);
-            this.tabContoler.TabIndex = 4;
-            // 
-            // tabInfo
-            // 
-            this.tabInfo.Controls.Add(this.packetInfoTable);
-            this.tabInfo.Location = new System.Drawing.Point(4, 22);
-            this.tabInfo.Name = "tabInfo";
-            this.tabInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInfo.Size = new System.Drawing.Size(440, 587);
-            this.tabInfo.TabIndex = 0;
-            this.tabInfo.Text = "Table";
-            this.tabInfo.UseVisualStyleBackColor = true;
             // 
             // packetInfoTable
             // 
@@ -123,7 +96,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.packetInfoTable.DefaultCellStyle = dataGridViewCellStyle2;
-            this.packetInfoTable.Location = new System.Drawing.Point(6, 6);
+            this.packetInfoTable.Location = new System.Drawing.Point(386, 46);
             this.packetInfoTable.Name = "packetInfoTable";
             this.packetInfoTable.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -135,7 +108,7 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.packetInfoTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.packetInfoTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.packetInfoTable.Size = new System.Drawing.Size(427, 575);
+            this.packetInfoTable.Size = new System.Drawing.Size(427, 561);
             this.packetInfoTable.TabIndex = 0;
             // 
             // Key
@@ -154,25 +127,14 @@
             this.Data.Name = "Data";
             this.Data.ReadOnly = true;
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.packetInfoText);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(440, 587);
-            this.tabPage3.TabIndex = 1;
-            this.tabPage3.Text = "Json";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
             // packetInfoText
             // 
             this.packetInfoText.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.packetInfoText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.packetInfoText.Location = new System.Drawing.Point(6, 6);
+            this.packetInfoText.Location = new System.Drawing.Point(819, 46);
             this.packetInfoText.Name = "packetInfoText";
             this.packetInfoText.ReadOnly = true;
-            this.packetInfoText.Size = new System.Drawing.Size(428, 575);
+            this.packetInfoText.Size = new System.Drawing.Size(407, 561);
             this.packetInfoText.TabIndex = 2;
             this.packetInfoText.Text = "";
             // 
@@ -212,11 +174,10 @@
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.packetTimeline.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.packetTimeline.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.packetTimeline.Size = new System.Drawing.Size(589, 561);
+            this.packetTimeline.Size = new System.Drawing.Size(374, 561);
             this.packetTimeline.TabIndex = 6;
             this.packetTimeline.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PacketTimeLine_CellCLick);
             this.packetTimeline.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.PacketTimeLine_CellFocus);
-            this.packetTimeline.NewRowNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.packetTimeline_NewRowNeeded);
             // 
             // Column3
             // 
@@ -251,11 +212,13 @@
             // 
             // groupBoxTimeLine
             // 
+            this.groupBoxTimeLine.Controls.Add(this.packetInfoText);
+            this.groupBoxTimeLine.Controls.Add(this.packetInfoTable);
             this.groupBoxTimeLine.Controls.Add(this.packetTimeline);
             this.groupBoxTimeLine.Controls.Add(this.packetTimelineFilter);
             this.groupBoxTimeLine.Location = new System.Drawing.Point(6, 6);
             this.groupBoxTimeLine.Name = "groupBoxTimeLine";
-            this.groupBoxTimeLine.Size = new System.Drawing.Size(602, 613);
+            this.groupBoxTimeLine.Size = new System.Drawing.Size(1232, 613);
             this.groupBoxTimeLine.TabIndex = 7;
             this.groupBoxTimeLine.TabStop = false;
             this.groupBoxTimeLine.Text = "Packet Timeline";
@@ -264,7 +227,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(12, 27);
+            this.tabControl1.Location = new System.Drawing.Point(0, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1252, 651);
@@ -273,7 +236,6 @@
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.groupBoxTimeLine);
-            this.tabPage1.Controls.Add(this.tabContoler);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -289,7 +251,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(1244, 625);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Player Info";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // menuStrip1
@@ -315,7 +277,7 @@
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.MenuBar_ClickLoad);
             // 
-            // View
+            // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -324,13 +286,10 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "View";
+            this.Name = "FormMain";
             this.Text = "League Packet Reader Tool";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.tabContoler.ResumeLayout(false);
-            this.tabInfo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.packetInfoTable)).EndInit();
-            this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.packetTimeline)).EndInit();
             this.groupBoxTimeLine.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -342,8 +301,6 @@
         }
 
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-
-        private System.Windows.Forms.TabPage tabPage3;
 
         private System.Windows.Forms.RichTextBox packetInfoText;
 
@@ -366,9 +323,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
 
         private System.Windows.Forms.DataGridView packetTimeline;
-
-        private System.Windows.Forms.TabControl tabContoler;
-        private System.Windows.Forms.TabPage tabInfo;
 
         private System.Windows.Forms.ComboBox packetTimelineFilter;
 
