@@ -50,6 +50,10 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.Time = new System.Windows.Forms.ColumnHeader();
+            this.Position = new System.Windows.Forms.ColumnHeader();
+            this.Type = new System.Windows.Forms.ColumnHeader();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,6 +62,7 @@
             this.groupBoxTimeLine.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -178,6 +183,8 @@
             this.packetTimeline.TabIndex = 6;
             this.packetTimeline.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PacketTimeLine_CellCLick);
             this.packetTimeline.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.PacketTimeLine_CellFocus);
+            this.packetTimeline.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.packetTimeline_CellValueNeeded);
+            this.packetTimeline.NewRowNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.packetTimeline_NewRowNeeded);
             // 
             // Column3
             // 
@@ -246,6 +253,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.listView1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -253,6 +261,31 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Player Info";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { this.Time, this.Position, this.Type });
+            this.listView1.Location = new System.Drawing.Point(69, 43);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(414, 400);
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // Time
+            // 
+            this.Time.Text = "Time";
+            this.Time.Width = 120;
+            // 
+            // Position
+            // 
+            this.Position.Text = "Position";
+            this.Position.Width = 90;
+            // 
+            // Type
+            // 
+            this.Type.Text = "Type";
+            this.Type.Width = 200;
             // 
             // menuStrip1
             // 
@@ -294,11 +327,18 @@
             this.groupBoxTimeLine.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.ColumnHeader Time;
+        private System.Windows.Forms.ColumnHeader Position;
+        private System.Windows.Forms.ColumnHeader Type;
+
+        private System.Windows.Forms.ListView listView1;
 
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 

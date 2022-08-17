@@ -125,6 +125,7 @@ namespace LPRT.MVVP.ViewModal
             foreach (var entry in _modal.PacketTimeline)
             {
                 timeLine.Rows.Add(entry.Time, entry.Position, entry.Type);
+                FormMain.ListView1.Items.Add(new ListViewItem(new []{entry.Time,entry.Position,entry.Type}));
             }
         }
 
@@ -170,6 +171,16 @@ namespace LPRT.MVVP.ViewModal
             }
 
             rawText.Text = _modal.GetRawPacketInfo(index);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public PacketTimeLineEntry Notify_TimelineEntryNeeded(int index)
+        {
+            PacketTimeLineEntry entry = _modal.GetTimelineEntry(index);
+            return new PacketTimeLineEntry(entry.Time, entry.Position, entry.Type);
         }
         
         public event PropertyChangedEventHandler PropertyChanged;

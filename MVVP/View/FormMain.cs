@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using LPRT.Interfaces;
+using LPRT.MVVP.Modal;
 
 namespace LPRT.MVVP.View
 {
@@ -15,11 +16,13 @@ namespace LPRT.MVVP.View
         public FormMain()
         {
             _viewModal = new ViewModal.ViewModal(this);
+            Controls.Add(packetTimeline);
             InitializeComponent();
         }
         
         private void Form1_Load(object sender, EventArgs e)
         {
+            packetTimeline.RowCount = 1;
         }
 
         #region TimeLine
@@ -30,7 +33,9 @@ namespace LPRT.MVVP.View
         public RichTextBox PacketInfoText => packetInfoText;
 
         public DataGridView PacketInfoTable => packetInfoTable;
-        
+
+        public ListView ListView1 => listView1;
+
         /// <summary>
         /// Menu Bar Load Button Functions
         /// </summary>
@@ -93,7 +98,29 @@ namespace LPRT.MVVP.View
  
             _viewModal.Notify_TimelineEntrySelected(Int32.Parse(value.ToString()));
         }
-        
+
+        private void packetTimeline_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+            // If this is the row for new records, no values are needed.
+            if (e.RowIndex == packetTimeline.RowCount - 1) return;
+            
+            PacketTimeLineEntry entry = _viewModal.Notify_TimelineEntryNeeded(e.RowIndex);
+
+            switch (e.ColumnIndex)
+            {
+                case 0:
+                    e.Value = entry.Time;
+                    break;
+                case 1:
+                    e.Value = entry.Position;
+                    break;
+                case 2:
+                    e.Value = entry.Type;
+                    break;
+                //etc..
+            }
+        }
+
         #endregion
 
         #region PlayerInfo
@@ -101,5 +128,11 @@ namespace LPRT.MVVP.View
         
 
         #endregion
+
+
+        private void packetTimeline_NewRowNeeded(object sender, DataGridViewRowEventArgs e)
+        {
+            packetTimeline.Rows.Add(1);
+        }
     }
 }

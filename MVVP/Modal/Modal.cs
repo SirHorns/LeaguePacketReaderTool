@@ -209,6 +209,18 @@ namespace LPRT.MVVP.Modal
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public PacketTimeLineEntry GetTimelineEntry(int index)
+        {
+            //if (PacketTimeline == null) return new PacketTimeLineEntry("","","");
+            
+            return PacketTimeline[index];
+        }
+
+        /// <summary>
         /// Returns the packet info within RawData based on packet position.
         /// </summary>
         /// <param name="index">Position of the packet within the timeline.</param>

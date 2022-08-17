@@ -1,4 +1,6 @@
-﻿namespace LPRT.Interfaces
+﻿using LPRT.MVVP.Modal;
+
+namespace LPRT.Interfaces
 {
     public interface IViewCommands
     {
@@ -7,6 +9,7 @@
         /// </summary>
         /// <param name="path">Directory path to JSON to load.</param>
         void Notify_FileSelected(string path);
+        
         /// <summary>
         /// Notifies the ViewModal that a filter has been selected.
         /// </summary>
@@ -18,5 +21,11 @@
         /// </summary>
         /// <param name="index"></param>
         void Notify_TimelineEntrySelected(int index);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        PacketTimeLineEntry Notify_TimelineEntryNeeded(int index);
     }
 }
