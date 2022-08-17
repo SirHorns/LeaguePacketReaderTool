@@ -181,6 +181,7 @@
             this.packetTimeline.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.packetTimeline.Size = new System.Drawing.Size(374, 561);
             this.packetTimeline.TabIndex = 6;
+            this.packetTimeline.VirtualMode = true;
             this.packetTimeline.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PacketTimeLine_CellCLick);
             this.packetTimeline.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.PacketTimeLine_CellFocus);
             this.packetTimeline.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.packetTimeline_CellValueNeeded);
@@ -265,12 +266,15 @@
             // listView1
             // 
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { this.Time, this.Position, this.Type });
+            this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(69, 43);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(414, 400);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.VirtualListSize = 100000000;
+            this.listView1.VirtualMode = true;
             // 
             // Time
             // 

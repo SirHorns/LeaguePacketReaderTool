@@ -22,7 +22,7 @@ namespace LPRT.MVVP.View
         
         private void Form1_Load(object sender, EventArgs e)
         {
-            packetTimeline.RowCount = 1;
+            
         }
 
         #region TimeLine
@@ -101,24 +101,7 @@ namespace LPRT.MVVP.View
 
         private void packetTimeline_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
-            // If this is the row for new records, no values are needed.
-            if (e.RowIndex == packetTimeline.RowCount - 1) return;
-            
-            PacketTimeLineEntry entry = _viewModal.Notify_TimelineEntryNeeded(e.RowIndex);
-
-            switch (e.ColumnIndex)
-            {
-                case 0:
-                    e.Value = entry.Time;
-                    break;
-                case 1:
-                    e.Value = entry.Position;
-                    break;
-                case 2:
-                    e.Value = entry.Type;
-                    break;
-                //etc..
-            }
+            e.Value = _viewModal.Notify_TimelineEntryNeeded(e.RowIndex, e.ColumnIndex);
         }
 
         #endregion
@@ -132,7 +115,7 @@ namespace LPRT.MVVP.View
 
         private void packetTimeline_NewRowNeeded(object sender, DataGridViewRowEventArgs e)
         {
-            packetTimeline.Rows.Add(1);
+            //packetTimeline.Rows.Add(1);
         }
     }
 }

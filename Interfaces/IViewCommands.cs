@@ -21,11 +21,13 @@ namespace LPRT.Interfaces
         /// </summary>
         /// <param name="index"></param>
         void Notify_TimelineEntrySelected(int index);
-        
+
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
         /// <returns></returns>
-        PacketTimeLineEntry Notify_TimelineEntryNeeded(int index);
+        string Notify_TimelineEntryNeeded(int row, int column);
     }
 }

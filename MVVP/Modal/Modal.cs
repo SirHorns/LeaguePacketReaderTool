@@ -120,7 +120,7 @@ namespace LPRT.MVVP.Modal
             {
                 try
                 {
-                    RawData = await Task.Run((() => _serializer.Deserialize<JArray>(reader)));
+                    RawData = await Task.Run(() => _serializer.Deserialize<JArray>(reader));
                 }
                 catch (Exception e)
                 {
@@ -178,7 +178,8 @@ namespace LPRT.MVVP.Modal
                 newTimeline.Add(new PacketTimeLineEntry(
                     jToken["Time"].ToString(),
                     index.ToString(),
-                    GetPacketName(jToken["Packet"]["$type"].ToString())));
+                    GetPacketName(jToken["Packet"]["$type"].ToString()))
+                );
                 index++;
             }
             PacketTimeline = newTimeline;
@@ -213,10 +214,13 @@ namespace LPRT.MVVP.Modal
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public PacketTimeLineEntry GetTimelineEntry(int index)
+        public PacketTimeLineEntry GetTimelineEntryValue(int index)
         {
-            //if (PacketTimeline == null) return new PacketTimeLineEntry("","","");
-            
+            if (index < 0 | index >= PacketTimeline.Count | PacketTimeline == null)
+            {
+                return new PacketTimeLineEntry("","","");
+            }
+
             return PacketTimeline[index];
         }
 
