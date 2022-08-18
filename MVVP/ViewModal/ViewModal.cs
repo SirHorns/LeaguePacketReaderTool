@@ -132,7 +132,7 @@ namespace LPRT.MVVP.ViewModal
             timeLine.Rows.Clear();
             foreach (var entry in _modal.PacketTimeline)
             {
-                timeLine.Rows.Add(entry.Time, entry.Position, entry.Type);
+                //timeLine.Rows.Add(entry.Time, entry.Position, entry.Type);
                 //FormMain.ListView1.Items.Add(new ListViewItem(new []{entry.Time,entry.Position,entry.Type}));
             }
         }

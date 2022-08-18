@@ -50,7 +50,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.packetTimelineList = new System.Windows.Forms.ListView();
             this.Time = new System.Windows.Forms.ColumnHeader();
             this.Position = new System.Windows.Forms.ColumnHeader();
             this.Type = new System.Windows.Forms.ColumnHeader();
@@ -181,7 +181,6 @@
             this.packetTimeline.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.packetTimeline.Size = new System.Drawing.Size(374, 561);
             this.packetTimeline.TabIndex = 6;
-            this.packetTimeline.VirtualMode = true;
             this.packetTimeline.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PacketTimeLine_CellCLick);
             this.packetTimeline.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.PacketTimeLine_CellFocus);
             this.packetTimeline.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.packetTimeline_CellValueNeeded);
@@ -254,7 +253,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.listView1);
+            this.tabPage2.Controls.Add(this.packetTimelineList);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -263,18 +262,22 @@
             this.tabPage2.Text = "Player Info";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // listView1
+            // packetTimelineList
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { this.Time, this.Position, this.Type });
-            this.listView1.GridLines = true;
-            this.listView1.Location = new System.Drawing.Point(69, 43);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(414, 400);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.VirtualListSize = 100000000;
-            this.listView1.VirtualMode = true;
+            this.packetTimelineList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { this.Time, this.Position, this.Type });
+            this.packetTimelineList.GridLines = true;
+            this.packetTimelineList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.packetTimelineList.Location = new System.Drawing.Point(69, 43);
+            this.packetTimelineList.Name = "packetTimelineList";
+            this.packetTimelineList.Size = new System.Drawing.Size(414, 400);
+            this.packetTimelineList.TabIndex = 0;
+            this.packetTimelineList.UseCompatibleStateImageBehavior = false;
+            this.packetTimelineList.View = System.Windows.Forms.View.Details;
+            this.packetTimelineList.VirtualListSize = 100000000;
+            this.packetTimelineList.VirtualMode = true;
+            this.packetTimelineList.CacheVirtualItems += new System.Windows.Forms.CacheVirtualItemsEventHandler(this.TimeLine_CacheVirtualItems);
+            this.packetTimelineList.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.TimeLine_RetrieveVirtualItem);
+            this.packetTimelineList.SearchForVirtualItem += new System.Windows.Forms.SearchForVirtualItemEventHandler(this.TimeLine_SearchForVirtualItem);
             // 
             // Time
             // 
@@ -284,11 +287,13 @@
             // Position
             // 
             this.Position.Text = "Position";
+            this.Position.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Position.Width = 90;
             // 
             // Type
             // 
             this.Type.Text = "Type";
+            this.Type.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Type.Width = 200;
             // 
             // menuStrip1
@@ -342,7 +347,7 @@
         private System.Windows.Forms.ColumnHeader Position;
         private System.Windows.Forms.ColumnHeader Type;
 
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView packetTimelineList;
 
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 

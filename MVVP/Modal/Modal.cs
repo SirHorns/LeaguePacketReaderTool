@@ -13,8 +13,6 @@ namespace LPRT.MVVP.Modal
 {
     public class Modal : INotifyPropertyChanged
     {
-        private IModalCommands _viewModal;
-        
         private string _filePath = "";
         private string _packetFilter = "";
         private JArray _rawData;
@@ -26,9 +24,7 @@ namespace LPRT.MVVP.Modal
 
         public Modal(IModalCommands viewModal)
         {
-            _viewModal = viewModal;
             _serializer = new JsonSerializer();
-            
             PropertyChanged += InternalPropertyChanged;
         }
 
@@ -45,7 +41,6 @@ namespace LPRT.MVVP.Modal
                 OnPropertyChanged(nameof(this.RawData));
             }
         }
-
         /// <summary>
         /// String list containing the name of all Packet-types present within the match fiile.
         /// </summary>
@@ -59,7 +54,6 @@ namespace LPRT.MVVP.Modal
                 OnPropertyChanged(nameof(this.PacketTypes));
             }
         }
-
         /// <summary>
         /// Directory path to json file given by the UI.
         /// </summary>
@@ -84,7 +78,6 @@ namespace LPRT.MVVP.Modal
                 OnPropertyChanged(nameof(this.PacketFilter));
             }
         }
-
         /// <summary>
         /// PacketTimelineEntry list containing the full timeline information within the RawData.
         /// </summary>
@@ -110,6 +103,8 @@ namespace LPRT.MVVP.Modal
             }
         }
 
+        
+        
         /// <summary>
         /// Loads the match file based on the file path into RawData
         /// </summary>
@@ -129,7 +124,7 @@ namespace LPRT.MVVP.Modal
                 }
             }
         }
-
+        
         /// <summary>
         /// Parses through _RawData pulling packet type names from the given match file.
         /// Triggers OnPropertyChanged.
@@ -151,7 +146,7 @@ namespace LPRT.MVVP.Modal
             packetTypes.Sort();
             PacketTypes = packetTypes;
         }
-
+        
         /// <summary>
         /// Parses the $type token and pulls out only the packet type.
         /// </summary>
@@ -164,7 +159,7 @@ namespace LPRT.MVVP.Modal
             
             return packetName;
         }
-
+        
         /// <summary>
         /// Creates the Timeline of packets for the given match data.
         /// </summary>
@@ -175,15 +170,13 @@ namespace LPRT.MVVP.Modal
             int index = 0;
             foreach (var jToken in RawData.Children())
             {
-                newTimeline.Add(new PacketTimeLineEntry(
-                    jToken["Time"].ToString(),
-                    index.ToString(),
-                    GetPacketName(jToken["Packet"]["$type"].ToString()))
-                );
+                newTimeline.Add(new PacketTimeLineEntry(jToken["Time"].ToString(), index.ToString(), GetPacketName(jToken["Packet"]["$type"].ToString())));
                 index++;
             }
+            
             PacketTimeline = newTimeline;
         }
+        
         /// <summary>
         /// Creates a filtered Timeline of packets for the given match data.
         /// </summary>
@@ -241,6 +234,7 @@ namespace LPRT.MVVP.Modal
                 row = new string[2];
                 row[0] = "BAD";
                 row[1] = "WOLF";
+                data.Add(row);
                 
                 return data;
             }
@@ -273,15 +267,10 @@ namespace LPRT.MVVP.Modal
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-
+        
+        /// <summary>
+        /// Handles internal property change events.
+        /// </summary>
         private void InternalPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -306,7 +295,5 @@ namespace LPRT.MVVP.Modal
         }
     }
     
-    /*
-     * ඞ
-     */
+    //ඞ Amogus?
 }

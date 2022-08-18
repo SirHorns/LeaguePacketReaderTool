@@ -34,7 +34,7 @@ namespace LPRT.MVVP.View
 
         public DataGridView PacketInfoTable => packetInfoTable;
 
-        public ListView ListView1 => listView1;
+        public ListView ListView1 => packetTimelineList;
 
         /// <summary>
         /// Menu Bar Load Button Functions
@@ -106,9 +106,82 @@ namespace LPRT.MVVP.View
 
         #endregion
 
-        #region PlayerInfo
-
+        #region PacketTimeLine-ListView
         
+        private ListViewItem[] myCache; //array to cache items for the virtual list
+        private int firstItem; //stores the index of the first item in the cache
+        
+        private void TimeLine_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
+        {
+            //Caching is not required but improves performance on large sets.
+            //To leave out caching, don't connect the CacheVirtualItems event 
+            //and make sure myCache is null.
+
+            //check to see if the requested item is currently in the cache
+            if (myCache != null && e.ItemIndex >= firstItem && e.ItemIndex < firstItem + myCache.Length)
+            {
+                //A cache hit, so get the ListViewItem from the cache instead of making a new one.
+                e.Item = myCache[e.ItemIndex - firstItem];
+            }
+            else
+            {
+                //A cache miss, so create a new ListViewItem and pass it back.
+                int x = e.ItemIndex * e.ItemIndex;
+                e.Item = new ListViewItem(new [] {x.ToString(),x.ToString(),x.ToString()});
+            }
+        }
+        
+        private void TimeLine_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
+        {
+            //We've gotten a request to refresh the cache.
+            //First check if it's really neccesary.
+            if (myCache != null && e.StartIndex >= firstItem && e.EndIndex <= firstItem + myCache.Length)
+            {
+                //If the newly requested cache is a subset of the old cache, 
+                //no need to rebuild everything, so do nothing.
+                return;
+            }
+
+            //Now we need to rebuild the cache.
+            firstItem = e.StartIndex;
+            int length = e.EndIndex - e.StartIndex + 1; //indexes are inclusive
+            myCache = new ListViewItem[length];
+
+            //Fill the cache with the appropriate ListViewItems.
+            int x = 0;
+            string[] subitems = {
+                x.ToString(),
+                x.ToString(),
+                x.ToString()
+            };
+            
+            for (int i = 0; i < length; i++)
+            {
+                x = (i + firstItem) * (i + firstItem);
+                ListViewItem item = new ListViewItem(subitems);
+                myCache[i] =  item;
+            }
+        }
+
+        private void TimeLine_SearchForVirtualItem(object sender, SearchForVirtualItemEventArgs e)
+        {
+            //We've gotten a search request.
+            //In this example, finding the item is easy since it's
+            //just the square of its index.  We'll take the square root
+            //and round.
+            double x = 0;
+            if (Double.TryParse(e.Text, out x)) //check if this is a valid search
+            {
+                x = Math.Sqrt(x);
+                x = Math.Round(x);
+                e.Index = (int)x;
+            }
+            //If e.Index is not set, the search returns null.
+            //Note that this only handles simple searches over the entire
+            //list, ignoring any other settings.  Handling Direction, StartIndex,
+            //and the other properties of SearchForVirtualItemEventArgs is up
+            //to this handler.
+        }
 
         #endregion
 
@@ -117,5 +190,7 @@ namespace LPRT.MVVP.View
         {
             //packetTimeline.Rows.Add(1);
         }
+
+        
     }
 }
