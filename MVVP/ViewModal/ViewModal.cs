@@ -48,12 +48,6 @@ namespace LPRT.MVVP.ViewModal
             set => _packetFilter = value;
         }
 
-        public bool CellNeeded
-        {
-            get => _cellNeeded;
-            set => _cellNeeded = value;
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -84,6 +78,9 @@ namespace LPRT.MVVP.ViewModal
             }
         }
 
+        
+        
+        
         /// <summary>
         /// Tells the Modal that the a file directory path has been selected from the UI.
         /// </summary>
@@ -92,6 +89,7 @@ namespace LPRT.MVVP.ViewModal
         {
             _modal.FilePath = path;
         }
+        
         /// <summary>
         /// Notifies the ViewModal that a filter has been selected.
         /// </summary>
@@ -128,7 +126,7 @@ namespace LPRT.MVVP.ViewModal
         /// </summary>
         public void Publish_PacketTimeLine()
         {
-            DataGridView timeLine = _formMain.PacketTimeline;
+            DataGridView timeLine = null;
             timeLine.Rows.Clear();
             foreach (var entry in _modal.PacketTimeline)
             {
@@ -142,7 +140,7 @@ namespace LPRT.MVVP.ViewModal
         /// </summary>
         public void Publish_FilteredPacketTimeLine()
         {
-            DataGridView timeLine = _formMain.PacketTimeline;
+            DataGridView timeLine = null;
             
             timeLine.Rows.Clear();
             
@@ -181,44 +179,28 @@ namespace LPRT.MVVP.ViewModal
             rawText.Text = _modal.GetRawPacketInfo(index);
         }
 
+        public void Notify_TimelineEntryNeeded()
+        {
+            //throw new NotImplementedException();
+        }
+
         private int _cachedTimelineIndex = -1;
         private PacketTimeLineEntry _cachedTimeLineEntry;
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public string Notify_TimelineEntryNeeded(int row, int column)
+        public ListViewItem Notify_TimelineEntryNeeded(int itemIndex)
         {
-            if (row == _cachedTimelineIndex )
-            {
-                switch (column)
-                {
-                    case 0:
-                        return _cachedTimeLineEntry.Time;
-                    case 1:
-                        return _cachedTimeLineEntry.Position;
-                    case 2:
-                        return _cachedTimeLineEntry.Type;
-                    default:
-                        return "";
-                }
-            }
-
-            _cachedTimeLineEntry = _modal.GetTimelineEntryValue(row);
-            _cachedTimelineIndex = row;
-            switch (column)
-            {
-                case 0:
-                    return _cachedTimeLineEntry.Time;
-                case 1:
-                    return _cachedTimeLineEntry.Position;
-                case 2:
-                    return _cachedTimeLineEntry.Type;
-                default:
-                    return "";
-            }
-
+            return _modal.GetTimelineEntryValue(itemIndex);
             
+            
+            //return new PacketTimeLineEntry("", "", "");
+        }
+
+        public void Notify_CacheRebuild(int startIndex, int endIndex)
+        {
+            _modal.RebuildCache(startIndex,endIndex);
         }
         
         public event PropertyChangedEventHandler PropertyChanged;

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using LPRT.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -19,6 +20,7 @@ namespace LPRT.MVVP.Modal
         private List<string> _packetTypes;
         private List<PacketTimeLineEntry> _packetTimeline;
         private List<PacketTimeLineEntry> _filteredPacketTimeline;
+        private ListViewItem[] _timelineCache;
         
         private readonly JsonSerializer _serializer;
 
@@ -104,7 +106,6 @@ namespace LPRT.MVVP.Modal
         }
 
         
-        
         /// <summary>
         /// Loads the match file based on the file path into RawData
         /// </summary>
@@ -121,6 +122,27 @@ namespace LPRT.MVVP.Modal
                 {
                     Console.WriteLine(e);
                     throw;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        private async void LoadCache()
+        {
+            using (StreamReader sr = new StreamReader(FilePath))
+            using (JsonReader reader = new JsonTextReader(sr))
+            {
+                int cacheCap = 50;
+                int index = 0;
+                _timelineCache = new ListViewItem[cacheCap];
+                while (reader.Read() && index <= cacheCap)
+                {
+                    var token = _serializer.Deserialize(reader);
+                    
+                    _timelineCache[0] = new ListViewItem(new []{ token["Packet"]["$type"].ToString(), "BAD", "W0LF" });
+                    index++;
                 }
             }
         }
@@ -205,16 +227,26 @@ namespace LPRT.MVVP.Modal
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="itemIndex"></param>
         /// <returns></returns>
-        public PacketTimeLineEntry GetTimelineEntryValue(int index)
+        public ListViewItem GetTimelineEntryValue(int itemIndex)
         {
-            if (index < 0 | index >= PacketTimeline.Count | PacketTimeline == null)
-            {
-                return new PacketTimeLineEntry("","","");
-            }
+            //Caching is not required but improves performance on large sets.
+            //To leave out caching, don't connect the CacheVirtualItems event 
+            //and make sure myCache is null.
 
-            return PacketTimeline[index];
+            //check to see if the requested item is currently in the cache
+            if (myCache != null && itemIndex >= firstItem && itemIndex < firstItem + myCache.Length)
+            {
+                //A cache hit, so get the ListViewItem from the cache instead of making a new one.
+                return myCache[itemIndex - firstItem];
+            }
+            else
+            {
+                //A cache miss, so create a new ListViewItem and pass it back.
+                int x = itemIndex * itemIndex;
+                return new ListViewItem(x.ToString());
+            }
         }
 
         /// <summary>
@@ -261,6 +293,54 @@ namespace LPRT.MVVP.Modal
             return packet == null ? "{\"BADW0LF\": \"\"}" : packet.ToString();
         }
 
+        private ListViewItem[] myCache; //array to cache items for the virtual list
+        private int firstItem; //stores the index of the first item in the cache
+        public void RebuildCache(int startIndex, int endIndex)
+        {
+            //We've gotten a request to refresh the cache.
+            //First check if it's really neccesary.
+            if (myCache != null && startIndex >= firstItem && endIndex <= firstItem + myCache.Length)
+            {
+                //If the newly requested cache is a subset of the old cache, 
+                //no need to rebuild everything, so do nothing.
+                return;
+            }
+
+            //Now we need to rebuild the cache.
+            firstItem = startIndex;
+            int length = endIndex - startIndex + 1; //indexes are inclusive
+            myCache = new ListViewItem[length];
+
+            //Fill the cache with the appropriate ListViewItems.
+            int x = 0;
+
+            for (int i = 0; i < length; i++)
+            {
+                x = (i + firstItem) * (i + firstItem);
+
+                ListViewItem item = new ListViewItem(new []{ x.ToString(), x.ToString(), x.ToString() });
+                myCache[i] =  item;
+            }
+        }
+
+        private void PopulateCache(int length)
+        {
+            //Fill the cache with the appropriate ListViewItems.
+            int x = 0;
+            for (int i = 0; i < length; i++)
+            {
+                PacketTimeLineEntry entry = new PacketTimeLineEntry(
+                    RawData[i]["Packet"]["$type"].ToString(),
+                    RawData[i]["time"].ToString(),
+                    RawData[i]["time"].ToString()
+                );
+                x = (i + firstItem) * (i + firstItem);
+
+                ListViewItem item = new ListViewItem(new []{ entry.Type, entry.Position, entry.Time });
+                myCache[i] =  item;
+            }
+        }
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -276,7 +356,8 @@ namespace LPRT.MVVP.Modal
             switch (e.PropertyName)
             {
                 case "FilePath":
-                    LoadMatchFile();
+                    //LoadMatchFile();
+                    LoadCache();
                     break;
                 case "PacketFilter":
                     GetFilteredPacketTimeLine();

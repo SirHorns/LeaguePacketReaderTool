@@ -1,4 +1,5 @@
-﻿using LPRT.MVVP.Modal;
+﻿using System.Windows.Forms;
+using LPRT.MVVP.Modal;
 
 namespace LPRT.Interfaces
 {
@@ -28,6 +29,11 @@ namespace LPRT.Interfaces
         /// <param name="row"></param>
         /// <param name="column"></param>
         /// <returns></returns>
-        string Notify_TimelineEntryNeeded(int row, int column);
+        ListViewItem Notify_TimelineEntryNeeded(int itemIndex);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        void Notify_CacheRebuild(int startIndex, int endIndex);
     }
 }
