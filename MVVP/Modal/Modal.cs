@@ -105,7 +105,17 @@ namespace LPRT.MVVP.Modal
             }
         }
 
-        
+        public ListViewItem[] TimelineCache
+        {
+            get => _timelineCache;
+            set
+            {
+                _timelineCache = value;
+                OnPropertyChanged(nameof(this.TimelineCache));
+            }
+        }
+
+
         /// <summary>
         /// Loads the match file based on the file path into RawData
         /// </summary>
@@ -139,13 +149,18 @@ namespace LPRT.MVVP.Modal
                 _timelineCache = new ListViewItem[cacheCap];
                 while (reader.Read() && index <= cacheCap)
                 {
-                    var token = _serializer.Deserialize(reader);
+                    if (reader.TokenType == JsonToken.StartObject)
+                    {
+                        var t = _serializer.Deserialize(reader);
+                        JObject jObject = (JObject)t;
+                        _timelineCache[0] = new ListViewItem(new []{ jObject["Packet"]["$type"].ToString(), "BAD", "W0LF" });
+                    }
                     
-                    _timelineCache[0] = new ListViewItem(new []{ token["Packet"]["$type"].ToString(), "BAD", "W0LF" });
-                    index++;
+                    index=+1;
                 }
             }
         }
+        
         
         /// <summary>
         /// Parses through _RawData pulling packet type names from the given match file.

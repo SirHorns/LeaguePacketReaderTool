@@ -27,6 +27,7 @@ namespace LPRT.MVVP.View
         public RichTextBox PacketInfoText => packetInfoText;
 
         public DataGridView PacketInfoTable => packetInfoTable;
+        public ListView PacketTimeLine => PacketTimeLine;
 
         /// <summary>
         /// Menu Bar Load Button Functions

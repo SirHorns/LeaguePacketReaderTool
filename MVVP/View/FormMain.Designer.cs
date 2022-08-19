@@ -40,9 +40,9 @@
             this.packetInfoText = new System.Windows.Forms.RichTextBox();
             this.groupBoxTimeLine = new System.Windows.Forms.GroupBox();
             this.packetTimelineList = new System.Windows.Forms.ListView();
-            this.time = new System.Windows.Forms.ColumnHeader();
-            this.position = new System.Windows.Forms.ColumnHeader();
             this.type = new System.Windows.Forms.ColumnHeader();
+            this.position = new System.Windows.Forms.ColumnHeader();
+            this.time = new System.Windows.Forms.ColumnHeader();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -158,25 +158,24 @@
             this.packetTimelineList.UseCompatibleStateImageBehavior = false;
             this.packetTimelineList.View = System.Windows.Forms.View.Details;
             this.packetTimelineList.VirtualListSize = 100000000;
-            this.packetTimelineList.VirtualMode = true;
             this.packetTimelineList.CacheVirtualItems += new System.Windows.Forms.CacheVirtualItemsEventHandler(this.TimeLine_CacheVirtualItems);
             this.packetTimelineList.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.TimeLine_RetrieveVirtualItem);
             this.packetTimelineList.SearchForVirtualItem += new System.Windows.Forms.SearchForVirtualItemEventHandler(this.TimeLine_SearchForVirtualItem);
             // 
-            // time
+            // type
             // 
-            this.time.Text = "Time";
-            this.time.Width = 100;
+            this.type.Text = "Type";
+            this.type.Width = 170;
             // 
             // position
             // 
             this.position.Text = "Position";
             this.position.Width = 100;
             // 
-            // type
+            // time
             // 
-            this.type.Text = "Type";
-            this.type.Width = 170;
+            this.time.Text = "Time";
+            this.time.Width = 100;
             // 
             // tabControl1
             // 

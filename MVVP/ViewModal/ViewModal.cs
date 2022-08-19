@@ -63,6 +63,9 @@ namespace LPRT.MVVP.ViewModal
                     break;
                 case "FilteredPacketTimeline":
                     //Publish_FilteredPacketTimeLine();
+                case "TimelineCache":
+                    _formMain.PacketTimeLine.VirtualMode = true;
+                    _formMain.PacketTimeLine.RedrawItems(0,1,false);
                     break;
             }
         }
