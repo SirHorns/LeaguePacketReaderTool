@@ -71,12 +71,11 @@ namespace LPRT.MVVP.ViewModal
             rawText.Text = _modal.GetRawPacketInfo(index);
         }
         
-        private int _cachedTimelineIndex = -1;
-        private PacketTimeLineEntry _cachedTimeLineEntry;
         public ListViewItem Request_TimelineEntry(int itemIndex)
         {
             return _modal.Publish_TimelineEntry(itemIndex);
         }
+        
         public void Request_RebuildCache(int startIndex, int endIndex)
         {
             _modal.Publish_CacheRebuild(startIndex,endIndex);

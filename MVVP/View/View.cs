@@ -4,14 +4,14 @@ using LPRT.Interfaces;
 
 namespace LPRT.MVVP.View
 {
-    public partial class FormMain : Form
+    public partial class View : Form
     {
         /// <summary>
         /// Reference to the ViewModal
         /// </summary>
         private readonly IViewCommands _viewModal;
         
-        public FormMain()
+        public View()
         {
             _viewModal = new ViewModal.ViewModal(this);
             InitializeComponent();
@@ -21,13 +21,15 @@ namespace LPRT.MVVP.View
         {
             
         }
-        
+
+        public IViewCommands ViewModal => _viewModal;
+
         public ComboBox PacketTimelineFilter => packetTimelineFilter;
 
         public RichTextBox PacketInfoText => packetInfoText;
 
         public DataGridView PacketInfoTable => packetInfoTable;
-        public ListView PacketTimeLine => PacketTimeLine;
+        public ListView PacketTimeLine => packetTimelineList;
 
         /// <summary>
         /// Menu Bar Load Button Functions
@@ -59,12 +61,12 @@ namespace LPRT.MVVP.View
         #region PacketTimeLine-ListView
         private void TimeLine_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-            e.Item = _viewModal.Notify_TimelineEntryNeeded(e.ItemIndex);
+            e.Item = ViewModal.Request_TimelineEntry(e.ItemIndex);
         }
         
         private void TimeLine_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
         {
-            _viewModal.Notify_CacheRebuild(e.StartIndex, e.EndIndex);
+            ViewModal.Request_RebuildCache(e.StartIndex, e.EndIndex);
         }
 
         private void TimeLine_SearchForVirtualItem(object sender, SearchForVirtualItemEventArgs e)

@@ -1,6 +1,6 @@
 ﻿namespace LPRT.MVVP.View
 {
-    partial class FormMain
+    partial class View
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(View));
             this.packetTimelineFilter = new System.Windows.Forms.ComboBox();
             this.packetInfoTable = new System.Windows.Forms.DataGridView();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -91,7 +91,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.packetInfoTable.DefaultCellStyle = dataGridViewCellStyle2;
-            this.packetInfoTable.Location = new System.Drawing.Point(386, 46);
+            this.packetInfoTable.Location = new System.Drawing.Point(420, 46);
             this.packetInfoTable.Name = "packetInfoTable";
             this.packetInfoTable.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -126,10 +126,10 @@
             // 
             this.packetInfoText.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.packetInfoText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.packetInfoText.Location = new System.Drawing.Point(819, 46);
+            this.packetInfoText.Location = new System.Drawing.Point(853, 46);
             this.packetInfoText.Name = "packetInfoText";
             this.packetInfoText.ReadOnly = true;
-            this.packetInfoText.Size = new System.Drawing.Size(407, 561);
+            this.packetInfoText.Size = new System.Drawing.Size(373, 561);
             this.packetInfoText.TabIndex = 2;
             this.packetInfoText.Text = "";
             // 
@@ -153,11 +153,10 @@
             this.packetTimelineList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.packetTimelineList.Location = new System.Drawing.Point(6, 46);
             this.packetTimelineList.Name = "packetTimelineList";
-            this.packetTimelineList.Size = new System.Drawing.Size(374, 561);
+            this.packetTimelineList.Size = new System.Drawing.Size(408, 561);
             this.packetTimelineList.TabIndex = 3;
             this.packetTimelineList.UseCompatibleStateImageBehavior = false;
             this.packetTimelineList.View = System.Windows.Forms.View.Details;
-            this.packetTimelineList.VirtualListSize = 100000000;
             this.packetTimelineList.CacheVirtualItems += new System.Windows.Forms.CacheVirtualItemsEventHandler(this.TimeLine_CacheVirtualItems);
             this.packetTimelineList.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.TimeLine_RetrieveVirtualItem);
             this.packetTimelineList.SearchForVirtualItem += new System.Windows.Forms.SearchForVirtualItemEventHandler(this.TimeLine_SearchForVirtualItem);
@@ -165,17 +164,19 @@
             // type
             // 
             this.type.Text = "Type";
-            this.type.Width = 170;
+            this.type.Width = 210;
             // 
             // position
             // 
             this.position.Text = "Position";
-            this.position.Width = 100;
+            this.position.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.position.Width = 80;
             // 
             // time
             // 
             this.time.Text = "Time";
-            this.time.Width = 100;
+            this.time.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.time.Width = 80;
             // 
             // tabControl1
             // 
@@ -231,7 +232,7 @@
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.MenuBar_ClickLoad);
             // 
-            // FormMain
+            // View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -240,7 +241,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "FormMain";
+            this.Name = "View";
             this.Text = "League Packet Reader Tool";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.packetInfoTable)).EndInit();
@@ -257,7 +258,6 @@
         private System.Windows.Forms.ColumnHeader type;
 
         private System.Windows.Forms.ColumnHeader time;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
 
         private System.Windows.Forms.ListView packetTimelineList;
 
