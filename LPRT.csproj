@@ -84,16 +84,16 @@
         <Compile Include="MVVP\Modal\Team.cs" />
         <Compile Include="MVVP\ViewModal\Cache.cs" />
         <Compile Include="MVVP\ViewModal\ViewModal.cs" />
-        <Compile Include="MVVP\View\FormMain.cs" />
-        <Compile Include="MVVP\View\FormMain.Designer.cs">
-          <DependentUpon>FormMain.cs</DependentUpon>
+        <Compile Include="MVVP\View\View.cs" />
+        <Compile Include="MVVP\View\View.Designer.cs">
+          <DependentUpon>View.cs</DependentUpon>
         </Compile>
         <Compile Include="MVVP\View\ViewTimeline.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <EmbeddedResource Include="MVVP\View\FormMain.resx">
-          <DependentUpon>FormMain.cs</DependentUpon>
+        <EmbeddedResource Include="MVVP\View\View.resx">
+          <DependentUpon>View.cs</DependentUpon>
         </EmbeddedResource>
         <EmbeddedResource Include="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
