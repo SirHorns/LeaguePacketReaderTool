@@ -24,7 +24,7 @@ namespace LPRT.MVVP.View
 
         public IViewCommands ViewModal => _viewModal;
 
-        public ComboBox PacketTimelineFilter => packetTimelineFilter;
+        public ComboBox TimelineFilter => timelineFilter;
 
         public RichTextBox PacketInfoText => packetInfoText;
 
@@ -55,7 +55,7 @@ namespace LPRT.MVVP.View
         /// </summary>
         private void PacketTimeLineFilter_ValueChanged(object sender, EventArgs e)
         {
-            _viewModal.Notify_FilterSelected(packetTimelineFilter.Text);
+            _viewModal.Notify_FilterSelected(timelineFilter.Text);
         }
 
         #region PacketTimeLine-ListView
@@ -89,5 +89,15 @@ namespace LPRT.MVVP.View
         }
 
         #endregion
+
+        private void packetTimelineList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //ViewModal.Notify_TimelineEntrySelected(Int32.Parse(PacketTimeLine.SelectedItems[0].SubItems[1].Text));
+        }
+
+        private void packetTimelineList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            ViewModal.Notify_TimelineEntrySelected(Int32.Parse(e.Item.SubItems[1].Text));
+        }
     }
 }

@@ -54,40 +54,40 @@ namespace LPRT.MVVP.ViewModal
         public void Notify_FilterSelected(string filter)
         {
             PacketFilter = filter;
-            _modal.PacketFilter = filter;
+            Modal.TimelineFilter = filter;
         }
         public void Notify_TimelineEntrySelected(int index)
         {
-            DataGridView table = _view.PacketInfoTable;
-            RichTextBox rawText = _view.PacketInfoText;
+            DataGridView table = View.PacketInfoTable;
+            RichTextBox rawText = View.PacketInfoText;
             
             table.Rows.Clear();
             
-            foreach (var row in _modal.GetPacketInfo(index))
+            foreach (var row in Modal.Publish_PacketInfo(index))
             {
                 table.Rows.Add(row);
             }
 
-            rawText.Text = _modal.GetRawPacketInfo(index);
+            rawText.Text = Modal.Publish_RawPacketInfo(index);
         }
         
         public ListViewItem Request_TimelineEntry(int itemIndex)
         {
-            return _modal.Publish_TimelineEntry(itemIndex);
+            return Modal.Publish_TimelineEntry(itemIndex);
         }
         
         public void Request_RebuildCache(int startIndex, int endIndex)
         {
-            _modal.Publish_CacheRebuild(startIndex,endIndex);
+            Modal.Publish_CacheRebuild(startIndex,endIndex);
         }
         
         
         //FROMMODAL
         public void Publish_PacketFilters()
         {
-            ComboBox timeLineFilter = _view.PacketTimelineFilter;
+            ComboBox timeLineFilter = View.TimelineFilter;
             
-            List<string> packetTypes = _modal.PacketTypes;
+            List<string> packetTypes = Modal.PacketTypes;
             if (packetTypes == null) packetTypes = new List<string>();
             packetTypes.Insert(0, "All Packets");
             timeLineFilter.DataSource = packetTypes;
@@ -99,41 +99,10 @@ namespace LPRT.MVVP.ViewModal
             }
             timeLineFilter.AutoCompleteCustomSource = autoComplete;
         }
-        public void Publish_PacketTimeLine()
-        {
-            DataGridView timeLine = null;
-            timeLine.Rows.Clear();
-            foreach (var entry in _modal.PacketTimeline)
-            {
-                //timeLine.Rows.Add(entry.Time, entry.Position, entry.Type);
-                //FormMain.ListView1.Items.Add(new ListViewItem(new []{entry.Time,entry.Position,entry.Type}));
-            }
-        }
-        public void Publish_FilteredPacketTimeLine()
-        {
-            DataGridView timeLine = null;
-            
-            timeLine.Rows.Clear();
-            
-            if (PacketFilter.Equals("All Packets"))
-            {
-                foreach (var entry in _modal.PacketTimeline)
-                {
-                    timeLine.Rows.Add(entry.Time, entry.Position, entry.Type);
-                } 
-            }
-            else
-            {
-                foreach (var entry in _modal.FilteredPacketTimeline)
-                {
-                    timeLine.Rows.Add(entry.Time, entry.Position, entry.Type);
-                } 
-            }
-        }
-        
-        //
+
         public void Reload_PacketTimeline()
         {
+            View.PacketTimeLine.Items.Clear();
             View.PacketTimeLine.VirtualListSize = Modal.TimeLineSize;
             View.PacketTimeLine.VirtualMode = true;
             View.PacketTimeLine.Refresh();
@@ -146,6 +115,7 @@ namespace LPRT.MVVP.ViewModal
             switch (e.PropertyName)
             {
                 case "PacketTypes":
+                    Publish_PacketFilters();
                     break;
                 case "PacketTimeline":
                     break;
@@ -153,6 +123,9 @@ namespace LPRT.MVVP.ViewModal
                     break;
                 case "TimelineCache":
                     Reload_PacketTimeline();
+                    break;
+                case "FilteredPacketTimeLine":
+                    //Reload_PacketTimeline();
                     break;
                 default:
                     break;

@@ -33,7 +33,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(View));
-            this.packetTimelineFilter = new System.Windows.Forms.ComboBox();
+            this.timelineFilter = new System.Windows.Forms.ComboBox();
             this.packetInfoTable = new System.Windows.Forms.DataGridView();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,16 +56,16 @@
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // packetTimelineFilter
+            // timelineFilter
             // 
-            this.packetTimelineFilter.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.packetTimelineFilter.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.packetTimelineFilter.FormattingEnabled = true;
-            this.packetTimelineFilter.Location = new System.Drawing.Point(6, 19);
-            this.packetTimelineFilter.Name = "packetTimelineFilter";
-            this.packetTimelineFilter.Size = new System.Drawing.Size(337, 21);
-            this.packetTimelineFilter.TabIndex = 2;
-            this.packetTimelineFilter.SelectedValueChanged += new System.EventHandler(this.PacketTimeLineFilter_ValueChanged);
+            this.timelineFilter.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.timelineFilter.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.timelineFilter.FormattingEnabled = true;
+            this.timelineFilter.Location = new System.Drawing.Point(6, 19);
+            this.timelineFilter.Name = "timelineFilter";
+            this.timelineFilter.Size = new System.Drawing.Size(337, 21);
+            this.timelineFilter.TabIndex = 2;
+            this.timelineFilter.SelectedValueChanged += new System.EventHandler(this.PacketTimeLineFilter_ValueChanged);
             // 
             // packetInfoTable
             // 
@@ -138,7 +138,7 @@
             this.groupBoxTimeLine.Controls.Add(this.packetTimelineList);
             this.groupBoxTimeLine.Controls.Add(this.packetInfoText);
             this.groupBoxTimeLine.Controls.Add(this.packetInfoTable);
-            this.groupBoxTimeLine.Controls.Add(this.packetTimelineFilter);
+            this.groupBoxTimeLine.Controls.Add(this.timelineFilter);
             this.groupBoxTimeLine.Location = new System.Drawing.Point(6, 6);
             this.groupBoxTimeLine.Name = "groupBoxTimeLine";
             this.groupBoxTimeLine.Size = new System.Drawing.Size(1232, 613);
@@ -151,6 +151,7 @@
             this.packetTimelineList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { this.type, this.position, this.time });
             this.packetTimelineList.GridLines = true;
             this.packetTimelineList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.packetTimelineList.HideSelection = false;
             this.packetTimelineList.Location = new System.Drawing.Point(6, 46);
             this.packetTimelineList.Name = "packetTimelineList";
             this.packetTimelineList.Size = new System.Drawing.Size(408, 561);
@@ -158,24 +159,24 @@
             this.packetTimelineList.UseCompatibleStateImageBehavior = false;
             this.packetTimelineList.View = System.Windows.Forms.View.Details;
             this.packetTimelineList.CacheVirtualItems += new System.Windows.Forms.CacheVirtualItemsEventHandler(this.TimeLine_CacheVirtualItems);
+            this.packetTimelineList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.packetTimelineList_ItemSelectionChanged);
             this.packetTimelineList.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.TimeLine_RetrieveVirtualItem);
             this.packetTimelineList.SearchForVirtualItem += new System.Windows.Forms.SearchForVirtualItemEventHandler(this.TimeLine_SearchForVirtualItem);
+            this.packetTimelineList.SelectedIndexChanged += new System.EventHandler(this.packetTimelineList_SelectedIndexChanged);
             // 
             // type
             // 
             this.type.Text = "Type";
-            this.type.Width = 210;
+            this.type.Width = 200;
             // 
             // position
             // 
             this.position.Text = "Position";
-            this.position.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.position.Width = 80;
             // 
             // time
             // 
             this.time.Text = "Time";
-            this.time.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.time.Width = 80;
             // 
             // tabControl1
@@ -277,7 +278,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
         private System.Windows.Forms.DataGridView packetInfoTable;
 
-        private System.Windows.Forms.ComboBox packetTimelineFilter;
+        private System.Windows.Forms.ComboBox timelineFilter;
 
         #endregion
     }
