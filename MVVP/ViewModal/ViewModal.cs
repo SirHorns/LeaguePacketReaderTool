@@ -23,7 +23,7 @@ namespace LPRT.MVVP.ViewModal
         public ViewModal(View.View view)
         {
             View = view;
-            Modal = new Modal.Modal(this);
+            Modal = new Modal.Modal();
             
             Modal.PropertyChanged += PropertyChanged_Modal;
             PropertyChanged += PropertyChanged_View;

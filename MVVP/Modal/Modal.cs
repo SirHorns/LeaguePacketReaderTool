@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LPRT.Interfaces;
+using LPRT.MVVP.View;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -17,21 +17,20 @@ namespace LPRT.MVVP.Modal
     {
         private string _filePath;
         private string _timelineFilter;
-        private JArray _rawData;
         private List<string> _packetTypes;
         
-        private List<string> _jsonStrings = new List<string>();
+        private List<string> _jsons = new List<string>();
+        private Teams _matchTeams = new Teams();
         
         private List<ListViewItem> _timelineCache;
         private List<ListViewItem> _tempTimelineCache;
         private List<ListViewItem> _filteredTimelineCache;
         private int _cacheFirstIndex; //stores the index of the first item in the cache
 
-        private bool _filterTimeline = false;
-
         private readonly JsonSerializer _serializer;
+        
 
-        public Modal(IModalCommands viewModal)
+        public Modal()
         {
             _serializer = new JsonSerializer();
             PropertyChanged += InternalPropertyChanged;
@@ -59,7 +58,7 @@ namespace LPRT.MVVP.Modal
             set
             {
                 _filePath = value;
-                OnPropertyChanged(nameof(this.FilePath));
+                OnPropertyChanged();
             }
         }
         public string TimelineFilter
@@ -67,15 +66,6 @@ namespace LPRT.MVVP.Modal
             get => _timelineFilter;
             set
             {
-                if (value.Equals("All Packers"))
-                {
-                    FilterTimeline = false;
-                }
-                else
-                {
-                    FilterTimeline = true;
-                }
-                
                 _timelineFilter = value;
                 OnPropertyChanged();
             }
@@ -89,7 +79,7 @@ namespace LPRT.MVVP.Modal
                 OnPropertyChanged();
             }
         }
-        public List<ListViewItem> TimelineCache
+        private List<ListViewItem> TimelineCache
         {
             get => _timelineCache;
             set
@@ -100,15 +90,6 @@ namespace LPRT.MVVP.Modal
         }
 
         public int TimeLineSize { get; private set; } = 50;
-
-        public bool FilterTimeline
-        {
-            get => _filterTimeline;
-            set
-            {
-                _filterTimeline = value;
-            }
-        }
 
 
         //PARSE
@@ -130,7 +111,7 @@ namespace LPRT.MVVP.Modal
                             {
                                 var t = _serializer.Deserialize(reader);
                                 JObject jObject = (JObject)t;
-                                _jsonStrings.Add(jObject.ToString());
+                                _jsons.Add(jObject.ToString());
                                 tempList.Add(new ListViewItem(new[] { GetPacketName(jObject["Packet"]["$type"].ToString()), index.ToString(), jObject["Time"].ToString() }));
                             }
                             index++;
@@ -155,7 +136,7 @@ namespace LPRT.MVVP.Modal
             PacketTypes = await Task.Run(() => {
                 var bag = new ConcurrentBag<string>();
                 
-                Parallel.ForEach(_jsonStrings, str =>
+                Parallel.ForEach(_jsons, str =>
                 {
                     new ParallelOptions
                     {
@@ -168,11 +149,17 @@ namespace LPRT.MVVP.Modal
                         var token = _serializer.Deserialize(reader);
                         JObject jobj = token as JObject;
                     
+                        //Packet-Types
                         string packetType = GetPacketName(jobj["Packet"]["$type"].ToString());
                     
-                        if (!bag.Contains(packetType))
+                        if (!bag.Contains(packetType)) bag.Add(packetType);  
+                        
+                        //Player-Info
+                        if (packetType.Equals("S2C_CreateHero"))
                         {
-                            bag.Add(packetType);  
+                            _matchTeams.AddPlayer(new Player(jobj["Packet"]["Name"].ToString(), jobj["Packet"]["NetID"].ToString(), 
+                                jobj["Packet"]["ClientID"].ToString(), Boolean.Parse(jobj["Packet"]["TeamIsOrder"].ToString()), 
+                                jobj["Packet"]["Skin"].ToString(), jobj["Packet"]["SkinID"].ToString()));
                         }
                     }  
                 });
@@ -213,9 +200,8 @@ namespace LPRT.MVVP.Modal
         {
             index -= 1;
             List<string[]> data = new List<string[]>();
-            string[] row;
-            
-            using (StringReader sr  = new StringReader(_jsonStrings[index]))
+
+            using (StringReader sr  = new StringReader(_jsons[index]))
             using (JsonReader reader = new JsonTextReader(sr))
             {
                 var token = _serializer.Deserialize(reader);
@@ -223,7 +209,7 @@ namespace LPRT.MVVP.Modal
                                                            
                 foreach (KeyValuePair<string, JToken> pair in jobj["Packet"] as JObject)
                 {
-                    row = new string[2];
+                    var row = new string[2];
                     row[0] = pair.Key;
                     row[1] = pair.Value.ToString();
                     data.Add(row);
@@ -236,7 +222,7 @@ namespace LPRT.MVVP.Modal
         public string Publish_RawPacketInfo(int index)
         {
             index -= 1;
-            return _jsonStrings[index];
+            return _jsons[index];
         }
 
         //Virtual-TimeLine
@@ -260,7 +246,7 @@ namespace LPRT.MVVP.Modal
         public void Publish_CacheRebuild(int startIndex, int endIndex)
         {
             //We've gotten a request to refresh the cache.
-            //First check if it's really neccesary.
+            //First check if it's really necessary.
             if (TimelineCache != null && startIndex >= _cacheFirstIndex && endIndex <= _cacheFirstIndex + TimelineCache.Count)
             {
                 //If the newly requested cache is a subset of the old cache, 

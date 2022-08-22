@@ -81,8 +81,8 @@
     <Compile Include="MVVP\Modal\Modal.cs" />
     <Compile Include="MVVP\Modal\PacketTimeLineEntry.cs" />
     <Compile Include="MVVP\Modal\Player.cs" />
+    <Compile Include="MVVP\Modal\Teams.cs" />
     <Compile Include="MVVP\Modal\Team.cs" />
-    <Compile Include="MVVP\ViewModal\Cache.cs" />
     <Compile Include="MVVP\ViewModal\ViewModal.cs" />
     <Compile Include="MVVP\View\View.cs">
       <SubType>Form</SubType>
@@ -90,7 +90,6 @@
     <Compile Include="MVVP\View\View.Designer.cs">
       <DependentUpon>View.cs</DependentUpon>
     </Compile>
-    <Compile Include="MVVP\View\ViewTimeline.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
