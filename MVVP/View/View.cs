@@ -34,7 +34,7 @@ namespace LPRT.MVVP.View
         /// <summary>
         /// Menu Bar Load Button Functions
         /// </summary>
-        private void MenuBar_ClickLoad(object sender, EventArgs e)
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
