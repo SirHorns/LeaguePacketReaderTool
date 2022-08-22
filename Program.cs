@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using LPRT.MVVP.View;
 using View = LPRT.MVVP.View.View;
 
 namespace LPRT

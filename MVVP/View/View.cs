@@ -1,64 +1,103 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
+using LPRT.Interfaces;
 
 namespace LPRT.MVVP.View
 {
     public partial class View : Form
     {
-        private ViewModal.ViewModal _viewModal;
+        /// <summary>
+        /// Reference to the ViewModal
+        /// </summary>
+        private readonly IViewCommands _viewModal;
+        
         public View()
         {
-            InitializeComponent();
             _viewModal = new ViewModal.ViewModal(this);
+            InitializeComponent();
         }
         
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            
         }
 
-        private void MenuItem_Click_Load(object sender, EventArgs e)
+        public IViewCommands ViewModal => _viewModal;
+
+        public ComboBox TimelineFilter => timelineFilter;
+
+        public RichTextBox PacketInfoText => packetInfoText;
+
+        public DataGridView PacketInfoTable => packetInfoTable;
+        public ListView PacketTimeLine => packetTimelineList;
+
+        /// <summary>
+        /// Menu Bar Load Button Functions
+        /// </summary>
+        private void MenuBar_ClickLoad(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = "JSON (*.json)|*.json*";
+                openFileDialog.Filter = @"JSON (*.json)|*.json*";
                 openFileDialog.FilterIndex = 1;
                 openFileDialog.RestoreDirectory = true;
                 openFileDialog.Multiselect = false;
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    _viewModal.LoadPacketFile(openFileDialog.FileName);
+                    _viewModal.Notify_FileSelected(openFileDialog.FileName);
                 }
             }
-            
-            _viewModal.UpdatePacketTimeLine(packetTimeline);
-            _viewModal.UpdateTimeLineFilter(comboBox1);
         }
         
-        private void DataGridView_Focus_TimeLine(object sender, DataGridViewCellEventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        private void PacketTimeLineFilter_ValueChanged(object sender, EventArgs e)
         {
-            LoadPacketInfo(e.RowIndex);
+            _viewModal.Notify_FilterSelected(timelineFilter.Text);
         }
 
-        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
+        #region PacketTimeLine-ListView
+        private void TimeLine_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-            _viewModal.FilterTimeLine( packetTimeline, comboBox1.Text);
+            e.Item = ViewModal.Request_TimelineEntry(e.ItemIndex);
+        }
+        
+        private void TimeLine_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
+        {
+            ViewModal.Request_RebuildCache(e.StartIndex, e.EndIndex);
         }
 
-        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void TimeLine_SearchForVirtualItem(object sender, SearchForVirtualItemEventArgs e)
         {
-            LoadPacketInfo(e.RowIndex);
-        }
-
-        private void LoadPacketInfo(int index)
-        {
-            if (index >= 0)
+            //We've gotten a search request.
+            //In this example, finding the item is easy since it's
+            //just the square of its index.  We'll take the square root
+            //and round.
+            if (Double.TryParse(e.Text, out var x)) //check if this is a valid search
             {
-              _viewModal.GetPacketInfo(dataGridViewPacketContent, richTextBox1,Int32.Parse(packetTimeline.Rows[index].Cells[0].Value.ToString()));  
+                x = Math.Sqrt(x);
+                x = Math.Round(x);
+                e.Index = (int)x;
             }
+            //If e.Index is not set, the search returns null.
+            //Note that this only handles simple searches over the entire
+            //list, ignoring any other settings.  Handling Direction, StartIndex,
+            //and the other properties of SearchForVirtualItemEventArgs is up
+            //to this handler.
+        }
+
+        #endregion
+
+        private void packetTimelineList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //ViewModal.Notify_TimelineEntrySelected(Int32.Parse(PacketTimeLine.SelectedItems[0].SubItems[1].Text));
+        }
+
+        private void packetTimelineList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            ViewModal.Notify_TimelineEntrySelected(Int32.Parse(e.Item.SubItems[1].Text));
         }
     }
 }

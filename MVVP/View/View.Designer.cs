@@ -32,82 +32,47 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.tabContoler = new System.Windows.Forms.TabControl();
-            this.tabInfo = new System.Windows.Forms.TabPage();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.dataGridViewPacketContent = new System.Windows.Forms.DataGridView();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(View));
+            this.timelineFilter = new System.Windows.Forms.ComboBox();
+            this.packetInfoTable = new System.Windows.Forms.DataGridView();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.packetTimeline = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.packetInfoText = new System.Windows.Forms.RichTextBox();
             this.groupBoxTimeLine = new System.Windows.Forms.GroupBox();
+            this.packetTimelineList = new System.Windows.Forms.ListView();
+            this.type = new System.Windows.Forms.ColumnHeader();
+            this.position = new System.Windows.Forms.ColumnHeader();
+            this.time = new System.Windows.Forms.ColumnHeader();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabContoler.SuspendLayout();
-            this.tabInfo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPacketContent)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.packetTimeline)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.packetInfoTable)).BeginInit();
             this.groupBoxTimeLine.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // comboBox1
+            // timelineFilter
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(6, 19);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(337, 21);
-            this.comboBox1.TabIndex = 2;
-            this.comboBox1.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
+            this.timelineFilter.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.timelineFilter.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.timelineFilter.FormattingEnabled = true;
+            this.timelineFilter.Location = new System.Drawing.Point(6, 19);
+            this.timelineFilter.Name = "timelineFilter";
+            this.timelineFilter.Size = new System.Drawing.Size(337, 21);
+            this.timelineFilter.TabIndex = 2;
+            this.timelineFilter.SelectedValueChanged += new System.EventHandler(this.PacketTimeLineFilter_ValueChanged);
             // 
-            // tabContoler
+            // packetInfoTable
             // 
-            this.tabContoler.Controls.Add(this.tabInfo);
-            this.tabContoler.Location = new System.Drawing.Point(361, 6);
-            this.tabContoler.Name = "tabContoler";
-            this.tabContoler.SelectedIndex = 0;
-            this.tabContoler.Size = new System.Drawing.Size(875, 613);
-            this.tabContoler.TabIndex = 4;
-            // 
-            // tabInfo
-            // 
-            this.tabInfo.Controls.Add(this.richTextBox1);
-            this.tabInfo.Controls.Add(this.dataGridViewPacketContent);
-            this.tabInfo.Location = new System.Drawing.Point(4, 22);
-            this.tabInfo.Name = "tabInfo";
-            this.tabInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInfo.Size = new System.Drawing.Size(867, 587);
-            this.tabInfo.TabIndex = 0;
-            this.tabInfo.Text = "Info";
-            this.tabInfo.UseVisualStyleBackColor = true;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(509, 3);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(352, 578);
-            this.richTextBox1.TabIndex = 2;
-            this.richTextBox1.Text = "";
-            // 
-            // dataGridViewPacketContent
-            // 
-            this.dataGridViewPacketContent.AllowUserToAddRows = false;
-            this.dataGridViewPacketContent.AllowUserToDeleteRows = false;
-            this.dataGridViewPacketContent.AllowUserToResizeColumns = false;
-            this.dataGridViewPacketContent.AllowUserToResizeRows = false;
+            this.packetInfoTable.AllowUserToAddRows = false;
+            this.packetInfoTable.AllowUserToDeleteRows = false;
+            this.packetInfoTable.AllowUserToResizeColumns = false;
+            this.packetInfoTable.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -115,9 +80,9 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewPacketContent.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridViewPacketContent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewPacketContent.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { this.Key, this.Data });
+            this.packetInfoTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.packetInfoTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.packetInfoTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { this.Key, this.Data });
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -125,10 +90,10 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewPacketContent.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridViewPacketContent.Location = new System.Drawing.Point(3, 3);
-            this.dataGridViewPacketContent.Name = "dataGridViewPacketContent";
-            this.dataGridViewPacketContent.ReadOnly = true;
+            this.packetInfoTable.DefaultCellStyle = dataGridViewCellStyle2;
+            this.packetInfoTable.Location = new System.Drawing.Point(420, 46);
+            this.packetInfoTable.Name = "packetInfoTable";
+            this.packetInfoTable.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -136,10 +101,10 @@
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewPacketContent.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGridViewPacketContent.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dataGridViewPacketContent.Size = new System.Drawing.Size(500, 578);
-            this.dataGridViewPacketContent.TabIndex = 0;
+            this.packetInfoTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.packetInfoTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.packetInfoTable.Size = new System.Drawing.Size(427, 561);
+            this.packetInfoTable.TabIndex = 0;
             // 
             // Key
             // 
@@ -157,84 +122,68 @@
             this.Data.Name = "Data";
             this.Data.ReadOnly = true;
             // 
-            // packetTimeline
+            // packetInfoText
             // 
-            this.packetTimeline.AllowUserToAddRows = false;
-            this.packetTimeline.AllowUserToDeleteRows = false;
-            this.packetTimeline.AllowUserToResizeColumns = false;
-            this.packetTimeline.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.packetTimeline.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.packetTimeline.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.packetTimeline.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { this.Column1, this.Column2 });
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.packetTimeline.DefaultCellStyle = dataGridViewCellStyle6;
-            this.packetTimeline.Location = new System.Drawing.Point(6, 46);
-            this.packetTimeline.Name = "packetTimeline";
-            this.packetTimeline.ReadOnly = true;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.packetTimeline.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.packetTimeline.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.packetTimeline.Size = new System.Drawing.Size(337, 561);
-            this.packetTimeline.TabIndex = 6;
-            this.packetTimeline.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
-            this.packetTimeline.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_Focus_TimeLine);
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Column1.HeaderText = "Pos.";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column1.Width = 34;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column2.HeaderText = "Type";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.packetInfoText.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.packetInfoText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.packetInfoText.Location = new System.Drawing.Point(853, 46);
+            this.packetInfoText.Name = "packetInfoText";
+            this.packetInfoText.ReadOnly = true;
+            this.packetInfoText.Size = new System.Drawing.Size(373, 561);
+            this.packetInfoText.TabIndex = 2;
+            this.packetInfoText.Text = "";
             // 
             // groupBoxTimeLine
             // 
-            this.groupBoxTimeLine.Controls.Add(this.packetTimeline);
-            this.groupBoxTimeLine.Controls.Add(this.comboBox1);
+            this.groupBoxTimeLine.Controls.Add(this.packetTimelineList);
+            this.groupBoxTimeLine.Controls.Add(this.packetInfoText);
+            this.groupBoxTimeLine.Controls.Add(this.packetInfoTable);
+            this.groupBoxTimeLine.Controls.Add(this.timelineFilter);
             this.groupBoxTimeLine.Location = new System.Drawing.Point(6, 6);
             this.groupBoxTimeLine.Name = "groupBoxTimeLine";
-            this.groupBoxTimeLine.Size = new System.Drawing.Size(349, 613);
+            this.groupBoxTimeLine.Size = new System.Drawing.Size(1232, 613);
             this.groupBoxTimeLine.TabIndex = 7;
             this.groupBoxTimeLine.TabStop = false;
             this.groupBoxTimeLine.Text = "Packet Timeline";
+            // 
+            // packetTimelineList
+            // 
+            this.packetTimelineList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { this.type, this.position, this.time });
+            this.packetTimelineList.GridLines = true;
+            this.packetTimelineList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.packetTimelineList.HideSelection = false;
+            this.packetTimelineList.Location = new System.Drawing.Point(6, 46);
+            this.packetTimelineList.Name = "packetTimelineList";
+            this.packetTimelineList.Size = new System.Drawing.Size(408, 561);
+            this.packetTimelineList.TabIndex = 3;
+            this.packetTimelineList.UseCompatibleStateImageBehavior = false;
+            this.packetTimelineList.View = System.Windows.Forms.View.Details;
+            this.packetTimelineList.CacheVirtualItems += new System.Windows.Forms.CacheVirtualItemsEventHandler(this.TimeLine_CacheVirtualItems);
+            this.packetTimelineList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.packetTimelineList_ItemSelectionChanged);
+            this.packetTimelineList.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.TimeLine_RetrieveVirtualItem);
+            this.packetTimelineList.SearchForVirtualItem += new System.Windows.Forms.SearchForVirtualItemEventHandler(this.TimeLine_SearchForVirtualItem);
+            this.packetTimelineList.SelectedIndexChanged += new System.EventHandler(this.packetTimelineList_SelectedIndexChanged);
+            // 
+            // type
+            // 
+            this.type.Text = "Type";
+            this.type.Width = 200;
+            // 
+            // position
+            // 
+            this.position.Text = "Position";
+            this.position.Width = 80;
+            // 
+            // time
+            // 
+            this.time.Text = "Time";
+            this.time.Width = 80;
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(12, 27);
+            this.tabControl1.Location = new System.Drawing.Point(0, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1252, 651);
@@ -243,7 +192,6 @@
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.groupBoxTimeLine);
-            this.tabPage1.Controls.Add(this.tabContoler);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -259,7 +207,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(1244, 625);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Player Info";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // menuStrip1
@@ -283,7 +231,7 @@
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.loadToolStripMenuItem.Text = "Load";
-            this.loadToolStripMenuItem.Click += new System.EventHandler(this.MenuItem_Click_Load);
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.MenuBar_ClickLoad);
             // 
             // View
             // 
@@ -292,14 +240,12 @@
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "View";
             this.Text = "League Packet Reader Tool";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.tabContoler.ResumeLayout(false);
-            this.tabInfo.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPacketContent)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.packetTimeline)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.packetInfoTable)).EndInit();
             this.groupBoxTimeLine.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -309,7 +255,14 @@
             this.PerformLayout();
         }
 
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.ColumnHeader position;
+        private System.Windows.Forms.ColumnHeader type;
+
+        private System.Windows.Forms.ColumnHeader time;
+
+        private System.Windows.Forms.ListView packetTimelineList;
+
+        private System.Windows.Forms.RichTextBox packetInfoText;
 
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
@@ -323,18 +276,9 @@
 
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
-        private System.Windows.Forms.DataGridView dataGridViewPacketContent;
+        private System.Windows.Forms.DataGridView packetInfoTable;
 
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-
-        private System.Windows.Forms.DataGridView packetTimeline;
-
-        private System.Windows.Forms.TabControl tabContoler;
-        private System.Windows.Forms.TabPage tabInfo;
-
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox timelineFilter;
 
         #endregion
     }
