@@ -31,6 +31,8 @@ namespace LPRT.MVVP.View
         public DataGridView PacketInfoTable => packetInfoTable;
         public ListView PacketTimeLine => packetTimelineList;
 
+        public ListBox PlayerList => playerList;
+
         /// <summary>
         /// Menu Bar Load Button Functions
         /// </summary>
@@ -98,6 +100,11 @@ namespace LPRT.MVVP.View
         private void packetTimelineList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             ViewModal.Notify_TimelineEntrySelected(Int32.Parse(e.Item.SubItems[1].Text));
+        }
+
+        private void playerList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ViewModal.Notify_PlayerSelected(playerList.SelectedItem.ToString());
         }
     }
 }

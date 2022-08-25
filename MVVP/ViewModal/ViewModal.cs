@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using LPRT.Interfaces;
 using LPRT.MVVP.Modal;
+using LPRT.MVVP.View;
 using Newtonsoft.Json.Linq;
 
 namespace LPRT.MVVP.ViewModal
@@ -70,7 +71,10 @@ namespace LPRT.MVVP.ViewModal
 
             rawText.Text = Modal.Publish_RawPacketInfo(index);
         }
-        
+        public void Notify_PlayerSelected(string username)
+        {
+            Modal.SelectedPlayer = username;
+        }
         public ListViewItem Request_TimelineEntry(int itemIndex)
         {
             return Modal.Publish_TimelineEntry(itemIndex);
@@ -80,9 +84,23 @@ namespace LPRT.MVVP.ViewModal
         {
             Modal.Publish_CacheRebuild(startIndex,endIndex);
         }
+
+        
         
         
         //FROMMODAL
+        public void Publish_Players()
+        {
+            foreach (var player in Modal.MatchTeams.Players)
+            {
+                View.PlayerList.Items.Add(player.Username);
+            }
+            
+        }
+        public void Publish_PlayerInfo()
+        {
+            //TODO: Add components to display player info.
+        }
         public void Publish_PacketFilters()
         {
             ComboBox timeLineFilter = View.TimelineFilter;
@@ -102,7 +120,7 @@ namespace LPRT.MVVP.ViewModal
 
         public void Reload_PacketTimeline()
         {
-            View.PacketTimeLine.Items.Clear();
+            //View.PacketTimeLine.Items.Clear();
             View.PacketTimeLine.VirtualListSize = Modal.TimeLineSize;
             View.PacketTimeLine.VirtualMode = true;
             View.PacketTimeLine.Refresh();
@@ -126,6 +144,12 @@ namespace LPRT.MVVP.ViewModal
                     break;
                 case "FilteredPacketTimeLine":
                     //Reload_PacketTimeline();
+                    break;
+                case "MatchTeams":
+                    Publish_Players();
+                    break;
+                case "SelectedPlayer":
+                    Publish_PlayerInfo();
                     break;
                 default:
                     break;

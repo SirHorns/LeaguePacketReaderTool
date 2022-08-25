@@ -17,6 +17,7 @@ namespace LPRT.MVVP.Modal
     {
         private string _filePath;
         private string _timelineFilter;
+        private string _selectedPlayer;
         private List<string> _packetTypes;
         
         private List<string> _jsons = new List<string>();
@@ -70,6 +71,17 @@ namespace LPRT.MVVP.Modal
                 OnPropertyChanged();
             }
         }
+
+        public string SelectedPlayer
+        {
+            get => _selectedPlayer;
+            set
+            {
+                _selectedPlayer = value;
+                OnPropertyChanged();
+            }
+        }
+
         public List<ListViewItem> FilteredTimelineCache
         {
             get => _filteredTimelineCache;
@@ -85,6 +97,16 @@ namespace LPRT.MVVP.Modal
             set
             {
                 _timelineCache = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Teams MatchTeams
+        {
+            get => _matchTeams;
+            set
+            {
+                _matchTeams = value;
                 OnPropertyChanged();
             }
         }
@@ -130,17 +152,19 @@ namespace LPRT.MVVP.Modal
             }
             
             LoadPacketTypes();
+            LoadPlayerInfo();
         }
         private async void LoadPacketTypes()
         {
             PacketTypes = await Task.Run(() => {
                 var bag = new ConcurrentBag<string>();
                 
+                
                 Parallel.ForEach(_jsons, str =>
                 {
                     new ParallelOptions
                     {
-                        MaxDegreeOfParallelism = Convert.ToInt32(Math.Ceiling((Environment.ProcessorCount * 0.15) * 2.0))
+                        MaxDegreeOfParallelism = Convert.ToInt32(Math.Ceiling((Environment.ProcessorCount * 0.05) * 2.0))
                     };
                     
                     using (StringReader sr  = new StringReader(str))
@@ -148,26 +172,54 @@ namespace LPRT.MVVP.Modal
                     {
                         var token = _serializer.Deserialize(reader);
                         JObject jobj = token as JObject;
-                    
-                        //Packet-Types
+                        
                         string packetType = GetPacketName(jobj["Packet"]["$type"].ToString());
                     
-                        if (!bag.Contains(packetType)) bag.Add(packetType);  
-                        
-                        //Player-Info
-                        if (packetType.Equals("S2C_CreateHero"))
-                        {
-                            _matchTeams.AddPlayer(new Player(jobj["Packet"]["Name"].ToString(), jobj["Packet"]["NetID"].ToString(), 
-                                jobj["Packet"]["ClientID"].ToString(), Boolean.Parse(jobj["Packet"]["TeamIsOrder"].ToString()), 
-                                jobj["Packet"]["Skin"].ToString(), jobj["Packet"]["SkinID"].ToString()));
-                        }
+                        if (!bag.Contains(packetType)) bag.Add(packetType);
                     }  
                 });
+                
                 List<string> pTypes = bag.ToList();
                 pTypes.Sort();
                 return pTypes;
             });
         }
+        private async void LoadPlayerInfo()
+        {
+            MatchTeams = await Task.Run(() =>
+            {
+                var bag = new ConcurrentBag<Player>();
+
+                Parallel.ForEach(_jsons, str =>
+                {
+                    new ParallelOptions
+                    {
+                        MaxDegreeOfParallelism = Convert.ToInt32(Math.Ceiling((Environment.ProcessorCount * 0.15) * 2.0))
+                    };
+
+                    if (str.Contains("S2C_CreateHero"))
+                    {
+                        using (StringReader sr = new StringReader(str))
+                        using (JsonReader reader = new JsonTextReader(sr))
+                        {
+                            var token = _serializer.Deserialize(reader);
+                            JObject jobj = token as JObject;
+
+                            bag.Add(new Player(jobj["Packet"]["Name"].ToString(), jobj["Packet"]["NetID"].ToString(),
+                                jobj["Packet"]["ClientID"].ToString(),
+                                Boolean.Parse(jobj["Packet"]["TeamIsOrder"].ToString()),
+                                jobj["Packet"]["Skin"].ToString(), jobj["Packet"]["SkinID"].ToString()));
+                        }
+                    }
+                });
+
+                List<Player> players = bag.ToList();
+                Teams tempTeams = new Teams();
+                tempTeams.Players = players;
+                return tempTeams;
+            });
+        }
+        
 
         private void FilterTimeLineCache()
         {
@@ -217,6 +269,11 @@ namespace LPRT.MVVP.Modal
             }
 
             return data;
+        }
+
+        public Player Publish_PlayerInfo(string username)
+        {
+            return _matchTeams.GetPlayerByUserName(username);
         }
         
         public string Publish_RawPacketInfo(int index)

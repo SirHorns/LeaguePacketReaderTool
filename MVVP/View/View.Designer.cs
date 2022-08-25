@@ -43,10 +43,15 @@
             this.position = new System.Windows.Forms.ColumnHeader();
             this.time = new System.Windows.Forms.ColumnHeader();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.timeline = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.info = new System.Windows.Forms.TabPage();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.playerList = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.advancedFilter = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,11 +59,14 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.packetInfoTable)).BeginInit();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.timeline.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.info.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -176,27 +184,27 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.timeline);
+            this.tabControl1.Controls.Add(this.info);
+            this.tabControl1.Controls.Add(this.advancedFilter);
             this.tabControl1.Location = new System.Drawing.Point(0, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1252, 651);
             this.tabControl1.TabIndex = 8;
             // 
-            // tabPage1
+            // timeline
             // 
-            this.tabPage1.Controls.Add(this.timelineFilter);
-            this.tabPage1.Controls.Add(this.splitContainer1);
-            this.tabPage1.Controls.Add(this.packetTimelineList);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1244, 625);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Timeline";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.timeline.Controls.Add(this.timelineFilter);
+            this.timeline.Controls.Add(this.splitContainer1);
+            this.timeline.Controls.Add(this.packetTimelineList);
+            this.timeline.Location = new System.Drawing.Point(4, 22);
+            this.timeline.Name = "timeline";
+            this.timeline.Padding = new System.Windows.Forms.Padding(3);
+            this.timeline.Size = new System.Drawing.Size(1244, 625);
+            this.timeline.TabIndex = 0;
+            this.timeline.Text = "Timeline";
+            this.timeline.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
             // 
@@ -214,25 +222,75 @@
             this.splitContainer1.SplitterDistance = 415;
             this.splitContainer1.TabIndex = 0;
             // 
+            // info
+            // 
+            this.info.Controls.Add(this.tabControl2);
+            this.info.Location = new System.Drawing.Point(4, 22);
+            this.info.Name = "info";
+            this.info.Padding = new System.Windows.Forms.Padding(3);
+            this.info.Size = new System.Drawing.Size(1244, 625);
+            this.info.TabIndex = 2;
+            this.info.Text = "Info";
+            this.info.UseVisualStyleBackColor = true;
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tabPage1);
+            this.tabControl2.Controls.Add(this.tabPage2);
+            this.tabControl2.Location = new System.Drawing.Point(8, 6);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(600, 400);
+            this.tabControl2.TabIndex = 2;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.playerList);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(592, 374);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Player Info";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // playerList
+            // 
+            this.playerList.FormattingEnabled = true;
+            this.playerList.Location = new System.Drawing.Point(6, 23);
+            this.playerList.Name = "playerList";
+            this.playerList.Size = new System.Drawing.Size(100, 134);
+            this.playerList.Sorted = true;
+            this.playerList.TabIndex = 0;
+            this.playerList.SelectedIndexChanged += new System.EventHandler(this.playerList_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(6, 3);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 17);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Players:";
+            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1244, 625);
+            this.tabPage2.Size = new System.Drawing.Size(592, 374);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Player Info";
+            this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
+            // advancedFilter
             // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1244, 625);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Packet Stats";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.advancedFilter.Location = new System.Drawing.Point(4, 22);
+            this.advancedFilter.Name = "advancedFilter";
+            this.advancedFilter.Size = new System.Drawing.Size(1244, 625);
+            this.advancedFilter.TabIndex = 3;
+            this.advancedFilter.Text = "Advanced Filter";
+            this.advancedFilter.UseVisualStyleBackColor = true;
             // 
             // menuStrip1
             // 
@@ -257,7 +315,7 @@
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -271,7 +329,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             // 
             // View
@@ -288,23 +346,35 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.packetInfoTable)).EndInit();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.timeline.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.info.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
 
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+
+        private System.Windows.Forms.ListBox playerList;
+
+        private System.Windows.Forms.TabPage advancedFilter;
+
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage info;
 
         private System.Windows.Forms.SplitContainer splitContainer1;
 
@@ -318,8 +388,7 @@
         private System.Windows.Forms.RichTextBox packetInfoText;
 
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage timeline;
         private System.Windows.Forms.MenuStrip menuStrip1;
 
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
