@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -20,11 +21,11 @@ namespace LPRT.MVVP.Modal
         private string _selectedPlayer;
         private List<string> _packetTypes;
         
-        private List<string> _jsons = new List<string>();
+        private List<string> _jsonStrings = new List<string>();
         private Teams _matchTeams = new Teams();
         
         private List<ListViewItem> _timelineCache;
-        private List<ListViewItem> _tempTimelineCache;
+        private List<ListViewItem> _backupTimelineCache;
         private List<ListViewItem> _filteredTimelineCache;
         private int _cacheFirstIndex; //stores the index of the first item in the cache
 
@@ -125,7 +126,7 @@ namespace LPRT.MVVP.Modal
                     int index = 0;
                     
                     TimelineCache = await Task.Run(() => {
-                        List<ListViewItem> tempList = new List<ListViewItem>();
+                        List<ListViewItem> tempTimeline = new List<ListViewItem>();
                         
                         while (reader.Read())
                         { 
@@ -133,16 +134,16 @@ namespace LPRT.MVVP.Modal
                             {
                                 var t = _serializer.Deserialize(reader);
                                 JObject jObject = (JObject)t;
-                                _jsons.Add(jObject.ToString());
-                                tempList.Add(new ListViewItem(new[] { GetPacketName(jObject["Packet"]["$type"].ToString()), index.ToString(), jObject["Time"].ToString() }));
+                                _jsonStrings.Add(jObject.ToString());
+                                tempTimeline.Add(new ListViewItem(new[] { GetPacketName(jObject["Packet"]["$type"].ToString()), index.ToString(), jObject["Time"].ToString() }));
                             }
                             index++;
                         }
                         
-                        TimeLineSize = tempList.Count;
-                        return tempList;
+                        TimeLineSize = tempTimeline.Count;
+                        return tempTimeline;
                     });
-                    _tempTimelineCache = TimelineCache;
+                    _backupTimelineCache = TimelineCache;
                 }
                 catch (Exception e)
                 {
@@ -151,8 +152,8 @@ namespace LPRT.MVVP.Modal
                 }
             }
             
-            LoadPacketTypes();
-            LoadPlayerInfo();
+            Parse_PlayerInfo();
+            Parse_NetIDInfo();
         }
         private async void LoadPacketTypes()
         {
@@ -160,7 +161,7 @@ namespace LPRT.MVVP.Modal
                 var bag = new ConcurrentBag<string>();
                 
                 
-                Parallel.ForEach(_jsons, str =>
+                Parallel.ForEach(_jsonStrings, str =>
                 {
                     new ParallelOptions
                     {
@@ -184,17 +185,17 @@ namespace LPRT.MVVP.Modal
                 return pTypes;
             });
         }
-        private async void LoadPlayerInfo()
+        private async void Parse_PlayerInfo()
         {
             MatchTeams = await Task.Run(() =>
             {
                 var bag = new ConcurrentBag<Player>();
 
-                Parallel.ForEach(_jsons, str =>
+                Parallel.ForEach(_jsonStrings, str =>
                 {
                     new ParallelOptions
                     {
-                        MaxDegreeOfParallelism = Convert.ToInt32(Math.Ceiling((Environment.ProcessorCount * 0.15) * 2.0))
+                        MaxDegreeOfParallelism = Convert.ToInt32(Math.Ceiling((Environment.ProcessorCount * 0.15)))
                     };
 
                     if (str.Contains("S2C_CreateHero"))
@@ -219,19 +220,37 @@ namespace LPRT.MVVP.Modal
                 return tempTeams;
             });
         }
-        
 
+        private async void Parse_NetIDInfo()
+        {
+            await Task.Run(() =>
+            {
+                var bag = new ConcurrentBag<Player>();
+
+                Parallel.ForEach(_jsonStrings, str =>
+                {
+                    new ParallelOptions
+                    {
+                        MaxDegreeOfParallelism = Convert.ToInt32(Math.Ceiling((Environment.ProcessorCount * 0.15)))
+                    };
+
+                    //TODO: Pull and store all NetIDs present within the match.            
+                });
+            });
+        }
         private void FilterTimeLineCache()
         {
+            if(_timelineCache == null) return;
+            
             if (TimelineFilter.Equals("All Packets"))
             {
-                TimeLineSize = _tempTimelineCache.Count;
-                TimelineCache = _tempTimelineCache;
+                TimeLineSize = _backupTimelineCache.Count;
+                TimelineCache = _backupTimelineCache;
             }
             else
             { 
                 List<ListViewItem> temp = new List<ListViewItem>(); 
-                foreach (var item in _tempTimelineCache) 
+                foreach (var item in _backupTimelineCache) 
                 {
                   if (TimelineFilter.Equals(item.SubItems[0].Text))
                   {
@@ -253,7 +272,7 @@ namespace LPRT.MVVP.Modal
             index -= 1;
             List<string[]> data = new List<string[]>();
 
-            using (StringReader sr  = new StringReader(_jsons[index]))
+            using (StringReader sr  = new StringReader(_jsonStrings[index]))
             using (JsonReader reader = new JsonTextReader(sr))
             {
                 var token = _serializer.Deserialize(reader);
@@ -279,7 +298,7 @@ namespace LPRT.MVVP.Modal
         public string Publish_RawPacketInfo(int index)
         {
             index -= 1;
-            return _jsons[index];
+            return _jsonStrings[index];
         }
 
         //Virtual-TimeLine

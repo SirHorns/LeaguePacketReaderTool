@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using LPRT.Interfaces;
-using LPRT.MVVP.Modal;
 using LPRT.MVVP.View;
-using Newtonsoft.Json.Linq;
 
 namespace LPRT.MVVP.ViewModal
 {
@@ -95,11 +90,20 @@ namespace LPRT.MVVP.ViewModal
             {
                 View.PlayerList.Items.Add(player.Username);
             }
-            
+
+            View.PlayerList.SelectedIndex = 0;
         }
         public void Publish_PlayerInfo()
         {
             //TODO: Add components to display player info.
+            Player p = Modal.MatchTeams.GetPlayerByUserName(Modal.SelectedPlayer);
+            View.PlayerInfo.Rows.Clear();
+            View.PlayerInfo.Rows.Add("Username", p.Username);
+            View.PlayerInfo.Rows.Add("ClientId", p.ClientId);
+            View.PlayerInfo.Rows.Add("NetId", p.NetId);
+            View.PlayerInfo.Rows.Add("Team", p.Team);
+            View.PlayerInfo.Rows.Add("Champion", p.Champion);
+            View.PlayerInfo.Rows.Add("SkinId", p.SkinId);
         }
         public void Publish_PacketFilters()
         {
@@ -133,7 +137,7 @@ namespace LPRT.MVVP.ViewModal
             switch (e.PropertyName)
             {
                 case "PacketTypes":
-                    Publish_PacketFilters();
+                    //Publish_PacketFilters();
                     break;
                 case "PacketTimeline":
                     break;

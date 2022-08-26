@@ -80,6 +80,7 @@
     <Compile Include="Interfaces\IViewCommands.cs" />
     <Compile Include="MVVP\Modal\Modal.cs" />
     <Compile Include="MVVP\Modal\PacketTimeLineEntry.cs" />
+    <Compile Include="MVVP\Modal\PacketTypes.cs" />
     <Compile Include="MVVP\Modal\Player.cs" />
     <Compile Include="MVVP\Modal\Teams.cs" />
     <Compile Include="MVVP\Modal\Team.cs" />
