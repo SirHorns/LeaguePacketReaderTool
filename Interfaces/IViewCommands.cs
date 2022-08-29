@@ -6,10 +6,12 @@ namespace LPRT.Interfaces
     public interface IViewCommands
     {
         //Notify
-        void Notify_FileSelected(string path);
-        void Notify_FilterSelected(string filter);
-        void Notify_TimelineEntrySelected(int index);
-        void Notify_PlayerSelected(string username);
+        void SelectedFile(string path);
+        void SelectedTimelineFilter(string filter);
+        void SelectedTimelineEntry(int index);
+        void SelectedPlayer(string username);
+        void SelectedNetID(string netID);
+        void SelectSentRecieve(string status);
         
         //Request
         ListViewItem Request_TimelineEntry(int itemIndex);

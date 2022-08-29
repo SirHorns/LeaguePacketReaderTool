@@ -44,24 +44,21 @@
             this.time = new System.Windows.Forms.ColumnHeader();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.timeline = new System.Windows.Forms.TabPage();
+            this.timelineSentRecieve = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.timelineNetEntity = new System.Windows.Forms.ComboBox();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.timelinePlayerSelect = new System.Windows.Forms.ComboBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.info = new System.Windows.Forms.TabPage();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.playerInfo = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.playerList = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.advancedFilter = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,8 +74,6 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.info.SuspendLayout();
-            this.tabControl2.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.playerInfo)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -90,7 +85,7 @@
             this.timelineFilter.FormattingEnabled = true;
             this.timelineFilter.Location = new System.Drawing.Point(81, 7);
             this.timelineFilter.Name = "timelineFilter";
-            this.timelineFilter.Size = new System.Drawing.Size(195, 21);
+            this.timelineFilter.Size = new System.Drawing.Size(208, 21);
             this.timelineFilter.TabIndex = 2;
             this.timelineFilter.SelectedValueChanged += new System.EventHandler(this.PacketTimeLineFilter_ValueChanged);
             // 
@@ -171,7 +166,7 @@
             this.packetTimelineList.HideSelection = false;
             this.packetTimelineList.Location = new System.Drawing.Point(3, 3);
             this.packetTimelineList.Name = "packetTimelineList";
-            this.packetTimelineList.Size = new System.Drawing.Size(379, 554);
+            this.packetTimelineList.Size = new System.Drawing.Size(379, 462);
             this.packetTimelineList.TabIndex = 3;
             this.packetTimelineList.UseCompatibleStateImageBehavior = false;
             this.packetTimelineList.View = System.Windows.Forms.View.Details;
@@ -179,7 +174,6 @@
             this.packetTimelineList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.packetTimelineList_ItemSelectionChanged);
             this.packetTimelineList.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.TimeLine_RetrieveVirtualItem);
             this.packetTimelineList.SearchForVirtualItem += new System.Windows.Forms.SearchForVirtualItemEventHandler(this.TimeLine_SearchForVirtualItem);
-            this.packetTimelineList.SelectedIndexChanged += new System.EventHandler(this.packetTimelineList_SelectedIndexChanged);
             // 
             // type
             // 
@@ -209,7 +203,10 @@
             // 
             // timeline
             // 
+            this.timeline.Controls.Add(this.timelineSentRecieve);
             this.timeline.Controls.Add(this.label2);
+            this.timeline.Controls.Add(this.label3);
+            this.timeline.Controls.Add(this.timelineNetEntity);
             this.timeline.Controls.Add(this.tabControl3);
             this.timeline.Controls.Add(this.timelineFilter);
             this.timeline.Controls.Add(this.splitContainer1);
@@ -221,6 +218,16 @@
             this.timeline.Text = "Timeline";
             this.timeline.UseVisualStyleBackColor = true;
             // 
+            // timelineSentRecieve
+            // 
+            this.timelineSentRecieve.FormattingEnabled = true;
+            this.timelineSentRecieve.Items.AddRange(new object[] { "Sent/Received", "Sent", "Received" });
+            this.timelineSentRecieve.Location = new System.Drawing.Point(189, 34);
+            this.timelineSentRecieve.Name = "timelineSentRecieve";
+            this.timelineSentRecieve.Size = new System.Drawing.Size(100, 21);
+            this.timelineSentRecieve.TabIndex = 3;
+            this.timelineSentRecieve.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
+            // 
             // label2
             // 
             this.label2.Location = new System.Drawing.Point(6, 6);
@@ -230,14 +237,32 @@
             this.label2.Text = "PacketType:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(6, 35);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(69, 20);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Net Entity: ";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // timelineNetEntity
+            // 
+            this.timelineNetEntity.FormattingEnabled = true;
+            this.timelineNetEntity.Location = new System.Drawing.Point(81, 34);
+            this.timelineNetEntity.Name = "timelineNetEntity";
+            this.timelineNetEntity.Size = new System.Drawing.Size(102, 21);
+            this.timelineNetEntity.TabIndex = 1;
+            this.timelineNetEntity.SelectedValueChanged += new System.EventHandler(this.timelinePlayerSelect_SelectedValueChanged);
+            // 
             // tabControl3
             // 
             this.tabControl3.Controls.Add(this.tabPage3);
             this.tabControl3.Controls.Add(this.tabPage4);
-            this.tabControl3.Location = new System.Drawing.Point(8, 34);
+            this.tabControl3.Location = new System.Drawing.Point(8, 126);
             this.tabControl3.Name = "tabControl3";
             this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(393, 586);
+            this.tabControl3.Size = new System.Drawing.Size(393, 494);
             this.tabControl3.TabIndex = 10;
             // 
             // tabPage3
@@ -246,50 +271,21 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(385, 560);
+            this.tabPage3.Size = new System.Drawing.Size(385, 468);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Timeline";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.comboBox1);
-            this.tabPage4.Controls.Add(this.label3);
-            this.tabPage4.Controls.Add(this.timelinePlayerSelect);
             this.tabPage4.Controls.Add(this.listView1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(385, 560);
+            this.tabPage4.Size = new System.Drawing.Size(385, 468);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Sender";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] { "Sent/Received", "Sent", "Received" });
-            this.comboBox1.Location = new System.Drawing.Point(225, 11);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(100, 21);
-            this.comboBox1.TabIndex = 3;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(6, 10);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(57, 20);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "NetClient: ";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // timelinePlayerSelect
-            // 
-            this.timelinePlayerSelect.FormattingEnabled = true;
-            this.timelinePlayerSelect.Location = new System.Drawing.Point(69, 11);
-            this.timelinePlayerSelect.Name = "timelinePlayerSelect";
-            this.timelinePlayerSelect.Size = new System.Drawing.Size(150, 21);
-            this.timelinePlayerSelect.TabIndex = 1;
             // 
             // listView1
             // 
@@ -320,7 +316,9 @@
             // 
             // info
             // 
-            this.info.Controls.Add(this.tabControl2);
+            this.info.Controls.Add(this.playerInfo);
+            this.info.Controls.Add(this.playerList);
+            this.info.Controls.Add(this.label1);
             this.info.Location = new System.Drawing.Point(4, 22);
             this.info.Name = "info";
             this.info.Padding = new System.Windows.Forms.Padding(3);
@@ -328,29 +326,6 @@
             this.info.TabIndex = 2;
             this.info.Text = "Info";
             this.info.UseVisualStyleBackColor = true;
-            // 
-            // tabControl2
-            // 
-            this.tabControl2.Controls.Add(this.tabPage1);
-            this.tabControl2.Controls.Add(this.tabPage2);
-            this.tabControl2.Location = new System.Drawing.Point(8, 6);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(483, 613);
-            this.tabControl2.TabIndex = 2;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.playerInfo);
-            this.tabPage1.Controls.Add(this.playerList);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(475, 587);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Player Info";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // playerInfo
             // 
@@ -361,7 +336,7 @@
             this.playerInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.playerInfo.ColumnHeadersVisible = false;
             this.playerInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { this.Column1, this.Column2 });
-            this.playerInfo.Location = new System.Drawing.Point(112, 23);
+            this.playerInfo.Location = new System.Drawing.Point(114, 24);
             this.playerInfo.Name = "playerInfo";
             this.playerInfo.ReadOnly = true;
             this.playerInfo.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
@@ -387,7 +362,7 @@
             // playerList
             // 
             this.playerList.FormattingEnabled = true;
-            this.playerList.Location = new System.Drawing.Point(6, 23);
+            this.playerList.Location = new System.Drawing.Point(8, 24);
             this.playerList.Name = "playerList";
             this.playerList.Size = new System.Drawing.Size(100, 225);
             this.playerList.Sorted = true;
@@ -396,21 +371,11 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(6, 3);
+            this.label1.Location = new System.Drawing.Point(8, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 17);
+            this.label1.Size = new System.Drawing.Size(100, 18);
             this.label1.TabIndex = 1;
             this.label1.Text = "Players:";
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(475, 587);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Buffs";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // advancedFilter
             // 
@@ -471,8 +436,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.info.ResumeLayout(false);
-            this.tabControl2.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.playerInfo)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -480,11 +443,11 @@
             this.PerformLayout();
         }
 
-        private System.Windows.Forms.ComboBox timelinePlayerSelect;
+        private System.Windows.Forms.ComboBox timelineNetEntity;
 
         private System.Windows.Forms.Label label3;
 
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox timelineSentRecieve;
         private System.Windows.Forms.Label label2;
 
         private System.Windows.Forms.ListView listView1;
@@ -499,9 +462,6 @@
         private System.Windows.Forms.DataGridView playerInfo;
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TabControl tabControl2;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
 
         private System.Windows.Forms.ListBox playerList;
 

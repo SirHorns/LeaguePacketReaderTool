@@ -44,17 +44,17 @@ namespace LPRT.MVVP.ViewModal
 
 
         #region Event-From-View
-
-        public void Notify_FileSelected(string path)
+        //Timelinne
+        public void SelectedFile(string path)
         {
             _modal.FilePath = path;
         }
-        public void Notify_FilterSelected(string filter)
+        public void SelectedTimelineFilter(string filter)
         {
             PacketFilter = filter;
             Modal.TimelineFilter = filter;
         }
-        public void Notify_TimelineEntrySelected(int index)
+        public void SelectedTimelineEntry(int index)
         {
             DataGridView table = View.PacketInfoTable;
             RichTextBox rawText = View.PacketInfoText;
@@ -68,7 +68,18 @@ namespace LPRT.MVVP.ViewModal
 
             rawText.Text = Modal.GetRawPacketInfo(index);
         }
-        public void Notify_PlayerSelected(string username)
+
+        public void SelectedNetID(string filter)
+        {
+            
+        }
+
+        public void SelectSentRecieve(string status)
+        {
+            
+        }
+        //
+        public void SelectedPlayer(string username)
         {
             Modal.SelectedPlayer = username;
         }

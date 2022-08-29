@@ -111,7 +111,7 @@ namespace LPRT.MVVP.View
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    _viewModal.Notify_FileSelected(openFileDialog.FileName);
+                    _viewModal.SelectedFile(openFileDialog.FileName);
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace LPRT.MVVP.View
         /// </summary>
         private void PacketTimeLineFilter_ValueChanged(object sender, EventArgs e)
         {
-            _viewModal.Notify_FilterSelected(timelineFilter.Text);
+            _viewModal.SelectedTimelineFilter(timelineFilter.Text);
         }
 
         #region PacketTimeLine-ListView
@@ -157,19 +157,24 @@ namespace LPRT.MVVP.View
 
         #endregion
 
-        private void packetTimelineList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //ViewModal.Notify_TimelineEntrySelected(Int32.Parse(PacketTimeLine.SelectedItems[0].SubItems[1].Text));
-        }
-
         private void packetTimelineList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            ViewModal.Notify_TimelineEntrySelected(Int32.Parse(e.Item.SubItems[1].Text));
+            ViewModal.SelectedTimelineEntry(Int32.Parse(e.Item.SubItems[1].Text));
         }
 
         private void playerList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ViewModal.Notify_PlayerSelected(playerList.SelectedItem.ToString());
+            ViewModal.SelectedPlayer(playerList.SelectedItem.ToString());
+        }
+
+        private void timelinePlayerSelect_SelectedValueChanged(object sender, EventArgs e)
+        {
+            ViewModal.SelectedNetID(timelineNetEntity.SelectedItem.ToString());
+        }
+
+        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
+        {
+            ViewModal.SelectSentRecieve(timelineNetEntity.SelectedItem.ToString());
         }
     }
 }
