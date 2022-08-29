@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,48 +20,44 @@ namespace LPRT.MVVP.Modal
         private string _filePath;
         private string _timelineFilter;
         private string _selectedPlayer;
-        private List<string> _packetTypes;
         
-        private List<string> _jsonStrings = new List<string>();
+        private List<string> _matchJson = new List<string>();
         private Teams _matchTeams = new Teams();
-        
-        private List<ListViewItem> _timelineCache;
-        private List<ListViewItem> _backupTimelineCache;
-        private List<ListViewItem> _filteredTimelineCache;
-        private int _cacheFirstIndex; //stores the index of the first item in the cache
 
+        private readonly TimelineCache _timeline;
+
+         
+        
         private readonly JsonSerializer _serializer;
         
 
         public Modal()
         {
             _serializer = new JsonSerializer();
+            _timeline = new TimelineCache();
             PropertyChanged += InternalPropertyChanged;
+            
+            
         }
-        
-        
-        
-        public List<string> PacketTypes
-        {
-            get => _packetTypes;
-            private set
-            {
-                if (value.Count() < 0)
-                {
-                    return;
-                }
 
-                _packetTypes = value;
-                OnPropertyChanged();
+
+        public List<string> MatchJson
+        {
+            get => _matchJson;
+            set
+            {
+                _matchJson = value;
+                OnPropertyChanged(nameof(PropertyChanges.JSON_LOADED));
             }
         }
+        
         public string FilePath
         {
             get => _filePath;
             set
             {
                 _filePath = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(PropertyChanges.FILE_PATH));
             }
         }
         public string TimelineFilter
@@ -69,7 +66,7 @@ namespace LPRT.MVVP.Modal
             set
             {
                 _timelineFilter = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(PropertyChanges.TIMELINE_FILTER));
             }
         }
 
@@ -79,26 +76,17 @@ namespace LPRT.MVVP.Modal
             set
             {
                 _selectedPlayer = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(PropertyChanges.PLAYER_SELECTED));
             }
         }
 
-        public List<ListViewItem> FilteredTimelineCache
-        {
-            get => _filteredTimelineCache;
-            set
-            {
-                _filteredTimelineCache = value;
-                OnPropertyChanged();
-            }
-        }
         private List<ListViewItem> TimelineCache
         {
-            get => _timelineCache;
+            get => _timeline.Cache;
             set
             {
-                _timelineCache = value;
-                OnPropertyChanged();
+                _timeline.Cache = value;
+                OnPropertyChanged(nameof(PropertyChanges.TIMELINE_CACHE));
             }
         }
 
@@ -108,14 +96,48 @@ namespace LPRT.MVVP.Modal
             set
             {
                 _matchTeams = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(PropertyChanges.TEAMS));
             }
         }
 
-        public int TimeLineSize { get; private set; } = 50;
+        public int TimeLineSize
+        {
+            get => _timeline.CacheSize; 
+        }
 
 
         //PARSE
+        private async void LoadJson()
+        {
+            using (StreamReader sr = new StreamReader(FilePath))
+            using (JsonReader reader = new JsonTextReader(sr))
+            {
+                try
+                {
+                    MatchJson = await Task.Run(() =>
+                    {
+                        List<string> jsonList = new List<string>();
+                        
+                        while (reader.Read())
+                        { 
+                            if (reader.TokenType == JsonToken.StartObject) 
+                            {
+                                var t = _serializer.Deserialize(reader);
+                                JObject jObject = (JObject)t;
+                                jsonList.Add(jObject.ToString());
+                            }
+                        }
+                        
+                        return jsonList;
+                    });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+        }
         private async void LoadCache()
         {
             using (StreamReader sr = new StreamReader(FilePath))
@@ -126,7 +148,7 @@ namespace LPRT.MVVP.Modal
                     int index = 0;
                     
                     TimelineCache = await Task.Run(() => {
-                        List<ListViewItem> tempTimeline = new List<ListViewItem>();
+                        List<ListViewItem> tempList = new List<ListViewItem>();
                         
                         while (reader.Read())
                         { 
@@ -134,16 +156,14 @@ namespace LPRT.MVVP.Modal
                             {
                                 var t = _serializer.Deserialize(reader);
                                 JObject jObject = (JObject)t;
-                                _jsonStrings.Add(jObject.ToString());
-                                tempTimeline.Add(new ListViewItem(new[] { GetPacketName(jObject["Packet"]["$type"].ToString()), index.ToString(), jObject["Time"].ToString() }));
+                                tempList.Add(new ListViewItem(new[] { GetPacketName(jObject["Packet"]["$type"].ToString()), index.ToString(), jObject["Time"].ToString() }));
                             }
                             index++;
                         }
                         
-                        TimeLineSize = tempTimeline.Count;
-                        return tempTimeline;
+                        return tempList;
                     });
-                    _backupTimelineCache = TimelineCache;
+                    _timeline.BackupCache = TimelineCache;
                 }
                 catch (Exception e)
                 {
@@ -151,47 +171,17 @@ namespace LPRT.MVVP.Modal
                     throw;
                 }
             }
+
             
-            Parse_PlayerInfo();
-            Parse_NetIDInfo();
         }
-        private async void LoadPacketTypes()
-        {
-            PacketTypes = await Task.Run(() => {
-                var bag = new ConcurrentBag<string>();
-                
-                
-                Parallel.ForEach(_jsonStrings, str =>
-                {
-                    new ParallelOptions
-                    {
-                        MaxDegreeOfParallelism = Convert.ToInt32(Math.Ceiling((Environment.ProcessorCount * 0.05) * 2.0))
-                    };
-                    
-                    using (StringReader sr  = new StringReader(str))
-                    using (JsonReader reader = new JsonTextReader(sr))
-                    {
-                        var token = _serializer.Deserialize(reader);
-                        JObject jobj = token as JObject;
-                        
-                        string packetType = GetPacketName(jobj["Packet"]["$type"].ToString());
-                    
-                        if (!bag.Contains(packetType)) bag.Add(packetType);
-                    }  
-                });
-                
-                List<string> pTypes = bag.ToList();
-                pTypes.Sort();
-                return pTypes;
-            });
-        }
+        
         private async void Parse_PlayerInfo()
         {
             MatchTeams = await Task.Run(() =>
             {
                 var bag = new ConcurrentBag<Player>();
 
-                Parallel.ForEach(_jsonStrings, str =>
+                Parallel.ForEach(_matchJson, str =>
                 {
                     new ParallelOptions
                     {
@@ -227,7 +217,7 @@ namespace LPRT.MVVP.Modal
             {
                 var bag = new ConcurrentBag<Player>();
 
-                Parallel.ForEach(_jsonStrings, str =>
+                Parallel.ForEach(_matchJson, str =>
                 {
                     new ParallelOptions
                     {
@@ -238,41 +228,15 @@ namespace LPRT.MVVP.Modal
                 });
             });
         }
-        private void FilterTimeLineCache()
-        {
-            if(_timelineCache == null) return;
-            
-            if (TimelineFilter.Equals("All Packets"))
-            {
-                TimeLineSize = _backupTimelineCache.Count;
-                TimelineCache = _backupTimelineCache;
-            }
-            else
-            { 
-                List<ListViewItem> temp = new List<ListViewItem>(); 
-                foreach (var item in _backupTimelineCache) 
-                {
-                  if (TimelineFilter.Equals(item.SubItems[0].Text))
-                  {
-                      temp.Add(item);
-                  } 
-                }
-                TimeLineSize = temp.Count; 
-                TimelineCache = temp;
-            }
-        }
-        
-        //NOTIFY
-        
         
 
-        //PUBLISH
-        public List<string[]> Publish_PacketInfo(int index)
+        //GETTERS
+        public List<string[]> GetPacketInfo(int index)
         {
             index -= 1;
             List<string[]> data = new List<string[]>();
 
-            using (StringReader sr  = new StringReader(_jsonStrings[index]))
+            using (StringReader sr  = new StringReader(_matchJson[index]))
             using (JsonReader reader = new JsonTextReader(sr))
             {
                 var token = _serializer.Deserialize(reader);
@@ -290,49 +254,56 @@ namespace LPRT.MVVP.Modal
             return data;
         }
 
-        public Player Publish_PlayerInfo(string username)
-        {
-            return _matchTeams.GetPlayerByUserName(username);
-        }
-        
-        public string Publish_RawPacketInfo(int index)
+        public string GetRawPacketInfo(int index)
         {
             index -= 1;
-            return _jsonStrings[index];
+            return _matchJson[index];
         }
 
-        //Virtual-TimeLine
-        public ListViewItem Publish_TimelineEntry(int itemIndex)
+        //VIRTUALS
+        #region VirtualCalls-Timeline
+        
+        private void FilterTimeLineCache()
         {
-            //Caching is not required but improves performance on large sets.
-            //To leave out caching, don't connect the CacheVirtualItems event 
-            //and make sure myCache is null.
-
-            //check to see if the requested item is currently in the cache
-            if (TimelineCache != null && itemIndex >= _cacheFirstIndex && itemIndex < _cacheFirstIndex + TimelineCache.Count)
+            if(TimelineCache == null) return;
+            
+            if (TimelineFilter.Equals("All_Packets"))
             {
-                //A cache hit, so get the ListViewItem from the cache instead of making a new one.
-                return TimelineCache[itemIndex - _cacheFirstIndex];
+                TimelineCache = _timeline.BackupCache;
             }
+            else
+            { 
+                List<ListViewItem> temp = new List<ListViewItem>(); 
+                foreach (var item in _timeline.BackupCache) 
+                {
+                    if (TimelineFilter.Equals(item.SubItems[0].Text))
+                    {
+                        temp.Add(item);
+                    } 
+                }
+                TimelineCache = temp;
+            }
+        }
 
-            //A cache miss, so create a new ListViewItem and pass it back.
-            return new ListViewItem(new[] { "", "", "" });
+        public ListViewItem GetTimelineEntry(int itemIndex)
+        {
+            return _timeline.GetTimelineEntry(itemIndex);
         }
         
-        public void Publish_CacheRebuild(int startIndex, int endIndex)
+        public void RebuildTimelineCache(int startIndex, int endIndex)
         {
-            //We've gotten a request to refresh the cache.
-            //First check if it's really necessary.
-            if (TimelineCache != null && startIndex >= _cacheFirstIndex && endIndex <= _cacheFirstIndex + TimelineCache.Count)
-            {
-                //If the newly requested cache is a subset of the old cache, 
-                //no need to rebuild everything, so do nothing.
-                return;
-            }
-
-            //Now we need to rebuild the cache.
-            _cacheFirstIndex = startIndex;
+            _timeline.RebuildCache(startIndex,endIndex);
         }
+        
+        #endregion
+
+        #region VirtualCalls-TimelineNetID
+
+        
+
+        #endregion
+        
+        //Helper-Methods
         private string GetPacketName(string packetType)
         {
             var split = packetType.Split('.');
@@ -342,19 +313,22 @@ namespace LPRT.MVVP.Modal
         }
         
         
-        
         //PROPERTY-CHANGES
         private void InternalPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
-                case "FilePath":
+                case nameof(PropertyChanges.FILE_PATH):
+                    LoadJson();
+                    break;
+                case nameof(PropertyChanges.JSON_LOADED):
                     LoadCache();
                     break;
-                case "TimelineCache":
-                    
+                case nameof(PropertyChanges.TIMELINE_CACHE):
+                    Parse_PlayerInfo();
+                    Parse_NetIDInfo();
                     break;
-                case "TimelineFilter":
+                case nameof(PropertyChanges.TIMELINE_FILTER):
                     FilterTimeLineCache();
                     break;
                 case "PacketTypes":

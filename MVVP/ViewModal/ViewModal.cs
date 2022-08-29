@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using LPRT.Interfaces;
+using LPRT.MVVP.Modal;
 using LPRT.MVVP.View;
 
 namespace LPRT.MVVP.ViewModal
@@ -40,9 +41,10 @@ namespace LPRT.MVVP.ViewModal
             get => _packetFilter;
             set => _packetFilter = value;
         }
-        
-        
-        //FROMVIEW
+
+
+        #region Event-From-View
+
         public void Notify_FileSelected(string path)
         {
             _modal.FilePath = path;
@@ -59,33 +61,45 @@ namespace LPRT.MVVP.ViewModal
             
             table.Rows.Clear();
             
-            foreach (var row in Modal.Publish_PacketInfo(index))
+            foreach (var row in Modal.GetPacketInfo(index))
             {
                 table.Rows.Add(row);
             }
 
-            rawText.Text = Modal.Publish_RawPacketInfo(index);
+            rawText.Text = Modal.GetRawPacketInfo(index);
         }
         public void Notify_PlayerSelected(string username)
         {
             Modal.SelectedPlayer = username;
         }
+
+        #endregion
+  
+        
+        #region VirtualCalls-Timeline
+
         public ListViewItem Request_TimelineEntry(int itemIndex)
         {
-            return Modal.Publish_TimelineEntry(itemIndex);
+            return Modal.GetTimelineEntry(itemIndex);
         }
         
         public void Request_RebuildCache(int startIndex, int endIndex)
         {
-            Modal.Publish_CacheRebuild(startIndex,endIndex);
+            Modal.RebuildTimelineCache(startIndex,endIndex);
         }
 
+        #endregion
+
+        #region VirtualCalls-TimelineNetID
+
         
-        
+
+        #endregion
         
         //FROMMODAL
         public void Publish_Players()
         {
+            View.PlayerList.Items.Clear();
             foreach (var player in Modal.MatchTeams.Players)
             {
                 View.PlayerList.Items.Add(player.Username);
@@ -105,23 +119,7 @@ namespace LPRT.MVVP.ViewModal
             View.PlayerInfo.Rows.Add("Champion", p.Champion);
             View.PlayerInfo.Rows.Add("SkinId", p.SkinId);
         }
-        public void Publish_PacketFilters()
-        {
-            ComboBox timeLineFilter = View.TimelineFilter;
-            
-            List<string> packetTypes = Modal.PacketTypes;
-            if (packetTypes == null) packetTypes = new List<string>();
-            packetTypes.Insert(0, "All Packets");
-            timeLineFilter.DataSource = packetTypes;
-            
-            AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
-            foreach (string s in packetTypes)
-            {
-                autoComplete.Add(s);
-            }
-            timeLineFilter.AutoCompleteCustomSource = autoComplete;
-        }
-
+        
         public void Reload_PacketTimeline()
         {
             //View.PacketTimeLine.Items.Clear();
@@ -136,23 +134,13 @@ namespace LPRT.MVVP.ViewModal
         {
             switch (e.PropertyName)
             {
-                case "PacketTypes":
-                    //Publish_PacketFilters();
-                    break;
-                case "PacketTimeline":
-                    break;
-                case "FilteredPacketTimeline":
-                    break;
-                case "TimelineCache":
+                case nameof(PropertyChanges.TIMELINE_CACHE):
                     Reload_PacketTimeline();
                     break;
-                case "FilteredPacketTimeLine":
-                    //Reload_PacketTimeline();
-                    break;
-                case "MatchTeams":
+                case nameof(PropertyChanges.TEAMS):
                     Publish_Players();
                     break;
-                case "SelectedPlayer":
+                case nameof(PropertyChanges.PLAYER_SELECTED):
                     Publish_PlayerInfo();
                     break;
                 default:

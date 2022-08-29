@@ -1,0 +1,1793 @@
+[
+  {
+    "Name": "ChangeSlotSpellData",
+    "Id": "23",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "ChangeSpellData",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_SetAnimStates",
+    "Id": "107",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "AnimationOverrides",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_CreateHero",
+    "Id": "76",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "NetID",
+      "ClientID",
+      "NetNodeID",
+      "SkillLevel",
+      "TeamIsOrder",
+      "IsBot",
+      "BotRank",
+      "SpawnPositionIndex",
+      "SkinID",
+      "Name",
+      "Skin",
+      "DeathDurationRemaining",
+      "TimeSinceDeath",
+      "CreateHeroDeath",
+      "Unknown1",
+      "Unknown2",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_BuffRemove2",
+    "Id": "123",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "BuffSlot",
+      "BuffNameHash",
+      "RunTimeRemove",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_StartGame",
+    "Id": "92",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "EnablePause",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_ToolTipVars",
+    "Id": "127",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Tooltips",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_InstantStop_Attack",
+    "Id": "52",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "MissileNetID",
+      "KeepAnimating",
+      "DestroyMissile",
+      "OverrideVisibility",
+      "IsSummonerSpell",
+      "ForceDoClient",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "ModifyShield",
+    "Id": "102",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Physical",
+      "Magical",
+      "StopShieldFade",
+      "Amount",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "UnitApplyDamage",
+    "Id": "101",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "DamageResultType",
+      "DamageType",
+      "TargetNetID",
+      "SourceNetID",
+      "Damage",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_TeamUpdateDragonBuffCount",
+    "Id": "300",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "TeamIsOrder",
+      "Unknown2",
+      "Count",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_BuffUpdateCount",
+    "Id": "28",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "BuffSlot",
+      "Count",
+      "Duration",
+      "RunningTime",
+      "CasterNetID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "AddRegion",
+    "Id": "35",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "TeamID",
+      "RegionType",
+      "ClientID",
+      "UnitNetID",
+      "BubbleNetID",
+      "VisionTargetNetID",
+      "Position",
+      "TimeToLive",
+      "ColisionRadius",
+      "GrassRadius",
+      "SizeMultiplier",
+      "SizeAdditive",
+      "HasCollision",
+      "GrantVision",
+      "RevealStealth",
+      "BaseRadius",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "OnReplication",
+    "Id": "196",
+    "Channel": "BroadcastUnreliable",
+    "Keys": [
+      "$type",
+      "ID",
+      "SyncID",
+      "ReplicationData",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "World_SendGameNumber",
+    "Id": "146",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "GameID",
+      "SummonerName",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "FX_Kill",
+    "Id": "56",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "NetID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_OnLeaveTeamVisibility",
+    "Id": "225",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "VisibilityTeam",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_StopAnimation",
+    "Id": "41",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Fade",
+      "IgnoreLock",
+      "StopAll",
+      "AnimationName",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_BuffUpdateNumCounter",
+    "Id": "265",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "BuffSlot",
+      "Counter",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "AvatarInfo_Server",
+    "Id": "42",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "ItemIDs",
+      "SummonerIDs",
+      "SummonerIDs2",
+      "Talents",
+      "Level",
+      "WardSkin",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "OnLeaveVisibilityClient",
+    "Id": "81",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "FX_Create_Group",
+    "Id": "135",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "FXCreateGroup",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "SwapItemAns",
+    "Id": "62",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Source",
+      "Destination",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_PlayAnimation",
+    "Id": "176",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "AnimationFlags",
+      "ScaleTime",
+      "StartProgress",
+      "SpeedRatio",
+      "AnimationName",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "Basic_Attack_Pos",
+    "Id": "26",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Attack",
+      "Position",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "OnLeaveLocalVisibilityClient",
+    "Id": "53",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_OnEventWorld",
+    "Id": "69",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "EventWorld",
+      "ID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "BuyItemAns",
+    "Id": "111",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Item",
+      "Bitfield",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "KeyCheckPacket",
+    "Id": "0",
+    "Channel": "Default",
+    "Keys": [
+      "$type",
+      "Action",
+      "ClientID",
+      "PlayerID",
+      "VersionNumber",
+      "CheckSum",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "UpdateLevelPropS2C",
+    "Id": "209",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "UpdateLevelPropData",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_UpgradeSpellAns",
+    "Id": "21",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Slot",
+      "SpellLevel",
+      "SkillPoints",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_BuffAdd2",
+    "Id": "183",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "BuffSlot",
+      "BuffType",
+      "Count",
+      "IsHidden",
+      "BuffNameHash",
+      "PackageHash",
+      "RunningTime",
+      "Duration",
+      "CasterNetID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_OnEnterTeamVisibility",
+    "Id": "224",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "VisibilityTeam",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_InteractiveMusicCommand",
+    "Id": "220",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "MusicCommand",
+      "MusicEventAudioEventID",
+      "MusicParamAudioEventID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_PlayEmote",
+    "Id": "66",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "EmoteID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "ChangeSlotSpellData_OwnerOnly",
+    "Id": "293",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "ChangeSpellData",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_FaceDirection",
+    "Id": "80",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Direction",
+      "DoLerpTime",
+      "LerpTime",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "Dummy",
+    "Id": "0",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_ActivateMinionCamp",
+    "Id": "233",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Position",
+      "SpawnDuration",
+      "CampIndex",
+      "TimerType",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "OnEnterVisibilityClient",
+    "Id": "186",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Packets",
+      "Items",
+      "ShieldValues",
+      "CharacterDataStack",
+      "LookAtNetID",
+      "LookAtType",
+      "LookAtPosition",
+      "BuffCount",
+      "IsHero",
+      "MovementData",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "MissileReplication",
+    "Id": "59",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Position",
+      "CasterPosition",
+      "Direction",
+      "Velocity",
+      "StartPoint",
+      "EndPoint",
+      "UnitPosition",
+      "TimeFromCreation",
+      "Speed",
+      "LifePercentage",
+      "TimedSpeedDelta",
+      "TimedSpeedDeltaTime",
+      "Bounced",
+      "CastInfo",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "SynchSimTimeS2C",
+    "Id": "193",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "SynchTime",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "SynchVersionS2C",
+    "Id": "84",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "VersionMatches",
+      "WriteToClientFile",
+      "MatchedGame",
+      "DradisInit",
+      "MapToLoad",
+      "PlayerInfo",
+      "VersionString",
+      "MapMode",
+      "PlatformID",
+      "Mutators",
+      "MutatorsNum",
+      "OrderRankedTeamName",
+      "OrderRankedTeamTag",
+      "ChaosRankedTeamName",
+      "ChaosRankedTeamTag",
+      "MetricsServerWebAddress",
+      "MetricsServerWebPath",
+      "MetricsServerPort",
+      "DradisProdAddress",
+      "DradisProdResource",
+      "DradisProdPort",
+      "DradisTestAddress",
+      "DradisTestResource",
+      "DradisTestPort",
+      "TipConfig",
+      "GameFeatures",
+      "DisabledItems",
+      "EnabledDradisMessages",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "SetFadeOut_Push",
+    "Id": "178",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "FadeId",
+      "FadeTime",
+      "FadeTargetValue",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "AI_TargetHeroS2C",
+    "Id": "192",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "TargetNetID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_ShowHealthBar",
+    "Id": "206",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "ShowHealthBar",
+      "ChangeHealthBarType",
+      "HealthBarType",
+      "ObserverTeamID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "OnEnterLocalVisibilityClient",
+    "Id": "174",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Packets",
+      "MaxHealth",
+      "Health",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_MessageToClient_Broadcast",
+    "Id": "24",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "BubbleDelay",
+      "SlotNumber",
+      "IsError",
+      "ColorIndex",
+      "FloatTextType",
+      "Message",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "SyncMissionStartTimeS2C",
+    "Id": "194",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "StartTime",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "TeamRosterUpdate",
+    "Id": "103",
+    "Channel": "LoadingScreen",
+    "Keys": [
+      "$type",
+      "ID",
+      "TeamSizeOrder",
+      "TeamSizeChaos",
+      "OrderMembers",
+      "ChaosMembers",
+      "TeamSizeOrderCurrent",
+      "TeamSIzeChaosCurrent",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_FX_OnEnterTeamVisibility",
+    "Id": "226",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "NetID",
+      "VisibilityTeam",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_CastSpellAns",
+    "Id": "181",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "CasterPositionSyncID",
+      "Unknown1",
+      "CastInfo",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_SetCircularMovementRestriction",
+    "Id": "6",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Center",
+      "Radius",
+      "RestrictCamera",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "Barrack_SpawnUnit",
+    "Id": "3",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "ObjectID",
+      "ObjectNodeID",
+      "BarracksNetID",
+      "WaveCount",
+      "MinionType",
+      "DamageBonus",
+      "HealthBonus",
+      "MinionLevel",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_LevelUp",
+    "Id": "63",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Level",
+      "AveliablePoints",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_AmmoUpdate",
+    "Id": "263",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "IsSummonerSpell",
+      "SpellSlot",
+      "CurrentAmmo",
+      "MaxAmmo",
+      "AmmoRecharge",
+      "AmmoRechargeTotalTime",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "UseItemAns",
+    "Id": "159",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Slot",
+      "ItemsInSlot",
+      "SpellCharges",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "RequestRename",
+    "Id": "102",
+    "Channel": "LoadingScreen",
+    "Keys": [
+      "$type",
+      "ID",
+      "PlayerID",
+      "SkinID",
+      "PlayerName",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_MoveCameraToPoint",
+    "Id": "37",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "StartFromCurrentPosition",
+      "UnlockCamera",
+      "StartPosition",
+      "TargetPosition",
+      "TravelTime",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "Chat",
+    "Id": "104",
+    "Channel": "Chat",
+    "Keys": [
+      "$type",
+      "ID",
+      "ClientID",
+      "NetID",
+      "Localized",
+      "ChatType",
+      "Params",
+      "Message",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_DestroyClientMissile",
+    "Id": "90",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_UnitSetMinimapIcon",
+    "Id": "216",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "UnitNetID",
+      "ChangeIcon",
+      "IconCategory",
+      "ChangeBorder",
+      "BorderCategory",
+      "BorderScriptName",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "RequestReskin",
+    "Id": "101",
+    "Channel": "LoadingScreen",
+    "Keys": [
+      "$type",
+      "ID",
+      "PlayerID",
+      "SkinID",
+      "SkinName",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_Die_Broadcast",
+    "Id": "158",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "DeathData",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "SyncSimTimeFinalS2C",
+    "Id": "118",
+    "Channel": "SynchClock",
+    "Keys": [
+      "$type",
+      "ID",
+      "TimeLastClient",
+      "TimeRTTLastOverhead",
+      "TimeConvergance",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_NotifyContextualSituation",
+    "Id": "289",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "SituationNameHash",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_CreateNeutral",
+    "Id": "99",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "NetID",
+      "NetNodeID",
+      "Position",
+      "GroupPosition",
+      "FaceDirectionPosition",
+      "Name",
+      "SkinName",
+      "UniqueName",
+      "SpawnAnimationName",
+      "TeamID",
+      "DamageBonus",
+      "HealthBonus",
+      "MinionRoamState",
+      "GroupNumber",
+      "BuffSideTeamID",
+      "RevealEvent",
+      "InitialLevel",
+      "SpawnDuration",
+      "SpawnTime",
+      "BehaviorTree",
+      "AIscript",
+      "ID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "WaypointGroupWithSpeed",
+    "Id": "100",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "SyncID",
+      "Movements",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_Ping_Load_Info",
+    "Id": "149",
+    "Channel": "BroadcastUnreliable",
+    "Keys": [
+      "$type",
+      "ID",
+      "ConnectionInfo",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_UpdateAttackSpeedCapOverrides",
+    "Id": "288",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "DoOverrideMax",
+      "DoOverrideMin",
+      "MaxAttackSpeedOverride",
+      "MinAttackSpeedOverride",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "RemoveRegion",
+    "Id": "51",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "RegionNetID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_SetAutocast",
+    "Id": "31",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Slot",
+      "CritSlot",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "Basic_Attack",
+    "Id": "12",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Attack",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_StartSpawn",
+    "Id": "98",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "BotCountOrder",
+      "BotCountChaos",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_Die_EventHistory",
+    "Id": "33",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "KillerNetID",
+      "Duration",
+      "EventSourceType",
+      "Entries",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_Neutral_Camp_Empty",
+    "Id": "195",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "KillerNetID",
+      "CampIndex",
+      "TimerType",
+      "TimerExpire",
+      "DoPlayVO",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_SetHoverIndicatorEnabled",
+    "Id": "246",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Enabled",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_PlayVOCommand",
+    "Id": "68",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "CommandID",
+      "TargetID",
+      "HighlightPlayerIcon",
+      "FromPing",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "DampenerSwitchStates",
+    "Id": "43",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "State",
+      "Duration",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "UnitAddEXP",
+    "Id": "16",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "TargetNetID",
+      "ExpAmmount",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_IncrementMinionKills",
+    "Id": "287",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "PlayerNetID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_ChangeMissileSpeed",
+    "Id": "269",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Speed",
+      "Delay",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_EndGame",
+    "Id": "198",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "IsTeamOrderWin",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_SetInventory_MapView",
+    "Id": "295",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Items",
+      "ItemCooldowns",
+      "ItemMaxCooldowns",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_ForceCreateMissile",
+    "Id": "110",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "MissileNetID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "UnitAddGold",
+    "Id": "34",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "TargetNetID",
+      "SourceNetID",
+      "GoldAmmount",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_SetItemCharges",
+    "Id": "253",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Slot",
+      "SpellCharges",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_NeutralMinionTimerUpdate",
+    "Id": "278",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "TypeHash",
+      "Expire",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_TeamSurrenderVote",
+    "Id": "201",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "VoteYes",
+      "OpenVoteMenu",
+      "PlayerNetID",
+      "ForVote",
+      "AgainstVote",
+      "NumPlayers",
+      "TeamID",
+      "TimeOut",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "HeroReincarnateAlive",
+    "Id": "47",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Position",
+      "PARValue",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_NPC_Die_MapView",
+    "Id": "294",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "DeathData",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_ChangeCharacterData",
+    "Id": "151",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Data",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "UpdateGoldRedirectTarget",
+    "Id": "7",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "TargetNetID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_UnitSetSpellPARCost",
+    "Id": "260",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "CostType",
+      "SpellSlot",
+      "Amount",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_TeamSurrenderStatus",
+    "Id": "165",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "SurrenderReason",
+      "ForVote",
+      "AgainstVote",
+      "TeamID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_FX_OnLeaveTeamVisibility",
+    "Id": "227",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "NetID",
+      "VisibilityTeam",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_BuffReplace",
+    "Id": "48",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "BuffSlot",
+      "RunningTime",
+      "Duration",
+      "CasterNetID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_PopCharacterData",
+    "Id": "103",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "PopID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_PauseAnimation",
+    "Id": "113",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Pause",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "CHAR_SpawnPet",
+    "Id": "55",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "OwnerNetID",
+      "NetNodeID",
+      "Position",
+      "CastSpellLevelPlusOne",
+      "Duration",
+      "TeamID",
+      "DamageBonus",
+      "HealthBonus",
+      "Name",
+      "Skin",
+      "SkinID",
+      "BuffName",
+      "CloneID",
+      "CloneInventory",
+      "ShowMinimapIconIfClone",
+      "DisallowPlayerControl",
+      "DoFade",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "AI_TargetS2C",
+    "Id": "106",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "TargetNetID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_ChangeCharacterVoice",
+    "Id": "150",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Unknown1",
+      "VoiceOverride",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "SetFadeOut_Pop",
+    "Id": "50",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "StackID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "OnEvent",
+    "Id": "163",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Event",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_CreateTurret",
+    "Id": "157",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "NetID",
+      "NetNodeID",
+      "Name",
+      "IsTargetable",
+      "IsTargetableToTeamSpellFlags",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_SetInputLockFlag",
+    "Id": "132",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "InputLockFlags",
+      "Value",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_SetSpellData",
+    "Id": "112",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "ObjectNetID",
+      "HashedSpellName",
+      "SpellSlot",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "SpawnMinionS2C",
+    "Id": "124",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "NetID",
+      "OwnerNetID",
+      "NetNodeID",
+      "Position",
+      "SkinID",
+      "CloneNetID",
+      "TeamID",
+      "IgnoreCollision",
+      "IsWard",
+      "IsLaneMinion",
+      "IsBot",
+      "IsTargetable",
+      "IsTargetableToTeamSpellFlags",
+      "VisibilitySize",
+      "Name",
+      "SkinName",
+      "InitialLevel",
+      "OnlyVisibleToNetID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "RemoveItemAns",
+    "Id": "11",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Slot",
+      "ItemsInSlot",
+      "NotifyInventoryChange",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_UpdateDeathTimer",
+    "Id": "279",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "DeathDuration",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_DisableHUDForEndOfGame",
+    "Id": "188",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_SetCanSurrender",
+    "Id": "270",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "CanSurrender",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "ReplayOnly_MultiKillCountUpdate",
+    "Id": "277",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "OwnerNetID",
+      "MultiKillCount",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_Hero_Die",
+    "Id": "94",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "DeathData",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "SpawnLevelPropS2C",
+    "Id": "208",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "NetID",
+      "NetNodeID",
+      "SkinID",
+      "Position",
+      "FacingDirection",
+      "PositionOffset",
+      "Scale",
+      "TeamID",
+      "SkillLevel",
+      "Rank",
+      "Type",
+      "Name",
+      "PropName",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_CloseShop",
+    "Id": "14",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "Building_Die",
+    "Id": "137",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "AttackerNetID",
+      "LastHeroNetID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_CameraBehavior",
+    "Id": "115",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Position",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_SetGreyscaleEnabledWhenDead",
+    "Id": "169",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Enabled",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_CreateMinionCamp",
+    "Id": "290",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "Position",
+      "MinimapIcon",
+      "CampIndex",
+      "RevealAudioVOComponentEvent",
+      "SideTeamID",
+      "TimerType",
+      "Expire",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_FadeOutMainSFX",
+    "Id": "95",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "FadeTime",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "NPC_MessageToClient_MapView",
+    "Id": "296",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "BubbleDelay",
+      "SlotNumber",
+      "IsError",
+      "ColorIndex",
+      "FloatTextType",
+      "Message",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_SetHoverIndicatorTarget",
+    "Id": "245",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "TargetNetID",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  },
+  {
+    "Name": "S2C_FadeMinions",
+    "Id": "203",
+    "Channel": "Broadcast",
+    "Keys": [
+      "$type",
+      "ID",
+      "TeamID",
+      "FadeAmount",
+      "FadeTime",
+      "SenderNetID",
+      "ExtraBytes"
+    ]
+  }
+]

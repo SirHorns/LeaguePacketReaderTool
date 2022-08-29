@@ -90,7 +90,7 @@
             this.timelineFilter.FormattingEnabled = true;
             this.timelineFilter.Location = new System.Drawing.Point(81, 7);
             this.timelineFilter.Name = "timelineFilter";
-            this.timelineFilter.Size = new System.Drawing.Size(318, 21);
+            this.timelineFilter.Size = new System.Drawing.Size(195, 21);
             this.timelineFilter.TabIndex = 2;
             this.timelineFilter.SelectedValueChanged += new System.EventHandler(this.PacketTimeLineFilter_ValueChanged);
             // 
@@ -248,7 +248,7 @@
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(385, 560);
             this.tabPage3.TabIndex = 0;
-            this.tabPage3.Text = "Position";
+            this.tabPage3.Text = "Timeline";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // tabPage4
@@ -336,7 +336,7 @@
             this.tabControl2.Location = new System.Drawing.Point(8, 6);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(600, 400);
+            this.tabControl2.Size = new System.Drawing.Size(483, 613);
             this.tabControl2.TabIndex = 2;
             // 
             // tabPage1
@@ -347,7 +347,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(592, 374);
+            this.tabPage1.Size = new System.Drawing.Size(475, 587);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Player Info";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -361,11 +361,11 @@
             this.playerInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.playerInfo.ColumnHeadersVisible = false;
             this.playerInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { this.Column1, this.Column2 });
-            this.playerInfo.Location = new System.Drawing.Point(112, 52);
+            this.playerInfo.Location = new System.Drawing.Point(112, 23);
             this.playerInfo.Name = "playerInfo";
             this.playerInfo.ReadOnly = true;
             this.playerInfo.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.playerInfo.Size = new System.Drawing.Size(254, 316);
+            this.playerInfo.Size = new System.Drawing.Size(357, 225);
             this.playerInfo.TabIndex = 2;
             // 
             // Column1
@@ -387,16 +387,16 @@
             // playerList
             // 
             this.playerList.FormattingEnabled = true;
-            this.playerList.Location = new System.Drawing.Point(6, 52);
+            this.playerList.Location = new System.Drawing.Point(6, 23);
             this.playerList.Name = "playerList";
-            this.playerList.Size = new System.Drawing.Size(100, 316);
+            this.playerList.Size = new System.Drawing.Size(100, 225);
             this.playerList.Sorted = true;
             this.playerList.TabIndex = 0;
             this.playerList.SelectedIndexChanged += new System.EventHandler(this.playerList_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(6, 32);
+            this.label1.Location = new System.Drawing.Point(6, 3);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 17);
             this.label1.TabIndex = 1;
@@ -407,9 +407,9 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(592, 374);
+            this.tabPage2.Size = new System.Drawing.Size(475, 587);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "NetID Info";
+            this.tabPage2.Text = "Buffs";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // advancedFilter
