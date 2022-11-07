@@ -10,26 +10,26 @@ namespace LPRT.MVVP.ViewModal
 {
     public class ViewModal : IViewCommands, IModalCommands, INotifyPropertyChanged
     {
-        private View.View _view;
+        private View.Window _window;
         private Modal.Modal _modal;
         
         private string _packetFilter;
         
         public event PropertyChangedEventHandler PropertyChanged;
         
-        public ViewModal(View.View view)
+        public ViewModal(View.Window window)
         {
-            View = view;
+            Window = window;
             Modal = new Modal.Modal();
             
             Modal.PropertyChanged += PropertyChanged_Modal;
             PropertyChanged += PropertyChanged_View;
         }
         
-        private View.View View
+        private View.Window Window
         {
-            get => _view;
-            set => _view = value;
+            get => _window;
+            set => _window = value;
         }
         private Modal.Modal Modal
         {
@@ -56,8 +56,8 @@ namespace LPRT.MVVP.ViewModal
         }
         public void SelectedTimelineEntry(int index)
         {
-            DataGridView table = View.PacketInfoTable;
-            RichTextBox rawText = View.PacketInfoText;
+            DataGridView table = Window.PacketInfoTable;
+            RichTextBox rawText = Window.PacketInfoText;
             
             table.Rows.Clear();
             
@@ -110,33 +110,33 @@ namespace LPRT.MVVP.ViewModal
         //FROMMODAL
         public void Publish_Players()
         {
-            View.PlayerList.Items.Clear();
+            Window.PlayerList.Items.Clear();
             foreach (var player in Modal.MatchTeams.Players)
             {
-                View.PlayerList.Items.Add(player.Username);
+                Window.PlayerList.Items.Add(player.Username);
             }
 
-            View.PlayerList.SelectedIndex = 0;
+            Window.PlayerList.SelectedIndex = 0;
         }
         public void Publish_PlayerInfo()
         {
             //TODO: Add components to display player info.
             Player p = Modal.MatchTeams.GetPlayerByUserName(Modal.SelectedPlayer);
-            View.PlayerInfo.Rows.Clear();
-            View.PlayerInfo.Rows.Add("Username", p.Username);
-            View.PlayerInfo.Rows.Add("ClientId", p.ClientId);
-            View.PlayerInfo.Rows.Add("NetId", p.NetId);
-            View.PlayerInfo.Rows.Add("Team", p.Team);
-            View.PlayerInfo.Rows.Add("Champion", p.Champion);
-            View.PlayerInfo.Rows.Add("SkinId", p.SkinId);
+            Window.PlayerInfo.Rows.Clear();
+            Window.PlayerInfo.Rows.Add("Username", p.Username);
+            Window.PlayerInfo.Rows.Add("ClientId", p.ClientId);
+            Window.PlayerInfo.Rows.Add("NetId", p.NetId);
+            Window.PlayerInfo.Rows.Add("Team", p.Team);
+            Window.PlayerInfo.Rows.Add("Champion", p.Champion);
+            Window.PlayerInfo.Rows.Add("SkinId", p.SkinId);
         }
         
         public void Reload_PacketTimeline()
         {
             //View.PacketTimeLine.Items.Clear();
-            View.PacketTimeLine.VirtualListSize = Modal.TimeLineSize;
-            View.PacketTimeLine.VirtualMode = true;
-            View.PacketTimeLine.Refresh();
+            Window.PacketTimeLine.VirtualListSize = Modal.TimeLineSize;
+            Window.PacketTimeLine.VirtualMode = true;
+            Window.PacketTimeLine.Refresh();
         }
 
 

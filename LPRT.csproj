@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -76,33 +77,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssetLoader.cs" />
+    <Compile Include="Enums\PacketTypes.cs" />
+    <Compile Include="Enums\PropertyChanges.cs" />
+    <Compile Include="Enums\TimelineFilters.cs" />
     <Compile Include="Interfaces\IModalCommands.cs" />
     <Compile Include="Interfaces\IViewCommands.cs" />
-    <Compile Include="MVVP\Modal\Cache.cs" />
-    <Compile Include="MVVP\Modal\Enums\PacketTypes.cs" />
-    <Compile Include="MVVP\Modal\Enums\PropertyChanges.cs" />
-    <Compile Include="MVVP\Modal\Enums\TimelineFilters.cs" />
-    <Compile Include="MVVP\Modal\Modal.cs" />
-    <Compile Include="MVVP\Modal\NetIDCache.cs" />
-    <Compile Include="MVVP\Modal\Packet.cs" />
-    <Compile Include="MVVP\Modal\PacketTimeLineEntry.cs" />
-    <Compile Include="MVVP\Modal\Player.cs" />
-    <Compile Include="MVVP\Modal\Teams.cs" />
-    <Compile Include="MVVP\Modal\Team.cs" />
-    <Compile Include="MVVP\Modal\TimelineCache.cs" />
-    <Compile Include="MVVP\ViewModal\ViewModal.cs" />
-    <Compile Include="MVVP\View\View.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MVVP\View\View.Designer.cs">
-      <DependentUpon>View.cs</DependentUpon>
-    </Compile>
+    <Compile Include="PacketTimeline.cs" />
+    <Compile Include="PacketViewer\Cache.cs" />
+    <Compile Include="PacketViewer\MatchReplay.cs" />
+    <Compile Include="PacketViewer\Modal.cs" />
+    <Compile Include="PacketViewer\NetIDCache.cs" />
+    <Compile Include="PacketViewer\ReplayPacket.cs" />
+    <Compile Include="PacketViewer\PacketTimeLineEntry.cs" />
+    <Compile Include="PacketViewer\Player.cs" />
+    <Compile Include="PacketViewer\Team.cs" />
+    <Compile Include="PacketViewer\Teams.cs" />
+    <Compile Include="PacketViewer\TimelineCache.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="MVVP\View\View.resx">
-      <DependentUpon>View.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="Serializer.cs" />
+    <Compile Include="Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window.Designer.cs">
+      <DependentUpon>Window.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModal.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -112,6 +114,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Window.resx">
+      <DependentUpon>Window.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

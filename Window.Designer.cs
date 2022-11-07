@@ -1,6 +1,6 @@
 ﻿namespace LPRT.MVVP.View
 {
-    partial class View
+    partial class Window
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(View));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Window));
             this.timelineFilter = new System.Windows.Forms.ComboBox();
             this.packetInfoTable = new System.Windows.Forms.DataGridView();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,7 +54,7 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.info = new System.Windows.Forms.TabPage();
-            this.playerInfo = new System.Windows.Forms.DataGridView();
+            this.PlayerInfo = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.playerList = new System.Windows.Forms.ListBox();
@@ -74,7 +74,7 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.info.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.playerInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PlayerInfo)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -316,7 +316,7 @@
             // 
             // info
             // 
-            this.info.Controls.Add(this.playerInfo);
+            this.info.Controls.Add(this.PlayerInfo);
             this.info.Controls.Add(this.playerList);
             this.info.Controls.Add(this.label1);
             this.info.Location = new System.Drawing.Point(4, 22);
@@ -329,19 +329,19 @@
             // 
             // playerInfo
             // 
-            this.playerInfo.AllowUserToAddRows = false;
-            this.playerInfo.AllowUserToDeleteRows = false;
-            this.playerInfo.AllowUserToResizeColumns = false;
-            this.playerInfo.AllowUserToResizeRows = false;
-            this.playerInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.playerInfo.ColumnHeadersVisible = false;
-            this.playerInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { this.Column1, this.Column2 });
-            this.playerInfo.Location = new System.Drawing.Point(114, 24);
-            this.playerInfo.Name = "playerInfo";
-            this.playerInfo.ReadOnly = true;
-            this.playerInfo.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.playerInfo.Size = new System.Drawing.Size(357, 225);
-            this.playerInfo.TabIndex = 2;
+            this.PlayerInfo.AllowUserToAddRows = false;
+            this.PlayerInfo.AllowUserToDeleteRows = false;
+            this.PlayerInfo.AllowUserToResizeColumns = false;
+            this.PlayerInfo.AllowUserToResizeRows = false;
+            this.PlayerInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.PlayerInfo.ColumnHeadersVisible = false;
+            this.PlayerInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { this.Column1, this.Column2 });
+            this.PlayerInfo.Location = new System.Drawing.Point(114, 24);
+            this.PlayerInfo.Name = "PlayerInfo";
+            this.PlayerInfo.ReadOnly = true;
+            this.PlayerInfo.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.PlayerInfo.Size = new System.Drawing.Size(357, 225);
+            this.PlayerInfo.TabIndex = 2;
             // 
             // Column1
             // 
@@ -422,9 +422,9 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "View";
+            this.Name = "Window";
             this.Text = "League Packet Reader Tool";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.Window_Load);
             ((System.ComponentModel.ISupportInitialize)(this.packetInfoTable)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.timeline.ResumeLayout(false);
@@ -436,7 +436,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.info.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.playerInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PlayerInfo)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -458,8 +458,6 @@
 
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-
-        private System.Windows.Forms.DataGridView playerInfo;
 
         private System.Windows.Forms.Label label1;
 

@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace LPRT.MVVP.View
 {
-    public partial class View : Form
+    public partial class Window : Form
     {
         /// <summary>
         /// Reference to the ViewModal
@@ -51,9 +51,9 @@ namespace LPRT.MVVP.View
             "UpdateLevelPropS2C", "UseItemAns", "WaypointGroup", "WaypointGroupWithSpeed", "World_SendGameNumber"
         };
 
-        private List<Packet> _packetInfo;
+        //private List<Packet> _packetInfo;
 
-        public View()
+        public Window()
         {
             _viewModal = new ViewModal.ViewModal(this);
 
@@ -65,14 +65,14 @@ namespace LPRT.MVVP.View
             using (StreamReader sr = new StreamReader(st))
             {
                 JsonSerializer serializer = new JsonSerializer();
-                _packetInfo = (List<Packet>)serializer.Deserialize(sr, typeof(List<Packet>));
+                //_packetInfo = (List<Packet>)serializer.Deserialize(sr, typeof(List<Packet>));
             }
 
 
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Window_Load(object sender, EventArgs e)
         {
             AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
             foreach (var item in _packetFilters)
@@ -93,7 +93,7 @@ namespace LPRT.MVVP.View
 
         public DataGridView PacketInfoTable => packetInfoTable;
         public ListView PacketTimeLine => packetTimelineList;
-        public DataGridView PlayerInfo => playerInfo;
+        public DataGridView PlayerInfo { get; private set; }
 
         public ListBox PlayerList => playerList;
 
@@ -102,18 +102,9 @@ namespace LPRT.MVVP.View
         /// </summary>
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.Filter = @"JSON (*.json)|*.json*";
-                openFileDialog.FilterIndex = 1;
-                openFileDialog.RestoreDirectory = true;
-                openFileDialog.Multiselect = false;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    _viewModal.SelectedFile(openFileDialog.FileName);
-                }
-            }
+            var path = AssetLoader.OpenFileDialog();
+            //var result = Serializer.ParseReplayFile(path).Result;
+            _viewModal.SelectedFile(path);
         }
 
         /// <summary>

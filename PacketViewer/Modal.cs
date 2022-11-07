@@ -25,19 +25,14 @@ namespace LPRT.MVVP.Modal
         private Teams _matchTeams = new Teams();
 
         private readonly TimelineCache _timeline;
-
-         
         
         private readonly JsonSerializer _serializer;
         
-
         public Modal()
         {
             _serializer = new JsonSerializer();
             _timeline = new TimelineCache();
             PropertyChanged += InternalPropertyChanged;
-            
-            
         }
 
 
