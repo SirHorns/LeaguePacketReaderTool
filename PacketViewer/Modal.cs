@@ -166,8 +166,6 @@ namespace LPRT.MVVP.Modal
                     throw;
                 }
             }
-
-            
         }
         
         private async void Parse_PlayerInfo()
@@ -254,43 +252,7 @@ namespace LPRT.MVVP.Modal
             index -= 1;
             return _matchJson[index];
         }
-
-        //VIRTUALS
-        #region VirtualCalls-Timeline
         
-        private void FilterTimeLineCache()
-        {
-            if(TimelineCache == null) return;
-            
-            if (TimelineFilter.Equals("All_Packets"))
-            {
-                TimelineCache = _timeline.BackupCache;
-            }
-            else
-            { 
-                List<ListViewItem> temp = new List<ListViewItem>(); 
-                foreach (var item in _timeline.BackupCache) 
-                {
-                    if (TimelineFilter.Equals(item.SubItems[0].Text))
-                    {
-                        temp.Add(item);
-                    } 
-                }
-                TimelineCache = temp;
-            }
-        }
-
-        public ListViewItem GetTimelineEntry(int itemIndex)
-        {
-            return _timeline.GetTimelineEntry(itemIndex);
-        }
-        
-        public void RebuildTimelineCache(int startIndex, int endIndex)
-        {
-            _timeline.RebuildCache(startIndex,endIndex);
-        }
-        
-        #endregion
 
         #region VirtualCalls-TimelineNetID
 
@@ -324,7 +286,6 @@ namespace LPRT.MVVP.Modal
                     Parse_NetIDInfo();
                     break;
                 case nameof(PropertyChanges.TIMELINE_FILTER):
-                    FilterTimeLineCache();
                     break;
                 case "PacketTypes":
                     break;

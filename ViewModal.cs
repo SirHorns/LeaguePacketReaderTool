@@ -8,7 +8,7 @@ using LPRT.MVVP.View;
 
 namespace LPRT.MVVP.ViewModal
 {
-    public class ViewModal : IViewCommands, IModalCommands, INotifyPropertyChanged
+    public class ViewModal : IModalCommands, INotifyPropertyChanged
     {
         private View.Window _window;
         private Modal.Modal _modal;
@@ -85,21 +85,7 @@ namespace LPRT.MVVP.ViewModal
         }
 
         #endregion
-  
         
-        #region VirtualCalls-Timeline
-
-        public ListViewItem Request_TimelineEntry(int itemIndex)
-        {
-            return Modal.GetTimelineEntry(itemIndex);
-        }
-        
-        public void Request_RebuildCache(int startIndex, int endIndex)
-        {
-            Modal.RebuildTimelineCache(startIndex,endIndex);
-        }
-
-        #endregion
 
         #region VirtualCalls-TimelineNetID
 

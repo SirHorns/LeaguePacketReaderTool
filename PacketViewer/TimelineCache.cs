@@ -1,14 +1,18 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace LPRT.MVVP.Modal
 {
-    public class TimelineCache
+    public class TimelineCache : INotifyPropertyChanged
     {
         /// <summary>
         /// Cache that stores the current filtered timeline. 
@@ -22,14 +26,19 @@ namespace LPRT.MVVP.Modal
         /// <summary>
         /// Stores the currently selected filter for which packets should be displayed.
         /// </summary>
-        private string _timelineFilter;
+        private string _filter;
+
+        public string Filter
+        {
+            get => _filter;
+            set {
+                _filter = value; 
+                OnPropertyChanged();
+            }
+        }
 
         private int _cacheSize;
 
-        public TimelineCache()
-        {
-        }
-        
         public List<ListViewItem> Cache
         {
             get => _activeCache;
@@ -37,6 +46,7 @@ namespace LPRT.MVVP.Modal
             {
                 _cacheSize = value.Count;
                 _activeCache = value;
+                OnPropertyChanged(nameof(PropertyChanges.TIMELINE_CACHE));
             }
         }
 
@@ -46,6 +56,44 @@ namespace LPRT.MVVP.Modal
         public List<ListViewItem> BackupCache { get; set; }
 
         public int CacheSize => _cacheSize;
+
+        public TimelineCache()
+        {
+            PropertyChanged += InternalPropertyChanged;
+        }
+
+        public async void PrepareCaches(List<string> packets)
+        {
+            try
+            {
+                BackupCache = await Task.Run(() =>
+                {
+                    int index = 0;
+                    List<ListViewItem> tempCache = new List<ListViewItem>();
+                    
+                    foreach (var packet in packets)
+                    {
+                        JObject jObject = Serializer.ParsePacket(packet);
+                        tempCache.Add(new ListViewItem(new[]
+                        {
+                            PacketUtilities.ParsePacketName(jObject["Packet"]["$type"].ToString()), 
+                            index.ToString(), 
+                            jObject["Time"].ToString()
+                        }));
+                        index++;
+                    }
+
+                    return tempCache;
+                });
+                    
+                Cache = BackupCache;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
         
         //Virtual Methods
         public ListViewItem GetTimelineEntry(int itemIndex)
@@ -78,6 +126,46 @@ namespace LPRT.MVVP.Modal
 
             //Now we need to rebuild the cache.
             _firstIndex = startIndex;
+        }
+        
+        private void FilterTimeLineCache()
+        {
+            if(Cache == null) return;
+            
+            if (Filter.Equals("All_Packets"))
+            {
+                Cache = BackupCache;
+            }
+            else
+            { 
+                List<ListViewItem> temp = new List<ListViewItem>(); 
+                foreach (var item in BackupCache) 
+                {
+                    if (Filter.Equals(item.SubItems[0].Text))
+                    {
+                        temp.Add(item);
+                    } 
+                }
+                Cache = temp;
+            }
+        }
+        
+        
+        //PROPERTY-CHANGES
+        private void InternalPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "Filter":
+                    FilterTimeLineCache();
+                    break;
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

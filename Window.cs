@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using LPRT.Interfaces;
-using LPRT.MVVP.Modal;
+using LPRT.PacketViewer;
 using Newtonsoft.Json;
 
 namespace LPRT.MVVP.View
 {
     public partial class Window : Form
     {
-        /// <summary>
-        /// Reference to the ViewModal
-        /// </summary>
-        private readonly IViewCommands _viewModal;
 
         private List<string> _packetFilters = new List<string>()
         {
@@ -53,25 +50,25 @@ namespace LPRT.MVVP.View
 
         //private List<Packet> _packetInfo;
 
+        public MatchReplay MatchReplay { get; } = new();
         public Window()
         {
-            _viewModal = new ViewModal.ViewModal(this);
+            TimeLineControl = new(this);
 
             //Pull Resource Info
             var assembly = Assembly.GetExecutingAssembly();
             string resourceName = assembly.GetManifestResourceNames().Single(str => str.EndsWith("PacketInfo.json"));
+            
 
             using (Stream st = assembly.GetManifestResourceStream(resourceName))
             using (StreamReader sr = new StreamReader(st))
             {
-                JsonSerializer serializer = new JsonSerializer();
                 //_packetInfo = (List<Packet>)serializer.Deserialize(sr, typeof(List<Packet>));
             }
-
-
+            
             InitializeComponent();
         }
-
+        
         private void Window_Load(object sender, EventArgs e)
         {
             AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
@@ -84,8 +81,7 @@ namespace LPRT.MVVP.View
             timelineFilter.AutoCompleteCustomSource = autoComplete;
             timelineFilter.SelectedIndex = 0;
         }
-
-        public IViewCommands ViewModal => _viewModal;
+        
 
         public ComboBox TimelineFilter => timelineFilter;
 
@@ -97,34 +93,40 @@ namespace LPRT.MVVP.View
 
         public ListBox PlayerList => playerList;
 
+
+        
+        private PacketTimelineControl TimeLineControl {get;}
+
         /// <summary>
         /// Menu Bar Load Button Functions
         /// </summary>
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var path = AssetLoader.OpenFileDialog();
+           var path =AssetLoader.OpenFileDialog();
+            if (path != null)
+            {
+                MatchReplay.FilePath = path;
+                progressBar1.Visible = true;
+            }
+            
             //var result = Serializer.ParseReplayFile(path).Result;
-            _viewModal.SelectedFile(path);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         private void PacketTimeLineFilter_ValueChanged(object sender, EventArgs e)
         {
-            _viewModal.SelectedTimelineFilter(timelineFilter.Text);
+            TimeLineControl.SelectedFilter = timelineFilter.Text;
         }
 
         #region PacketTimeLine-ListView
 
         private void TimeLine_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-            e.Item = ViewModal.Request_TimelineEntry(e.ItemIndex);
+            e.Item = TimeLineControl.Request_TimelineEntry(e.ItemIndex);
         }
 
         private void TimeLine_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
         {
-            ViewModal.Request_RebuildCache(e.StartIndex, e.EndIndex);
+             TimeLineControl.RebuildCache(e.StartIndex, e.EndIndex);
         }
 
         private void TimeLine_SearchForVirtualItem(object sender, SearchForVirtualItemEventArgs e)
@@ -150,22 +152,23 @@ namespace LPRT.MVVP.View
 
         private void packetTimelineList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            ViewModal.SelectedTimelineEntry(Int32.Parse(e.Item.SubItems[1].Text));
+            //ViewModal.SelectedTimelineEntry(Int32.Parse(e.Item.SubItems[1].Text));
         }
 
         private void playerList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ViewModal.SelectedPlayer(playerList.SelectedItem.ToString());
+            //ViewModal.SelectedPlayer(playerList.SelectedItem.ToString());
         }
 
         private void timelinePlayerSelect_SelectedValueChanged(object sender, EventArgs e)
         {
-            ViewModal.SelectedNetID(timelineNetEntity.SelectedItem.ToString());
+            //ViewModal.SelectedNetID(timelineNetEntity.SelectedItem.ToString());
         }
 
         private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
         {
-            ViewModal.SelectSentRecieve(timelineNetEntity.SelectedItem.ToString());
+            //ViewModal.SelectSentRecieve(timelineNetEntity.SelectedItem.ToString());
         }
+
     }
 }

@@ -44,6 +44,7 @@
             this.time = new System.Windows.Forms.ColumnHeader();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.timeline = new System.Windows.Forms.TabPage();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.timelineSentRecieve = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -54,12 +55,11 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.info = new System.Windows.Forms.TabPage();
-            this.PlayerInfo = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.playerList = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.advancedFilter = new System.Windows.Forms.TabPage();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,7 +74,6 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.info.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PlayerInfo)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -203,6 +202,7 @@
             // 
             // timeline
             // 
+            this.timeline.Controls.Add(this.progressBar1);
             this.timeline.Controls.Add(this.timelineSentRecieve);
             this.timeline.Controls.Add(this.label2);
             this.timeline.Controls.Add(this.label3);
@@ -217,6 +217,17 @@
             this.timeline.TabIndex = 0;
             this.timeline.Text = "Timeline";
             this.timeline.UseVisualStyleBackColor = true;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Enabled = false;
+            this.progressBar1.Location = new System.Drawing.Point(8, 104);
+            this.progressBar1.MarqueeAnimationSpeed = 30;
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(389, 16);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBar1.TabIndex = 12;
+            this.progressBar1.Visible = false;
             // 
             // timelineSentRecieve
             // 
@@ -316,7 +327,6 @@
             // 
             // info
             // 
-            this.info.Controls.Add(this.PlayerInfo);
             this.info.Controls.Add(this.playerList);
             this.info.Controls.Add(this.label1);
             this.info.Location = new System.Drawing.Point(4, 22);
@@ -326,38 +336,6 @@
             this.info.TabIndex = 2;
             this.info.Text = "Info";
             this.info.UseVisualStyleBackColor = true;
-            // 
-            // playerInfo
-            // 
-            this.PlayerInfo.AllowUserToAddRows = false;
-            this.PlayerInfo.AllowUserToDeleteRows = false;
-            this.PlayerInfo.AllowUserToResizeColumns = false;
-            this.PlayerInfo.AllowUserToResizeRows = false;
-            this.PlayerInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.PlayerInfo.ColumnHeadersVisible = false;
-            this.PlayerInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { this.Column1, this.Column2 });
-            this.PlayerInfo.Location = new System.Drawing.Point(114, 24);
-            this.PlayerInfo.Name = "PlayerInfo";
-            this.PlayerInfo.ReadOnly = true;
-            this.PlayerInfo.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.PlayerInfo.Size = new System.Drawing.Size(357, 225);
-            this.PlayerInfo.TabIndex = 2;
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column1.FillWeight = 50F;
-            this.Column1.HeaderText = "column1";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column2.FillWeight = 50F;
-            this.Column2.HeaderText = "column2";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
             // 
             // playerList
             // 
@@ -386,6 +364,22 @@
             this.advancedFilter.Text = "Advanced Filter";
             this.advancedFilter.UseVisualStyleBackColor = true;
             // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.FillWeight = 50F;
+            this.Column1.HeaderText = "column1";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column2.FillWeight = 50F;
+            this.Column2.HeaderText = "column2";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.fileToolStripMenuItem1 });
@@ -413,7 +407,7 @@
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
-            // View
+            // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -436,12 +430,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.info.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PlayerInfo)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.ProgressBar progressBar1;
 
         private System.Windows.Forms.ComboBox timelineNetEntity;
 
