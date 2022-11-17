@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LPRT;
 
@@ -44,5 +45,16 @@ public static class PacketUtilities
         var packetName = split[split.Length - 1].Split(',')[0];
 
         return packetName;
+    }
+    
+    public static async Task<List<string>>  AsyncLoadFile(string FilePath)
+    {
+        //Pull Packets from file
+        var parsedPackets = await PacketSerializer.ParseReplayFile(FilePath);
+        if (parsedPackets == null)
+        {
+            return null;
+        }
+        return parsedPackets;
     }
 }

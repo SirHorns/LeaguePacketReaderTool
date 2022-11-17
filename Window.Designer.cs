@@ -29,6 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -44,16 +45,15 @@
             this.time = new System.Windows.Forms.ColumnHeader();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.timeline = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.timelineSentRecieve = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.timelineNetEntity = new System.Windows.Forms.ComboBox();
-            this.tabControl3 = new System.Windows.Forms.TabControl();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.info = new System.Windows.Forms.TabPage();
             this.playerList = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -63,16 +63,17 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.packetInfoTable)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.timeline.SuspendLayout();
-            this.tabControl3.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.info.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -112,7 +113,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.packetInfoTable.DefaultCellStyle = dataGridViewCellStyle2;
             this.packetInfoTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.packetInfoTable.Location = new System.Drawing.Point(0, 0);
+            this.packetInfoTable.Location = new System.Drawing.Point(3, 3);
             this.packetInfoTable.Name = "packetInfoTable";
             this.packetInfoTable.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -124,7 +125,7 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.packetInfoTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.packetInfoTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.packetInfoTable.Size = new System.Drawing.Size(415, 613);
+            this.packetInfoTable.Size = new System.Drawing.Size(473, 446);
             this.packetInfoTable.TabIndex = 0;
             // 
             // Key
@@ -149,10 +150,10 @@
             this.packetInfoText.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.packetInfoText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.packetInfoText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.packetInfoText.Location = new System.Drawing.Point(0, 0);
+            this.packetInfoText.Location = new System.Drawing.Point(3, 3);
             this.packetInfoText.Name = "packetInfoText";
             this.packetInfoText.ReadOnly = true;
-            this.packetInfoText.Size = new System.Drawing.Size(412, 613);
+            this.packetInfoText.Size = new System.Drawing.Size(473, 446);
             this.packetInfoText.TabIndex = 2;
             this.packetInfoText.Text = "";
             // 
@@ -163,9 +164,9 @@
             this.packetTimelineList.GridLines = true;
             this.packetTimelineList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.packetTimelineList.HideSelection = false;
-            this.packetTimelineList.Location = new System.Drawing.Point(3, 3);
+            this.packetTimelineList.Location = new System.Drawing.Point(0, 0);
             this.packetTimelineList.Name = "packetTimelineList";
-            this.packetTimelineList.Size = new System.Drawing.Size(379, 462);
+            this.packetTimelineList.Size = new System.Drawing.Size(382, 478);
             this.packetTimelineList.TabIndex = 3;
             this.packetTimelineList.UseCompatibleStateImageBehavior = false;
             this.packetTimelineList.View = System.Windows.Forms.View.Details;
@@ -202,14 +203,13 @@
             // 
             // timeline
             // 
+            this.timeline.Controls.Add(this.splitContainer1);
             this.timeline.Controls.Add(this.progressBar1);
             this.timeline.Controls.Add(this.timelineSentRecieve);
             this.timeline.Controls.Add(this.label2);
             this.timeline.Controls.Add(this.label3);
             this.timeline.Controls.Add(this.timelineNetEntity);
-            this.timeline.Controls.Add(this.tabControl3);
             this.timeline.Controls.Add(this.timelineFilter);
-            this.timeline.Controls.Add(this.splitContainer1);
             this.timeline.Location = new System.Drawing.Point(4, 22);
             this.timeline.Name = "timeline";
             this.timeline.Padding = new System.Windows.Forms.Padding(3);
@@ -218,13 +218,62 @@
             this.timeline.Text = "Timeline";
             this.timeline.UseVisualStyleBackColor = true;
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Location = new System.Drawing.Point(8, 83);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.packetTimelineList);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.tabControl2);
+            this.splitContainer1.Size = new System.Drawing.Size(873, 478);
+            this.splitContainer1.SplitterDistance = 382;
+            this.splitContainer1.TabIndex = 14;
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tabPage1);
+            this.tabControl2.Controls.Add(this.tabPage2);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl2.Location = new System.Drawing.Point(0, 0);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(487, 478);
+            this.tabControl2.TabIndex = 13;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.packetInfoTable);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(479, 452);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Table";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.packetInfoText);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(479, 452);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "JSON";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
             // progressBar1
             // 
             this.progressBar1.Enabled = false;
-            this.progressBar1.Location = new System.Drawing.Point(8, 104);
+            this.progressBar1.Location = new System.Drawing.Point(8, 61);
             this.progressBar1.MarqueeAnimationSpeed = 30;
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(389, 16);
+            this.progressBar1.Size = new System.Drawing.Size(281, 17);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 12;
             this.progressBar1.Visible = false;
@@ -265,65 +314,6 @@
             this.timelineNetEntity.Size = new System.Drawing.Size(102, 21);
             this.timelineNetEntity.TabIndex = 1;
             this.timelineNetEntity.SelectedValueChanged += new System.EventHandler(this.timelinePlayerSelect_SelectedValueChanged);
-            // 
-            // tabControl3
-            // 
-            this.tabControl3.Controls.Add(this.tabPage3);
-            this.tabControl3.Controls.Add(this.tabPage4);
-            this.tabControl3.Location = new System.Drawing.Point(8, 126);
-            this.tabControl3.Name = "tabControl3";
-            this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(393, 494);
-            this.tabControl3.TabIndex = 10;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.packetTimelineList);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(385, 468);
-            this.tabPage3.TabIndex = 0;
-            this.tabPage3.Text = "Timeline";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.listView1);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(385, 468);
-            this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "Sender";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // listView1
-            // 
-            this.listView1.GridLines = true;
-            this.listView1.Location = new System.Drawing.Point(6, 40);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(373, 515);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.VirtualMode = true;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Location = new System.Drawing.Point(407, 6);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.packetInfoTable);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.packetInfoText);
-            this.splitContainer1.Size = new System.Drawing.Size(831, 613);
-            this.splitContainer1.SplitterDistance = 415;
-            this.splitContainer1.TabIndex = 0;
             // 
             // info
             // 
@@ -407,6 +397,11 @@
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenFile);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -422,19 +417,27 @@
             ((System.ComponentModel.ISupportInitialize)(this.packetInfoTable)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.timeline.ResumeLayout(false);
-            this.tabControl3.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage4.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.info.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.SplitContainer splitContainer1;
+
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
 
         private System.Windows.Forms.ProgressBar progressBar1;
 
@@ -444,12 +447,6 @@
 
         private System.Windows.Forms.ComboBox timelineSentRecieve;
         private System.Windows.Forms.Label label2;
-
-        private System.Windows.Forms.ListView listView1;
-
-        private System.Windows.Forms.TabControl tabControl3;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TabPage tabPage4;
 
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
@@ -464,8 +461,6 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
 
         private System.Windows.Forms.TabPage info;
-
-        private System.Windows.Forms.SplitContainer splitContainer1;
 
         private System.Windows.Forms.ColumnHeader position;
         private System.Windows.Forms.ColumnHeader type;

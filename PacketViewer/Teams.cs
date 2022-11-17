@@ -6,17 +6,11 @@ namespace LPRT.MVVP.Modal
 {
     public class Teams
     {
-        private List<Player> _players;
-        private List<Player> _teamOrder;
-        private List<Player> _teamChaos;
+        private List<Player> _players = new();
+        private List<Player> _teamOrder = new();
+        private List<Player> _teamChaos = new();
 
-        public Teams()
-        { 
-            _players = new List<Player>(); 
-            _teamOrder = new List<Player>(); 
-            _teamChaos = new List<Player>();
-        }
-        
+
         public Teams(List<Player> players)
         {
             _players = players;
@@ -34,7 +28,10 @@ namespace LPRT.MVVP.Modal
             }
         }
 
-        
+        public Teams()
+        {
+        }
+
         public Player AddPlayer(string username, string netID, string clientID, bool team, string champion, string skinID)
         {
             Player newPlayer = new Player(username, netID, clientID, team, champion, skinID);

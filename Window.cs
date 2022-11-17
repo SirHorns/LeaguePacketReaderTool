@@ -52,13 +52,15 @@ namespace LPRT.MVVP.View
         /// <summary>
         /// Menu Bar Load Button Functions
         /// </summary>
-        private void OpenFile(object sender, EventArgs e)
+        private async void OpenFile(object sender, EventArgs e)
         {
            var path =AssetLoader.OpenFileDialog();
-            if (path != null)
-            {
-                MatchReplay.FilePath = path;
-            }
+           if (path == null)
+           {
+               return;
+           } 
+           MatchReplay.FilePath = path;
+           MatchReplay.Packets =  await PacketUtilities.AsyncLoadFile(path);
         }
         
 
@@ -137,10 +139,5 @@ namespace LPRT.MVVP.View
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }
