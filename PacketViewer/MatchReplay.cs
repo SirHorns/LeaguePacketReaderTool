@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
-using log4net;
-using LPRT.Logging;
 using LPRT.MVVP.Modal;
 using LPRT.MVVP.View;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace LPRT.PacketViewer;
 
@@ -49,11 +50,41 @@ public class MatchReplay: INotifyPropertyChanged
 
     private async void LoadFile()
     {
-        var parsedPackets = await Serializer.ParseReplayFile(FilePath);
+        var parsedPackets = await PacketSerializer.ParseReplayFile(FilePath);
         if (parsedPackets != null)
         {
             Packets = parsedPackets;
         }
+    }
+    
+    public List<string[]> GetPacketInfo(int index)
+    {
+        index -= 1;
+        List<string[]> data = new List<string[]>();
+
+        using (StringReader sr  = new StringReader(Packets[index]))
+        using (JsonReader reader = new JsonTextReader(sr))
+        {
+            var token = PacketSerializer.serializer.Deserialize(reader);
+            JObject jobj = token as JObject;
+                                                           
+            foreach (KeyValuePair<string, JToken> pair in jobj["Packet"] as JObject)
+            {
+                var row = new string[2];
+                row[0] = pair.Key;
+                row[1] = pair.Value.ToString();
+                data.Add(row);
+            }  
+        }
+
+        return data;
+    }
+    
+    public string GetRawPacketInfo(int index)
+    {
+        index -= 1;
+        var packet = JObject.Parse(Packets[index]).ToString();
+        return packet;
     }
     
 

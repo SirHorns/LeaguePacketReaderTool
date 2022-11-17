@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.7.0.0-preview.6.22324.4\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -86,25 +83,19 @@
     <Compile Include="Enums\PacketTypes.cs" />
     <Compile Include="Enums\PropertyChanges.cs" />
     <Compile Include="Enums\TimelineFilters.cs" />
-    <Compile Include="Interfaces\IModalCommands.cs" />
-    <Compile Include="Interfaces\IViewCommands.cs" />
-    <Compile Include="Logging\LoggerProvider.cs" />
     <Compile Include="PacketTimelineControl.cs" />
-    <Compile Include="PacketViewer\Cache.cs" />
     <Compile Include="PacketViewer\MatchReplay.cs" />
     <Compile Include="PacketViewer\Modal.cs" />
-    <Compile Include="PacketViewer\NetIDCache.cs" />
     <Compile Include="PacketViewer\ReplayPacket.cs" />
     <Compile Include="PacketViewer\PacketTimeLineEntry.cs" />
     <Compile Include="PacketViewer\Player.cs" />
-    <Compile Include="PacketViewer\Team.cs" />
     <Compile Include="PacketViewer\Teams.cs" />
-    <Compile Include="PacketViewer\TimelineCache.cs" />
+    <Compile Include="PacketViewer\PacketTimelineCache.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\PacketUtilities.cs" />
-    <Compile Include="Utility\Serializer.cs" />
+    <Compile Include="Utility\PacketSerializer.cs" />
     <Compile Include="Window.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,7 +125,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Utility\App.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

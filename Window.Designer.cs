@@ -86,7 +86,7 @@
             this.timelineFilter.Name = "timelineFilter";
             this.timelineFilter.Size = new System.Drawing.Size(208, 21);
             this.timelineFilter.TabIndex = 2;
-            this.timelineFilter.SelectedValueChanged += new System.EventHandler(this.PacketTimeLineFilter_ValueChanged);
+            this.timelineFilter.SelectedValueChanged += new System.EventHandler(this.PacketTimeLine_FilterChanged);
             // 
             // packetInfoTable
             // 
@@ -169,10 +169,10 @@
             this.packetTimelineList.TabIndex = 3;
             this.packetTimelineList.UseCompatibleStateImageBehavior = false;
             this.packetTimelineList.View = System.Windows.Forms.View.Details;
-            this.packetTimelineList.CacheVirtualItems += new System.Windows.Forms.CacheVirtualItemsEventHandler(this.TimeLine_CacheVirtualItems);
+            this.packetTimelineList.CacheVirtualItems += new System.Windows.Forms.CacheVirtualItemsEventHandler(this.PacketTimeLine_CacheVirtualItems);
             this.packetTimelineList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.packetTimelineList_ItemSelectionChanged);
-            this.packetTimelineList.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.TimeLine_RetrieveVirtualItem);
-            this.packetTimelineList.SearchForVirtualItem += new System.Windows.Forms.SearchForVirtualItemEventHandler(this.TimeLine_SearchForVirtualItem);
+            this.packetTimelineList.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.PacketTimeLine_GetVirtualItem);
+            this.packetTimelineList.SearchForVirtualItem += new System.Windows.Forms.SearchForVirtualItemEventHandler(this.PacketTimeLine_SearchVirtualItems);
             // 
             // type
             // 
@@ -405,7 +405,7 @@
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem.Text = "&Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenFile);
             // 
             // Window
             // 

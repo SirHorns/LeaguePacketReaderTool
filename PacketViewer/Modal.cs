@@ -24,14 +24,14 @@ namespace LPRT.MVVP.Modal
         private List<string> _matchJson = new List<string>();
         private Teams _matchTeams = new Teams();
 
-        private readonly TimelineCache _timeline;
+        private readonly PacketTimelineCache _packetTimeline;
         
         private readonly JsonSerializer _serializer;
         
         public Modal()
         {
             _serializer = new JsonSerializer();
-            _timeline = new TimelineCache();
+            _packetTimeline = new PacketTimelineCache();
             PropertyChanged += InternalPropertyChanged;
         }
 
@@ -77,10 +77,10 @@ namespace LPRT.MVVP.Modal
 
         private List<ListViewItem> TimelineCache
         {
-            get => _timeline.Cache;
+            get => _packetTimeline.Cache;
             set
             {
-                _timeline.Cache = value;
+                _packetTimeline.Cache = value;
                 OnPropertyChanged(nameof(PropertyChanges.TIMELINE_CACHE));
             }
         }
@@ -97,7 +97,7 @@ namespace LPRT.MVVP.Modal
 
         public int TimeLineSize
         {
-            get => _timeline.CacheSize; 
+            get => _packetTimeline.CacheSize; 
         }
 
 
@@ -158,7 +158,7 @@ namespace LPRT.MVVP.Modal
                         
                         return tempList;
                     });
-                    _timeline.BackupCache = TimelineCache;
+                    _packetTimeline.BackupCache = TimelineCache;
                 }
                 catch (Exception e)
                 {
@@ -167,7 +167,6 @@ namespace LPRT.MVVP.Modal
                 }
             }
         }
-        
         private async void Parse_PlayerInfo()
         {
             MatchTeams = await Task.Run(() =>
@@ -203,7 +202,6 @@ namespace LPRT.MVVP.Modal
                 return tempTeams;
             });
         }
-
         private async void Parse_NetIDInfo()
         {
             await Task.Run(() =>
@@ -221,38 +219,7 @@ namespace LPRT.MVVP.Modal
                 });
             });
         }
-        
 
-        //GETTERS
-        public List<string[]> GetPacketInfo(int index)
-        {
-            index -= 1;
-            List<string[]> data = new List<string[]>();
-
-            using (StringReader sr  = new StringReader(_matchJson[index]))
-            using (JsonReader reader = new JsonTextReader(sr))
-            {
-                var token = _serializer.Deserialize(reader);
-                JObject jobj = token as JObject;
-                                                           
-                foreach (KeyValuePair<string, JToken> pair in jobj["Packet"] as JObject)
-                {
-                    var row = new string[2];
-                    row[0] = pair.Key;
-                    row[1] = pair.Value.ToString();
-                    data.Add(row);
-                }  
-            }
-
-            return data;
-        }
-
-        public string GetRawPacketInfo(int index)
-        {
-            index -= 1;
-            return _matchJson[index];
-        }
-        
 
         #region VirtualCalls-TimelineNetID
 

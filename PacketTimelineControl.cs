@@ -9,13 +9,12 @@ using LPRT.PacketViewer;
 
 namespace LPRT
 {
-    public class PacketTimelineControl: INotifyPropertyChanged
+    public sealed class PacketTimelineControl: INotifyPropertyChanged
     {
         private Window Window {get;}
         
-        
         private string _selectedFilter;
-        private readonly TimelineCache TimelineCache;
+        private readonly PacketTimelineCache _packetTimelineCache;
         
         public string SelectedFilter
         {
@@ -29,10 +28,10 @@ namespace LPRT
 
         private List<ListViewItem> Cache
         {
-            get => TimelineCache.Cache;
+            get => _packetTimelineCache.Cache;
             set
             {
-                TimelineCache.Cache = value;
+                _packetTimelineCache.Cache = value;
                 OnPropertyChanged(nameof(PropertyChanges.TIMELINE_CACHE));
             }
         }
@@ -40,60 +39,20 @@ namespace LPRT
         public PacketTimelineControl(Window window)
         {
             Window = window;
-            TimelineCache = new();
+            _packetTimelineCache = new();
             Window.MatchReplay.PropertyChanged += InternalPropertyChanged;
-            TimelineCache.PropertyChanged += InternalPropertyChanged;
+            _packetTimelineCache.PropertyChanged += InternalPropertyChanged;
             PropertyChanged += InternalPropertyChanged;
         }
-        
-        private void FilterTimeLineCache()
-        {
-            if(Cache == null) return;
-            
-            if (SelectedFilter.Equals("All_Packets"))
-            {
-                Cache = TimelineCache.BackupCache;
-            }
-            else
-            { 
-                List<ListViewItem> temp = new List<ListViewItem>(); 
-                foreach (var item in TimelineCache.BackupCache) 
-                {
-                    if (SelectedFilter.Equals(item.SubItems[0].Text))
-                    {
-                        temp.Add(item);
-                    } 
-                }
-                Cache = temp;
-            }
-        }
 
+        //Virtual Timeline Calls
         public ListViewItem GetTimelineEntry(int itemIndex)
         {
-            return TimelineCache.GetTimelineEntry(itemIndex);
-        }
-        
-        public void RebuildTimelineCache(int startIndex, int endIndex)
-        {
-            TimelineCache.RebuildCache(startIndex,endIndex);
-        }
-        
-        public void Reload_PacketTimeline()
-        {
-            //View.PacketTimeLine.Items.Clear();
-            Window.PacketTimeLine.VirtualListSize = Cache.Count;
-            Window.PacketTimeLine.VirtualMode = true;
-            Window.PacketTimeLine.Refresh();
-        }
-        
-        //Virtual Timeline Calls
-        public ListViewItem Request_TimelineEntry(int itemIndex)
-        {
-            return TimelineCache.GetTimelineEntry(itemIndex);
+            return _packetTimelineCache.GetTimelineEntry(itemIndex);
         }
         public void RebuildCache(int startIndex, int endIndex)
         {
-            TimelineCache.RebuildCache(startIndex,endIndex);
+            _packetTimelineCache.RebuildCache(startIndex,endIndex);
         }
 
         //PROPERTY-CHANGES
@@ -102,20 +61,20 @@ namespace LPRT
             switch (e.PropertyName)
             {
                 case nameof(PropertyChanges.PACKETS):
-                    TimelineCache.PrepareCaches(Window.MatchReplay.Packets);
+                    _packetTimelineCache.PrepareCaches(Window.MatchReplay.Packets);
                     break;
                 case nameof(PropertyChanges.TIMELINE_CACHE):
-                    Reload_PacketTimeline();
+                    Window.Reload_PacketTimeline(Cache.Count);
                     break;
                 case nameof(PropertyChanges.TIMELINE_FILTER):
-                    TimelineCache.Filter = SelectedFilter;
+                    _packetTimelineCache.Filter = SelectedFilter;
                     break;
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

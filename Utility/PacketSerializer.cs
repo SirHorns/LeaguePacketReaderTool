@@ -8,10 +8,10 @@ using Newtonsoft.Json.Linq;
 
 namespace LPRT;
 
-public static class Serializer
+public static class PacketSerializer
 {
-    private static JsonSerializer JsonSerializer = new();
-    
+    public static JsonSerializer serializer { get; } = new();
+
     public static async Task<List<string>> ParseReplayFile(string filePath)
     {
         Debug.WriteLine("Parsing Replay Json file.");
@@ -31,7 +31,7 @@ public static class Serializer
                         if (reader.TokenType == JsonToken.StartObject) 
                         {
                             //JObject packet = JsonSerializer.Deserialize<JObject>(reader);
-                            jsonList.Add(JsonSerializer.Deserialize<JObject>(reader)?.ToString());
+                            jsonList.Add(serializer.Deserialize<JObject>(reader)?.ToString());
                         }
                     }
                         
@@ -62,7 +62,7 @@ public static class Serializer
                     if (reader.TokenType == JsonToken.StartObject) 
                     {
                         //JObject packet = JsonSerializer.Deserialize<JObject>(reader);
-                        job = JsonSerializer.Deserialize<JObject>(reader);
+                        job = serializer.Deserialize<JObject>(reader);
                     }
                 }
                         
@@ -85,7 +85,7 @@ public static class Serializer
             if (reader.TokenType == JsonToken.StartObject)
             {
                 //JObject packet = JsonSerializer.Deserialize<JObject>(reader);
-                jObject = JsonSerializer.Deserialize<JObject>(reader);
+                jObject = serializer.Deserialize<JObject>(reader);
             }
         }
 

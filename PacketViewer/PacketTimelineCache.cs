@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 
 namespace LPRT.MVVP.Modal
 {
-    public class TimelineCache : INotifyPropertyChanged
+    public sealed class PacketTimelineCache : INotifyPropertyChanged
     {
         /// <summary>
         /// Cache that stores the current filtered timeline. 
@@ -57,7 +57,7 @@ namespace LPRT.MVVP.Modal
 
         public int CacheSize => _cacheSize;
 
-        public TimelineCache()
+        public PacketTimelineCache()
         {
             PropertyChanged += InternalPropertyChanged;
         }
@@ -73,7 +73,7 @@ namespace LPRT.MVVP.Modal
                     
                     foreach (var packet in packets)
                     {
-                        JObject jObject = Serializer.ParsePacket(packet);
+                        JObject jObject = PacketSerializer.ParsePacket(packet);
                         tempCache.Add(new ListViewItem(new[]
                         {
                             PacketUtilities.ParsePacketName(jObject["Packet"]["$type"].ToString()), 
@@ -163,7 +163,7 @@ namespace LPRT.MVVP.Modal
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

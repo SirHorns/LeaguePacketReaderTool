@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Forms;
-using LPRT.Interfaces;
 using LPRT.MVVP.Modal;
 using LPRT.MVVP.View;
 
 namespace LPRT.MVVP.ViewModal
 {
-    public class ViewModal : IModalCommands, INotifyPropertyChanged
+    public class ViewModal :  INotifyPropertyChanged
     {
         private View.Window _window;
         private Modal.Modal _modal;
@@ -36,39 +34,13 @@ namespace LPRT.MVVP.ViewModal
             get => _modal;
             set => _modal = value;
         }
-        private string PacketFilter
-        {
-            get => _packetFilter;
-            set => _packetFilter = value;
-        }
-
-
+        
         #region Event-From-View
         //Timelinne
         public void SelectedFile(string path)
         {
             _modal.FilePath = path;
         }
-        public void SelectedTimelineFilter(string filter)
-        {
-            PacketFilter = filter;
-            Modal.TimelineFilter = filter;
-        }
-        public void SelectedTimelineEntry(int index)
-        {
-            DataGridView table = Window.PacketInfoTable;
-            RichTextBox rawText = Window.PacketInfoText;
-            
-            table.Rows.Clear();
-            
-            foreach (var row in Modal.GetPacketInfo(index))
-            {
-                table.Rows.Add(row);
-            }
-
-            rawText.Text = Modal.GetRawPacketInfo(index);
-        }
-
         public void SelectedNetID(string filter)
         {
             
@@ -83,13 +55,6 @@ namespace LPRT.MVVP.ViewModal
         {
             Modal.SelectedPlayer = username;
         }
-
-        #endregion
-        
-
-        #region VirtualCalls-TimelineNetID
-
-        
 
         #endregion
         
