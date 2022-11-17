@@ -59,7 +59,6 @@ public class MatchReplay: INotifyPropertyChanged
     
     public List<string[]> GetPacketInfo(int index)
     {
-        index -= 1;
         List<string[]> data = new List<string[]>();
 
         using (StringReader sr  = new StringReader(Packets[index]))
@@ -82,7 +81,6 @@ public class MatchReplay: INotifyPropertyChanged
     
     public string GetRawPacketInfo(int index)
     {
-        index -= 1;
         var packet = JObject.Parse(Packets[index]).ToString();
         return packet;
     }
