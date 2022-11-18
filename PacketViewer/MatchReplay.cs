@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using LPRT.MVVP.Modal;
 using LPRT.MVVP.View;
 using Newtonsoft.Json;
@@ -46,6 +47,7 @@ public class MatchReplay : INotifyPropertyChanged
 
     public MatchReplay()
     {
+        MatchTeams.PropertyChanged += InternalPropertyChanged;
         PropertyChanged += InternalPropertyChanged;
     }
 
@@ -77,12 +79,49 @@ public class MatchReplay : INotifyPropertyChanged
         return packet;
     }
 
+    private async void ParseReplayInfo()
+    {
+        Dictionary<string, List<string>> IPackage; 
+        
+         IPackage = await Task.Run(() => {
+            Dictionary<string, List<string>> package = new() { { "S2C_CreateHero", new List<string>() } };
+            
+            Parallel.ForEach(Packets, packet =>
+            {
+                if (packet.Contains("S2C_CreateHero"))
+                {
+                   package["S2C_CreateHero"].Add(packet);
+                }
+            });
+            return package;
+        });
+
+         foreach (var packet in IPackage["S2C_CreateHero"])
+         {
+             var player = JObject.Parse(packet)["Packet"];
+             
+             MatchTeams.AddPlayer(
+                 player["Name"].ToString(),
+                 player["NetID"].ToString(),
+                 player["ClientID"].ToString(),
+                 Boolean.Parse(player["TeamIsOrder"].ToString()), 
+                 player["Skin"].ToString(),
+                 player["SkinID"].ToString(),
+                 Boolean.Parse(player["IsBot"].ToString()));
+         }
+         
+         OnPropertyChanged(nameof(PropertyChanges.PLAYERS_UPDATED));
+    }
+
 
     //PROPERTY-CHANGES
     private void InternalPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
         {
+            case nameof(PropertyChanges.PACKETS):
+                ParseReplayInfo();
+                break;
         }
     }
 

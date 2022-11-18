@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using LPRT.MVVP.View;
 
 namespace LPRT.MVVP.Modal
 {
-    public class Teams
+    public class Teams: INotifyPropertyChanged
     {
         private List<Player> _players = new();
         private List<Player> _teamOrder = new();
@@ -32,9 +34,9 @@ namespace LPRT.MVVP.Modal
         {
         }
 
-        public Player AddPlayer(string username, string netID, string clientID, bool team, string champion, string skinID)
+        public Player AddPlayer(string username, string netId, string clientId, bool team, string champion, string skinId, bool isBot = false)
         {
-            Player newPlayer = new Player(username, netID, clientID, team, champion, skinID);
+            Player newPlayer = new Player(username, netId, clientId, team, champion, skinId, isBot);
             
             _players.Add(newPlayer);
             
@@ -69,19 +71,31 @@ namespace LPRT.MVVP.Modal
         public List<Player> Players
         {
             get => _players;
-            set => _players = value;
+            set
+            {
+                _players = value;
+                OnPropertyChanged(nameof(PropertyChanges.PLAYERS_UPDATED));
+            }
         }
 
         public List<Player> TeamOrder
         {
             get => _teamOrder;
-            set => _teamOrder = value;
+            set
+            {
+                _teamOrder = value;
+                OnPropertyChanged(nameof(PropertyChanges.PLAYERS_UPDATED));
+            }
         }
 
         public List<Player> TeamChaos
         {
             get => _teamChaos;
-            set => _teamChaos = value;
+            set
+            {
+                _teamChaos = value;
+                OnPropertyChanged(nameof(PropertyChanges.PLAYERS_UPDATED));
+            }
         }
         
         //Player
@@ -139,6 +153,14 @@ namespace LPRT.MVVP.Modal
             }
 
             return player;
+        }
+        
+        //PROPERTY-CHANGES
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

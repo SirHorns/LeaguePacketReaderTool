@@ -14,7 +14,9 @@ namespace LPRT.MVVP.View
         private string _champion;
         private string _skinID;
 
-        public Player(string username, string netID, string clientID, bool team, string champion, string skinID)
+        private bool _isBot;
+
+        public Player(string username, string netID, string clientID, bool team, string champion, string skinID, bool isBot = false)
         {
             _username = username;
             _netID = netID;
@@ -22,6 +24,7 @@ namespace LPRT.MVVP.View
             _team = CheckTeam(team);
             _champion = champion;
             _skinID = skinID;
+            _isBot = isBot;
         }
 
         public string Username
@@ -58,6 +61,12 @@ namespace LPRT.MVVP.View
         {
             get => _skinID;
             set => _skinID = value;
+        }
+
+        public bool IsBot
+        {
+            get => _isBot;
+            set => _isBot = value;
         }
 
         private string CheckTeam(bool b)

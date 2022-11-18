@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using LPRT.MVVP.Modal;
 using LPRT.PacketViewer;
@@ -60,7 +59,7 @@ namespace LPRT.MVVP.View
                return;
            } 
            MatchReplay.FilePath = path;
-           MatchReplay.Packets =  await PacketUtilities.AsyncLoadFile(path);
+            MatchReplay.Packets =  await PacketUtilities.AsyncLoadFile(path);
         }
         
 
@@ -134,6 +133,12 @@ namespace LPRT.MVVP.View
             {
                 case nameof(PropertyChanges.FILE_PATH):
                     PacketProgressBar.Visible = true;
+                    break;
+                case nameof(PropertyChanges.PLAYERS_UPDATED):
+                    foreach (var player in MatchReplay.MatchTeams.Players)
+                    {
+                        PlayerList.Items.Add(player.Username);
+                    }
                     break;
             }
         }

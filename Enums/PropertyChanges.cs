@@ -8,6 +8,7 @@
         PLAYER_SELECTED,
         TEAMS,
         JSON_LOADED,
-        PACKETS
+        PACKETS,
+        PLAYERS_UPDATED
     }
 }

@@ -45,6 +45,8 @@
             this.time = new System.Windows.Forms.ColumnHeader();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.timeline = new System.Windows.Forms.TabPage();
+            this.playerList = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -55,8 +57,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.timelineNetEntity = new System.Windows.Forms.ComboBox();
             this.info = new System.Windows.Forms.TabPage();
-            this.playerList = new System.Windows.Forms.ListBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.advancedFilter = new System.Windows.Forms.TabPage();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -74,7 +74,6 @@
             this.tabControl2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.info.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -125,7 +124,7 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.packetInfoTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.packetInfoTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.packetInfoTable.Size = new System.Drawing.Size(473, 446);
+            this.packetInfoTable.Size = new System.Drawing.Size(536, 580);
             this.packetInfoTable.TabIndex = 0;
             // 
             // Key
@@ -153,7 +152,7 @@
             this.packetInfoText.Location = new System.Drawing.Point(3, 3);
             this.packetInfoText.Name = "packetInfoText";
             this.packetInfoText.ReadOnly = true;
-            this.packetInfoText.Size = new System.Drawing.Size(473, 446);
+            this.packetInfoText.Size = new System.Drawing.Size(536, 580);
             this.packetInfoText.TabIndex = 2;
             this.packetInfoText.Text = "";
             // 
@@ -166,7 +165,7 @@
             this.packetTimelineList.HideSelection = false;
             this.packetTimelineList.Location = new System.Drawing.Point(0, 0);
             this.packetTimelineList.Name = "packetTimelineList";
-            this.packetTimelineList.Size = new System.Drawing.Size(382, 478);
+            this.packetTimelineList.Size = new System.Drawing.Size(389, 612);
             this.packetTimelineList.TabIndex = 3;
             this.packetTimelineList.UseCompatibleStateImageBehavior = false;
             this.packetTimelineList.View = System.Windows.Forms.View.Details;
@@ -203,6 +202,8 @@
             // 
             // timeline
             // 
+            this.timeline.Controls.Add(this.playerList);
+            this.timeline.Controls.Add(this.label1);
             this.timeline.Controls.Add(this.splitContainer1);
             this.timeline.Controls.Add(this.progressBar1);
             this.timeline.Controls.Add(this.timelineSentRecieve);
@@ -218,9 +219,27 @@
             this.timeline.Text = "Timeline";
             this.timeline.UseVisualStyleBackColor = true;
             // 
+            // playerList
+            // 
+            this.playerList.FormattingEnabled = true;
+            this.playerList.Location = new System.Drawing.Point(81, 462);
+            this.playerList.Name = "playerList";
+            this.playerList.Size = new System.Drawing.Size(208, 134);
+            this.playerList.Sorted = true;
+            this.playerList.TabIndex = 15;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(8, 462);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(67, 18);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "Players:";
+            // 
             // splitContainer1
             // 
-            this.splitContainer1.Location = new System.Drawing.Point(8, 83);
+            this.splitContainer1.IsSplitterFixed = true;
+            this.splitContainer1.Location = new System.Drawing.Point(295, 7);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -230,8 +249,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl2);
-            this.splitContainer1.Size = new System.Drawing.Size(873, 478);
-            this.splitContainer1.SplitterDistance = 382;
+            this.splitContainer1.Size = new System.Drawing.Size(943, 612);
+            this.splitContainer1.SplitterDistance = 389;
             this.splitContainer1.TabIndex = 14;
             // 
             // tabControl2
@@ -242,7 +261,7 @@
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(487, 478);
+            this.tabControl2.Size = new System.Drawing.Size(550, 612);
             this.tabControl2.TabIndex = 13;
             // 
             // tabPage1
@@ -251,7 +270,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(479, 452);
+            this.tabPage1.Size = new System.Drawing.Size(542, 586);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Table";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -262,7 +281,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(479, 452);
+            this.tabPage2.Size = new System.Drawing.Size(542, 586);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "JSON";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -270,7 +289,7 @@
             // progressBar1
             // 
             this.progressBar1.Enabled = false;
-            this.progressBar1.Location = new System.Drawing.Point(8, 61);
+            this.progressBar1.Location = new System.Drawing.Point(8, 602);
             this.progressBar1.MarqueeAnimationSpeed = 30;
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(281, 17);
@@ -317,8 +336,6 @@
             // 
             // info
             // 
-            this.info.Controls.Add(this.playerList);
-            this.info.Controls.Add(this.label1);
             this.info.Location = new System.Drawing.Point(4, 22);
             this.info.Name = "info";
             this.info.Padding = new System.Windows.Forms.Padding(3);
@@ -326,24 +343,6 @@
             this.info.TabIndex = 2;
             this.info.Text = "Info";
             this.info.UseVisualStyleBackColor = true;
-            // 
-            // playerList
-            // 
-            this.playerList.FormattingEnabled = true;
-            this.playerList.Location = new System.Drawing.Point(8, 24);
-            this.playerList.Name = "playerList";
-            this.playerList.Size = new System.Drawing.Size(100, 225);
-            this.playerList.Sorted = true;
-            this.playerList.TabIndex = 0;
-            this.playerList.SelectedIndexChanged += new System.EventHandler(this.playerList_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(8, 3);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 18);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Players:";
             // 
             // advancedFilter
             // 
@@ -424,7 +423,6 @@
             this.tabControl2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.info.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
