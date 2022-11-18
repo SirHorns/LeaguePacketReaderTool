@@ -39,6 +39,7 @@ namespace LPRT.MVVP.View
         public DataGridView PacketInfoTable => packetInfoTable;
         public ListView PacketTimeLine => packetTimelineList;
         public ProgressBar PacketProgressBar => progressBar1;
+        public ComboBox NetEntityCombobox => timelineNetEntity;
         public DataGridView PlayerInfo { get; private set; }
         public ListBox PlayerList => playerList;
         
@@ -138,6 +139,11 @@ namespace LPRT.MVVP.View
                     foreach (var player in MatchReplay.MatchTeams.Players)
                     {
                         PlayerList.Items.Add(player.Username);
+                    }
+
+                    foreach (var netids in MatchReplay.NetIds)
+                    {
+                        NetEntityCombobox.Items.Add(netids);
                     }
                     break;
             }

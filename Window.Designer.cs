@@ -56,8 +56,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.timelineNetEntity = new System.Windows.Forms.ComboBox();
-            this.info = new System.Windows.Forms.TabPage();
-            this.advancedFilter = new System.Windows.Forms.TabPage();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -192,8 +190,6 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.timeline);
-            this.tabControl1.Controls.Add(this.info);
-            this.tabControl1.Controls.Add(this.advancedFilter);
             this.tabControl1.Location = new System.Drawing.Point(0, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -334,25 +330,6 @@
             this.timelineNetEntity.TabIndex = 1;
             this.timelineNetEntity.SelectedValueChanged += new System.EventHandler(this.timelinePlayerSelect_SelectedValueChanged);
             // 
-            // info
-            // 
-            this.info.Location = new System.Drawing.Point(4, 22);
-            this.info.Name = "info";
-            this.info.Padding = new System.Windows.Forms.Padding(3);
-            this.info.Size = new System.Drawing.Size(1244, 625);
-            this.info.TabIndex = 2;
-            this.info.Text = "Info";
-            this.info.UseVisualStyleBackColor = true;
-            // 
-            // advancedFilter
-            // 
-            this.advancedFilter.Location = new System.Drawing.Point(4, 22);
-            this.advancedFilter.Name = "advancedFilter";
-            this.advancedFilter.Size = new System.Drawing.Size(1244, 625);
-            this.advancedFilter.TabIndex = 3;
-            this.advancedFilter.Text = "Advanced Filter";
-            this.advancedFilter.UseVisualStyleBackColor = true;
-            // 
             // Column1
             // 
             this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -453,12 +430,8 @@
 
         private System.Windows.Forms.ListBox playerList;
 
-        private System.Windows.Forms.TabPage advancedFilter;
-
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-
-        private System.Windows.Forms.TabPage info;
 
         private System.Windows.Forms.ColumnHeader position;
         private System.Windows.Forms.ColumnHeader type;

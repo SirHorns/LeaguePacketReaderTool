@@ -16,8 +16,9 @@ public class MatchReplay : INotifyPropertyChanged
     private string _filePath;
     private List<Player> _players;
     public Teams MatchTeams { get; private set; } = new Teams();
-    public Dictionary<string, string> NetIDs { get; } = new();
+    public Dictionary<string, string> NetIdDict { get; } = new();
     private List<string> _packets;
+    public List<string> NetIds { get; } = new();
 
     public string FilePath
     {
@@ -84,13 +85,26 @@ public class MatchReplay : INotifyPropertyChanged
         Dictionary<string, List<string>> IPackage; 
         
          IPackage = await Task.Run(() => {
-            Dictionary<string, List<string>> package = new() { { "S2C_CreateHero", new List<string>() } };
+            Dictionary<string, List<string>> package = new() { { "S2C_CreateHero", new List<string>() }, { "NetID", new List<string>() } };
             
             Parallel.ForEach(Packets, packet =>
             {
+                var pak = JObject.Parse(packet);
                 if (packet.Contains("S2C_CreateHero"))
                 {
                    package["S2C_CreateHero"].Add(packet);
+                }
+
+                try
+                {
+                    if(!package["NetID"].Contains(pak["Packet"]["SenderNetID"].ToString()))
+                    {
+                        package["NetID"].Add(pak["Packet"]["SenderNetID"].ToString());
+                    }
+                }
+                catch (Exception e)
+                {
+                    // Packet doesn't contain a SenderNetID, so will ignored.
                 }
             });
             return package;
@@ -108,6 +122,13 @@ public class MatchReplay : INotifyPropertyChanged
                  player["Skin"].ToString(),
                  player["SkinID"].ToString(),
                  Boolean.Parse(player["IsBot"].ToString()));
+         }
+         
+         IPackage["NetID"].Sort();
+         
+         foreach (var netid in IPackage["NetID"])
+         {
+             NetIds.Add(netid);
          }
          
          OnPropertyChanged(nameof(PropertyChanges.PLAYERS_UPDATED));
