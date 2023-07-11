@@ -9,11 +9,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LPRT.MVVP.View;
+using LPRT.View;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace LPRT.MVVP.Modal
+namespace LPRT
 {
     public class Modal : INotifyPropertyChanged
     {

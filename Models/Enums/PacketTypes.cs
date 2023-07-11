@@ -1,4 +1,4 @@
-﻿namespace LPRT.MVVP.Modal
+﻿namespace LPRT
 {
     public enum PacketTypes
     {

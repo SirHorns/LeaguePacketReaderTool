@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LPRT.MVVP.Modal
+namespace LPRT
 {
     public class PacketTimeLineEntry
     {

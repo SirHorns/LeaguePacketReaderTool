@@ -1,45 +1,37 @@
-﻿using System.Collections.Generic;
+﻿
+
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using LPRT.MVVP.Modal;
-using LPRT.MVVP.View;
+using LPRT.View;
+using LPRT.Window;
 
-namespace LPRT.MVVP.ViewModal
+namespace LPRT
 {
     public class WindowViewModal :  INotifyPropertyChanged
     {
-        private View.Window _window;
-        private Modal.Modal _modal;
-        
         private string _packetFilter;
         
         public event PropertyChangedEventHandler PropertyChanged;
         
-        public WindowViewModal(View.Window window)
+        public WindowViewModal(ToolWindow window)
         {
             Window = window;
-            Modal = new Modal.Modal();
+            Modal = new Modal();
             
             Modal.PropertyChanged += PropertyChanged_Modal;
             PropertyChanged += PropertyChanged_View;
         }
         
-        private View.Window Window
-        {
-            get => _window;
-            set => _window = value;
-        }
-        private Modal.Modal Modal
-        {
-            get => _modal;
-            set => _modal = value;
-        }
-        
+        private ToolWindow Window { get; set; }
+
+        private Modal Modal { get; set; }
+
         #region Event-From-View
         //Timelinne
         public void SelectedFile(string path)
         {
-            _modal.FilePath = path;
+            Modal.FilePath = path;
         }
         public void SelectedNetID(string filter)
         {
@@ -81,7 +73,6 @@ namespace LPRT.MVVP.ViewModal
             Window.PlayerInfo.Rows.Add("Champion", p.Champion);
             Window.PlayerInfo.Rows.Add("SkinId", p.SkinId);
         }
-        
         public void Reload_PacketTimeline()
         {
             //View.PacketTimeLine.Items.Clear();
@@ -89,8 +80,7 @@ namespace LPRT.MVVP.ViewModal
             Window.PacketTimeLine.VirtualMode = true;
             Window.PacketTimeLine.Refresh();
         }
-
-
+        
         //PROPERTY-CHANGES
         private void PropertyChanged_Modal(object sender, PropertyChangedEventArgs e)
         {

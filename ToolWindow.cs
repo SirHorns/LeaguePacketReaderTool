@@ -1,30 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using LPRT.MVVP.Modal;
 using LPRT.PacketViewer;
 
-namespace LPRT.MVVP.View
+namespace LPRT.Window
 {
-    public partial class Window : Form, INotifyPropertyChanged
+    public partial class ToolWindow : Form, INotifyPropertyChanged
     {
-        private readonly List<string> _packetFilters = PacketUtilities.PacketTypes;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public Window()
+        public ToolWindow()
         {
-            TimeLineControl = new(this);
-            MatchReplay.PropertyChanged += InternalPropertyChanged;
-            TimeLineControl.PropertyChanged += InternalPropertyChanged;
-            PropertyChanged += InternalPropertyChanged;
-            
+            var eventManager = new EventManager(this);
+            TimeLineControl = new PacketTimelineControl(this);
+            MatchReplay.PropertyChanged += eventManager.InternalPropertyChanged;
+            TimeLineControl.PropertyChanged += eventManager.InternalPropertyChanged;
+            PropertyChanged += eventManager.InternalPropertyChanged;
+
             InitializeComponent();
         }
         
+        /// <summary>
+        /// Triggered when window is loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Load(object sender, EventArgs e)
         {
-            AutoCompleteStringCollection autoComplete = new AutoCompleteStringCollection();
-            foreach (var item in _packetFilters)
+            var autoComplete = new AutoCompleteStringCollection();
+            foreach (var item in PacketUtilities.PacketTypes)
             {
                 timelineFilter.Items.Add(item);
                 autoComplete.Add(item);
@@ -49,10 +53,9 @@ namespace LPRT.MVVP.View
         //Controls
         private PacketTimelineControl TimeLineControl {get;}
 
-        /// <summary>
-        /// Menu Bar Load Button Functions
-        /// </summary>
-        private async void OpenFile(object sender, EventArgs e)
+        // Menu Bar Load Button Functions
+        
+        private async void Open_JSON(object sender, EventArgs e)
         {
            var path =AssetLoader.OpenFileDialog();
            if (path == null)
@@ -60,6 +63,26 @@ namespace LPRT.MVVP.View
                return;
            } 
            MatchReplay.FilePath = path;
+            MatchReplay.Packets =  await PacketUtilities.AsyncLoadFile(path);
+        }
+        private async void Open_LRF(object sender, EventArgs e)
+        {
+            var path =AssetLoader.OpenFileDialog();
+            if (path == null)
+            {
+                return;
+            } 
+            MatchReplay.FilePath = path;
+            MatchReplay.Packets =  await PacketUtilities.AsyncLoadFile(path);
+        }
+        private async void Open_Serialized(object sender, EventArgs e)
+        {
+            var path =AssetLoader.OpenFileDialog();
+            if (path == null)
+            {
+                return;
+            } 
+            MatchReplay.FilePath = path;
             MatchReplay.Packets =  await PacketUtilities.AsyncLoadFile(path);
         }
         
@@ -83,12 +106,13 @@ namespace LPRT.MVVP.View
             //In this example, finding the item is easy since it's
             //just the square of its index.  We'll take the square root
             //and round.
-            if (Double.TryParse(e.Text, out var x)) //check if this is a valid search
+            if (!double.TryParse(e.Text, out var x)) //check if this is a valid search
             {
-                x = Math.Sqrt(x);
-                x = Math.Round(x);
-                e.Index = (int)x;
+                return;
             }
+            x = Math.Sqrt(x);
+            x = Math.Round(x);
+            e.Index = (int)x;
             //If e.Index is not set, the search returns null.
             //Note that this only handles simple searches over the entire
             //list, ignoring any other settings.  Handling Direction, StartIndex,
@@ -100,11 +124,9 @@ namespace LPRT.MVVP.View
         /// <summary>
         /// Handles the selected packet in the time.
         /// </summary>
-        private void packetTimelineList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void Change_TimelineSelection(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            int index = Int32.Parse(e.Item.SubItems[1].Text);
-            
-            
+            var index = int.Parse(e.Item.SubItems[1].Text);
             PacketInfoTable.Rows.Clear();
             
             foreach (object[] row in MatchReplay.GetPacketInfo(index))
@@ -114,10 +136,7 @@ namespace LPRT.MVVP.View
 
             PacketInfoText.Text = MatchReplay.GetRawPacketInfo(index);
         }
-        private void playerList_SelectedIndexChanged(object sender, EventArgs e) { }
-        private void timelinePlayerSelect_SelectedValueChanged(object sender, EventArgs e) { }
-        private void comboBox1_SelectedValueChanged(object sender, EventArgs e) { }
-        
+
         public void Reload_PacketTimeline(int count)
         {
             PacketTimeLine.Items.Clear();
@@ -126,29 +145,5 @@ namespace LPRT.MVVP.View
             PacketTimeLine.Refresh();
             PacketProgressBar.Visible = false;
         }
-        
-        //PROPERTY-CHANGES
-        private void InternalPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(PropertyChanges.FILE_PATH):
-                    PacketProgressBar.Visible = true;
-                    break;
-                case nameof(PropertyChanges.PLAYERS_UPDATED):
-                    foreach (var player in MatchReplay.MatchTeams.Players)
-                    {
-                        PlayerList.Items.Add(player.Username);
-                    }
-
-                    foreach (var netids in MatchReplay.NetIds)
-                    {
-                        NetEntityCombobox.Items.Add(netids);
-                    }
-                    break;
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

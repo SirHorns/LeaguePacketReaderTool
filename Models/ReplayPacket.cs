@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
-namespace LPRT.MVVP.Modal
+namespace LPRT
 {
     public class ReplayPacket
     {

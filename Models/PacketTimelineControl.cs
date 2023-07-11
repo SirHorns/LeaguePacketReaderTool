@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using LPRT.MVVP.Modal;
-using LPRT.MVVP.View;
-using LPRT.PacketViewer;
+
+using LPRT.Window;
 
 namespace LPRT
 {
     public sealed class PacketTimelineControl: INotifyPropertyChanged
     {
-        private Window Window {get;}
+        private ToolWindow Window {get;}
         
         private string _selectedFilter;
         private readonly PacketTimelineCache _packetTimelineCache;
@@ -36,10 +34,10 @@ namespace LPRT
             }
         }
 
-        public PacketTimelineControl(Window window)
+        public PacketTimelineControl(ToolWindow window)
         {
             Window = window;
-            _packetTimelineCache = new();
+            _packetTimelineCache = new PacketTimelineCache();
             Window.MatchReplay.PropertyChanged += InternalPropertyChanged;
             _packetTimelineCache.PropertyChanged += InternalPropertyChanged;
             PropertyChanged += InternalPropertyChanged;

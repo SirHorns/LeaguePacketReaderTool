@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using LPRT.MVVP.View;
+using LPRT.View;
 
-namespace LPRT.MVVP.Modal
+namespace LPRT
 {
     public class Teams: INotifyPropertyChanged
     {

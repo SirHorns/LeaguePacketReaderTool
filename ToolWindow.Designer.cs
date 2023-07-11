@@ -1,6 +1,6 @@
-﻿namespace LPRT.MVVP.View
+﻿namespace LPRT.Window
 {
-    partial class Window
+    partial class ToolWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -33,7 +33,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Window));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ToolWindow));
             this.timelineFilter = new System.Windows.Forms.ComboBox();
             this.packetInfoTable = new System.Windows.Forms.DataGridView();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,6 +61,8 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unhashJsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.serilizedLRFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.packetInfoTable)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -168,7 +170,7 @@
             this.packetTimelineList.UseCompatibleStateImageBehavior = false;
             this.packetTimelineList.View = System.Windows.Forms.View.Details;
             this.packetTimelineList.CacheVirtualItems += new System.Windows.Forms.CacheVirtualItemsEventHandler(this.PacketTimeLine_CacheVirtualItems);
-            this.packetTimelineList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.packetTimelineList_ItemSelectionChanged);
+            this.packetTimelineList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.Change_TimelineSelection);
             this.packetTimelineList.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.PacketTimeLine_GetVirtualItem);
             this.packetTimelineList.SearchForVirtualItem += new System.Windows.Forms.SearchForVirtualItemEventHandler(this.PacketTimeLine_SearchVirtualItems);
             // 
@@ -301,7 +303,6 @@
             this.timelineSentRecieve.Name = "timelineSentRecieve";
             this.timelineSentRecieve.Size = new System.Drawing.Size(100, 21);
             this.timelineSentRecieve.TabIndex = 3;
-            this.timelineSentRecieve.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
             // 
             // label2
             // 
@@ -328,7 +329,6 @@
             this.timelineNetEntity.Name = "timelineNetEntity";
             this.timelineNetEntity.Size = new System.Drawing.Size(102, 21);
             this.timelineNetEntity.TabIndex = 1;
-            this.timelineNetEntity.SelectedValueChanged += new System.EventHandler(this.timelinePlayerSelect_SelectedValueChanged);
             // 
             // Column1
             // 
@@ -358,7 +358,7 @@
             // 
             // fileToolStripMenuItem1
             // 
-            this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.openToolStripMenuItem });
+            this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.openToolStripMenuItem, this.unhashJsonToolStripMenuItem, this.serilizedLRFToolStripMenuItem });
             this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
             this.fileToolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem1.Text = "&File";
@@ -369,16 +369,32 @@
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.openToolStripMenuItem.Text = "&Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenFile);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.openToolStripMenuItem.Text = "&Open Replay";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.Open_JSON);
+            // 
+            // unhashJsonToolStripMenuItem
+            // 
+            this.unhashJsonToolStripMenuItem.Name = "unhashJsonToolStripMenuItem";
+            this.unhashJsonToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.unhashJsonToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.unhashJsonToolStripMenuItem.Text = "&Unhash Replay";
+            this.unhashJsonToolStripMenuItem.Click += new System.EventHandler(this.Open_Serialized);
+            // 
+            // serilizedLRFToolStripMenuItem
+            // 
+            this.serilizedLRFToolStripMenuItem.Name = "serilizedLRFToolStripMenuItem";
+            this.serilizedLRFToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.serilizedLRFToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.serilizedLRFToolStripMenuItem.Text = "&Serialize LRT";
+            this.serilizedLRFToolStripMenuItem.Click += new System.EventHandler(this.Open_LRF);
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // Window
+            // ToolWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -387,7 +403,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Window";
+            this.Name = "ToolWindow";
             this.Text = "League Packet Reader Tool";
             this.Load += new System.EventHandler(this.Window_Load);
             ((System.ComponentModel.ISupportInitialize)(this.packetInfoTable)).EndInit();
@@ -405,6 +421,10 @@
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.ToolStripMenuItem unhashJsonToolStripMenuItem;
+
+        private System.Windows.Forms.ToolStripMenuItem serilizedLRFToolStripMenuItem;
 
         private System.Windows.Forms.SplitContainer splitContainer1;
 

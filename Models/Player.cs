@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using LPRT.MVVP.Modal;
+using LPRT;
 
-namespace LPRT.MVVP.View
+namespace LPRT.View
 {
     public class Player
     {

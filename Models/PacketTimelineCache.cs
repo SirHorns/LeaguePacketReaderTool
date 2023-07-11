@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace LPRT.MVVP.Modal
+namespace LPRT
 {
     public sealed class PacketTimelineCache : INotifyPropertyChanged
     {

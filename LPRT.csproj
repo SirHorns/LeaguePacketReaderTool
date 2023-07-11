@@ -79,6 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventManager.cs" />
     <Compile Include="Models\Enums\PacketTypes.cs" />
     <Compile Include="Models\Enums\PropertyChanges.cs" />
     <Compile Include="Models\Enums\TimelineFilters.cs" />
@@ -97,11 +98,11 @@
     <Compile Include="Utility\PacketUtilities.cs" />
     <Compile Include="Utility\PacketSerializer.cs" />
     <Compile Include="ViewModel\WindowViewModal.cs" />
-    <Compile Include="View\Window.cs">
+    <Compile Include="ToolWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\Window.Designer.cs">
-      <DependentUpon>Window.cs</DependentUpon>
+    <Compile Include="ToolWindow.Designer.cs">
+      <DependentUpon>ToolWindow.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -112,8 +113,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="View\Window.resx">
-      <DependentUpon>Window.cs</DependentUpon>
+    <EmbeddedResource Include="ToolWindow.resx">
+      <DependentUpon>ToolWindow.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

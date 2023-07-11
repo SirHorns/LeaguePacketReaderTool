@@ -4,8 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using LPRT.MVVP.Modal;
-using LPRT.MVVP.View;
+using LPRT.View;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
