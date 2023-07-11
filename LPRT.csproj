@@ -79,30 +79,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssetLoader.cs" />
-    <Compile Include="Enums\PacketTypes.cs" />
-    <Compile Include="Enums\PropertyChanges.cs" />
-    <Compile Include="Enums\TimelineFilters.cs" />
-    <Compile Include="PacketTimelineControl.cs" />
-    <Compile Include="PacketViewer\MatchReplay.cs" />
-    <Compile Include="PacketViewer\Modal.cs" />
-    <Compile Include="PacketViewer\ReplayPacket.cs" />
-    <Compile Include="PacketViewer\PacketTimeLineEntry.cs" />
-    <Compile Include="PacketViewer\Player.cs" />
-    <Compile Include="PacketViewer\Teams.cs" />
-    <Compile Include="PacketViewer\PacketTimelineCache.cs" />
+    <Compile Include="Models\Enums\PacketTypes.cs" />
+    <Compile Include="Models\Enums\PropertyChanges.cs" />
+    <Compile Include="Models\Enums\TimelineFilters.cs" />
+    <Compile Include="Models\MatchReplay.cs" />
+    <Compile Include="Models\Modal.cs" />
+    <Compile Include="Models\PacketTimelineCache.cs" />
+    <Compile Include="Models\PacketTimelineControl.cs" />
+    <Compile Include="Models\PacketTimeLineEntry.cs" />
+    <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\ReplayPacket.cs" />
+    <Compile Include="Models\Teams.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\AssetLoader.cs" />
     <Compile Include="Utility\PacketUtilities.cs" />
     <Compile Include="Utility\PacketSerializer.cs" />
-    <Compile Include="Window.cs">
+    <Compile Include="ViewModel\WindowViewModal.cs" />
+    <Compile Include="View\Window.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Window.Designer.cs">
+    <Compile Include="View\Window.Designer.cs">
       <DependentUpon>Window.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewModal.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -112,7 +112,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Window.resx">
+    <EmbeddedResource Include="View\Window.resx">
       <DependentUpon>Window.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />

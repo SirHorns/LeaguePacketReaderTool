@@ -6,7 +6,7 @@ using LPRT.MVVP.View;
 
 namespace LPRT.MVVP.ViewModal
 {
-    public class ViewModal :  INotifyPropertyChanged
+    public class WindowViewModal :  INotifyPropertyChanged
     {
         private View.Window _window;
         private Modal.Modal _modal;
@@ -15,7 +15,7 @@ namespace LPRT.MVVP.ViewModal
         
         public event PropertyChangedEventHandler PropertyChanged;
         
-        public ViewModal(View.Window window)
+        public WindowViewModal(View.Window window)
         {
             Window = window;
             Modal = new Modal.Modal();
